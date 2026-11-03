@@ -1,0 +1,22 @@
+[
+  {
+    "id": "bpsc-noncadre",
+    "url": "https://bpsc.teletalk.com.bd/ncad/apply.php",
+    "hosts": ["bpsc.teletalk.com.bd"],
+    "adapter": "circular-links",
+    "readySelector": "a[href$='.pdf']",
+    "enabled": false,
+    "disabled_reason": "Planning prototype only; production collection/display policy and complete extraction are not approved.",
+    "observation": "Public circular list inspected 2026-11-03; PDF contents need extraction and review."
+  },
+  {
+    "id": "teletalk-government",
+    "url": "https://alljobs.teletalk.com.bd/jobs/government",
+    "hosts": ["alljobs.teletalk.com.bd"],
+    "adapter": "teletalk-government",
+    "readySelector": "a[href*='jobId=']",
+    "enabled": false,
+    "disabled_reason": "Permission pending: Alljobs terms section 6.2 requires prior written consent for content use/reproduction/distribution.",
+    "observation": "Rendered organization listing, jobId detail pages and Next page pagination inspected 2026-11-03."
+  }
+]

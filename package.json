@@ -1,0 +1,8 @@
+{
+  "name": "uttirno-official-notices",
+  "private": true,
+  "type": "module",
+  "scripts": {"collect": "node src/collect.mjs", "test": "node --test"},
+  "engines": {"node": ">=22"},
+  "dependencies": {"playwright": "^1.56.1"}
+}

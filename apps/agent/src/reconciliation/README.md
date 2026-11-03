@@ -1,5 +1,5 @@
-# reconciliation
+# Reconciliation — M4
 
-Source-to-canonical linking, duplicate candidates and amendment scope. Ambiguous merges require review.
+The [database RevisionRepository](../../../../packages/database/src/revisions.ts) owns transactional source/canonical identity, immutable drafts and duplicate candidates. The domain owns pure normalization; the worker orchestrates through repositories.
 
-Status: planned boundary; implementation pending. See [root plan](../../../../docs/TASKS.md).
+Exact reviewed issuer/memo/post identity is required for automatic linking. Same URL or same bytes is insufficient. Ambiguity waits for separate human identity resolution with reason/audit. Original facts and evidence remain immutable. [M4 acceptance](../../../../docs/milestones/M4.md).

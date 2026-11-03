@@ -20,7 +20,7 @@ npm run benchmark:documents writes ignored data/m3-benchmark.json; an explicit o
 
 Docker Desktop/engine must be running. npm run local:init creates an ignored random development .env and refuses overwriting it. Then npm run local:up, npm run check:services, npm run test:integration and npm run smoke:foundation.
 
-PostgreSQL uses 55432, Redis 56379 and LocalStack S3 54566, all loopback-bound. The bucket is uttirno-dev-artifacts, with explicitly synthetic credentials. Named volumes persist. Existing native PostgreSQL on 5432 is separate. Changing DATABASE_URL never creates/seeds/copies a database automatically. Schemas/migrations are M4.
+PostgreSQL uses 55432, Redis 56379 and LocalStack S3 54566, all loopback-bound. The bucket is uttirno-dev-artifacts, with explicitly synthetic credentials. Named volumes persist. Existing native PostgreSQL on 5432 is separate. Changing DATABASE_URL never creates/seeds/copies a database automatically. M4 implements explicit schema migrations; connecting still performs no schema writes.
 
 npm run local:down stops containers without deleting volumes. No down -v unless deliberately discarding development data. Native PostgreSQL remains independent.
 
@@ -28,7 +28,7 @@ npm run local:down stops containers without deleting volumes. No down -v unless 
 
 Build shared packages, then npm run dev:api, dev:portal or dev:admin. API has live/readiness health routes only; both web apps show foundation notices. Portal/admin never import DB/server environment/agent modules.
 
-[Agent CLI](../apps/agent/README.md) provides source preview/discovery and one-document extraction. Sources remain disabled until legitimate ownership/collection/robots/retention approval. Capture/text files go to the operator-selected private archive root, conventionally data/artifacts (ignored), not db.json. No public file serving. DB metadata/S3 production wiring and purge are later work.
+[Agent CLI](../apps/agent/README.md) provides source preview/discovery and one-document extraction. Sources remain disabled until legitimate ownership/collection/robots/retention approval. Capture/text files go to the operator-selected private archive root, conventionally data/artifacts (ignored), not db.json. M4 stores immutable metadata/text/revisions in PostgreSQL. No public file serving; production S3 deployment and purge remain later gates.
 
 Server startup loads root .env with injected environment taking precedence. Errors expose variable names only. Optional AI variables do not automatically enable an extraction gateway or grant processing permission. No private keys, real credentials or raw production documents in Git.
 
@@ -36,4 +36,12 @@ Server startup loads root .env with injected environment taking precedence. Erro
 
 CI performs clean npm ci, native/browser setup, check/build, real isolated services, integrations and HTTP smoke, then shuts services down. Remote CI status is independent evidence checked per commit. Browser accessibility, authenticated E2E, production storage/OS controls, restore and gold-set accuracy remain release gates.
 
-M3 is complete. Stop before M4 until the user's explicit authorization, even after model/session changes.
+M4 is complete. Stop before M5 until the user's explicit authorization, even after model/session changes.
+
+## M4 schema and worker
+
+Run npm run local:up and then npm run db:migrate deliberately against the intended DATABASE_URL. The command applies checked SQL history in the uttirno schema and seeds no accounts, source approvals or jobs. Empty/previous-schema upgrades and checksum drift are integration-tested. Never edit applied migration SQL; add a new numbered migration. Keep native PostgreSQL on 5432 separate from these loopback development services.
+
+[Worker command and plan registry](../apps/worker/README.md) describe explicit runtime startup. The actor must be a legitimately provisioned service operator; M4 has no default account or public actor-selection endpoint. M5 will bind actors to authenticated identities. External trust keys and plan files are bounded reads; a key or .env entry alone cannot enable a source. Missing plans/artifact drift pauses for review.
+
+Build ordering now includes the exported server agent interface before worker typechecking; build:packages builds packages plus exported server libraries. Database repositories own SQL; worker/agent use their interfaces. Tests use temporary guarded schemas/queues and synthetic source transport, never actual job portals. Multi-process acquisition uses the shared-DB worker; standalone agent CLI keeps its single-broker constraint.

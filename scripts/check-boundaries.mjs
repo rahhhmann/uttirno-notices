@@ -8,7 +8,7 @@ export const allowedEdges = {
   '@uttirno/env': [],
   '@uttirno/source-config': [],
   '@uttirno/llm': ['@uttirno/contracts', '@uttirno/domain'],
-  '@uttirno/database': ['@uttirno/contracts', '@uttirno/domain'],
+  '@uttirno/database': ['@uttirno/contracts', '@uttirno/domain', '@uttirno/source-config'],
   '@uttirno/infrastructure': ['@uttirno/env', '@uttirno/database'],
   '@uttirno/ui': [],
   '@uttirno/portal': ['@uttirno/ui', '@uttirno/contracts', '@uttirno/domain'],
@@ -30,6 +30,7 @@ export const allowedEdges = {
     '@uttirno/infrastructure',
   ],
   '@uttirno/worker': [
+    '@uttirno/source-config',
     '@uttirno/env',
     '@uttirno/agent',
     '@uttirno/contracts',

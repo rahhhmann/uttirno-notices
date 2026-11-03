@@ -83,6 +83,40 @@ it('R02/R23 missing retention cannot archive', async () => {
     archive.capture(Buffer.from('x'), 'https://notices.example/a', 'text/plain'),
   ).rejects.toThrow('RETENTION_NOT_PERMITTED');
 });
+it('R08 retention is measured from download capture time, consistently with persisted metadata', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'uttirno-archive-test-'));
+  const source = syntheticSource({
+    retention: {
+      permitted: true,
+      maxDays: 1,
+      expiresAt: '2027-01-01T00:00:00.000Z',
+      evidence: { url: 'https://notices.example/terms', note: 'SYNTHETIC retention' },
+    },
+  });
+  const archive = new ArtifactArchive({
+    root,
+    load: async () => source.bundle,
+    keys: async () => source.trust,
+    now: () => testNow,
+  });
+  try {
+    const captured = new Date(testNow.getTime() - 5000);
+    const result = await archive.capture(
+      Buffer.from('SYNTHETIC delayed archival'),
+      'https://notices.example/a',
+      'text/plain',
+      {
+        fingerprint: configFingerprint(source.config),
+        capturedAt: captured.toISOString(),
+        status: 200,
+        headers: {},
+      },
+    );
+    expect(Date.parse(result.expiresAt) - captured.getTime()).toBe(86400000);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
 it('R02/R23 unapproved destinations, unsigned approval and retention expiry fail before writing', async () => {
   const source = syntheticSource({
     retention: {

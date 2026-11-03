@@ -2,7 +2,7 @@
 
 PostgreSQL is canonical. Object storage holds permitted bytes. Redis queues/cache are disposable transport, never the sole record of approvals or source policy.
 
-| Planned table | Purpose and constraints |
+| Persisted M4 table | Purpose and constraints |
 |---|---|
 | authorities | Issuer identity and official ownership evidence |
 | sources / source_config_versions | Policy and immutable reviewed extraction configurations |
@@ -18,7 +18,7 @@ PostgreSQL is canonical. Object storage holds permitted bytes. Redis queues/cach
 | review_actions / audit_events | Actor, action, before/after revision IDs, reason and timestamp |
 | published_positions | Approved public projection, unique published revision per position |
 | outbox_events | Transactional downstream publication/index notifications |
-| admin_identities / roles | Chosen identity-provider mapping and authorization, no homemade passwords |
+| admin_identities / admin_roles | Internal actor/role registry; authenticated identity binding is M5, no default accounts/passwords |
 
 ## Factual value envelope
 Each populated field carries original value/language, normalized value, status, evidence references and verification result. Status is one of stated, not_stated, not_extracted, conflicting, not_applicable. Arrays carry field status too: [] cannot mean both absent and zero requirements.
@@ -36,3 +36,11 @@ Artifact hash deduplicates bytes, not jobs. Logical IDs do not depend on source 
 
 ## Migrations
 Forward migrations are reviewed and tested from an empty DB and the previous supported schema. Use expand/contract for public service changes. Rollback application compatibility is tested; destructive data rollback is not assumed. Seeds are synthetic only; never bootstrap real approvals.
+
+## Implemented M4 constraints
+
+See [authored SQL](../packages/database/migrations) and [typed Drizzle models](../packages/database/src/schema.ts). Additional artifact_captures, resource_leases and host_windows preserve capture-specific permissions, source fencing and distributed host state. Immutable history includes raw text, source configs, revisions, evidence, routes, reviews and audits. Source/post/circular/stage identity and pinned run inventory have DB guards.
+
+Public projection writes require a distinct authorized reviewer, current circular generation and an approved/restored review action. Pending critical events and cancelled posts cannot be silently made visible. Repository transactions also reproduce immutable field evidence, verify live external trust/display/retention and complete discovery/attachment/post coverage. A view plus signature-gated repository serves approved unsuppressed rows only; M5 will add the actual public HTTP/query contract.
+
+Database bytes deduplicate artifacts, never logical jobs. Default canonical identity uses reviewed issuer plus memo plus original post code; missing/ambiguous identities wait for audited manual resolution. Independent reprocessing creates a new draft when content/config/plan changes; replay of the same bundle/inventory is idempotent. [M4 acceptance and limits](milestones/M4.md).

@@ -25,3 +25,9 @@ M2-M4: unit + policy/fetch/document integration + evaluation subsets.
 M5-M7: API contract/auth + real DB + public/admin browser E2E.
 M8-M9: migration/deploy/rollback/restore drills, performance with agreed dataset, release gold set and source canaries.
 The existing four prototype tests remain useful regressions, not substitutes.
+
+## M4 acceptance suite
+
+[Persistence](../tests/integration/persistence.test.ts), [lifecycle](../tests/integration/lifecycle.test.ts), [execution](../tests/integration/execution.test.ts) and [worker](../tests/integration/worker.test.ts) exercise actual dedicated loopback PostgreSQL/Redis. Each uses guarded random schemas/queues, ephemeral synthetic roles/keys and explicit cleanup. The worker fixture injects synthetic source transport while using real broker gates, archive, native PDF parsing and persistence. No recruiting-site calls.
+
+Cases include empty/previous-schema/checksum migration, immutable lineage/replay, ambiguous identity review, stale/concurrent review, complete attachments/quality, scoped correction/cancellation/restore, lost Redis messages, worker reconstruction, source lease expiry/stale-token write rejection, revocation/config changes, quotas, long Retry-After and distributed host spacing. This is development acceptance, not a production process-kill/restore/load or gold-set accuracy exercise.

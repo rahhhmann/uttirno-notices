@@ -1,6 +1,6 @@
 # Dependency-ordered implementation plan
 
-State: M0-M3 are complete. M3 was explicitly authorized. STOP before M4; separate explicit user authorization is required. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
+State: M0-M4 are complete. M4 was explicitly authorized. STOP before M5; separate explicit user authorization is required. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
 
 ## M0 — Specification and scaffold
 - [x] M0-T01: Document scope, R01-R29, component structure and ADRs.
@@ -25,10 +25,10 @@ State: M0-M3 are complete. M3 was explicitly authorized. STOP before M4; separat
 - [x] M3-T04: Evidence and semantic verifier, conflicts and attachment/position coverage gates. Depends T02/T03. Acceptance: wrong sibling, false quote meaning and partial extraction cannot pass publication eligibility. R07/R13.
 
 ## M4 — Persistence, lifecycle and reliable execution
-- [ ] M4-T01: DB schema/repositories/migrations implementing DATA_MODEL. Depends M3 contracts. Acceptance: empty/previous-schema migration tests, uniqueness and immutable revision history. R08/R15/R29.
-- [ ] M4-T02: Deduplication/reconciliation and official amendment/event handling. Depends T01 + M3-T04. Acceptance: changed same-URL PDF creates revision, disappearance not cancellation, ambiguous merge queued. R15/R16.
-- [ ] M4-T03: Worker scheduling/leases/idempotent stages/checkpoints/retries/dead letters. Depends T01 + M2 access. Acceptance: retry/restart/concurrent run/revocation tests. R21/R22.
-- [ ] M4-T04: Approval/publication/suppression transaction and outbox. Depends T02/T03. Acceptance: unreviewed revision never replaces live, concurrent stale approvals rejected, critical correction suppresses affected facts. R17/R28.
+- [x] M4-T01: DB schema/repositories/migrations implementing DATA_MODEL. Depends M3 contracts. Acceptance: empty/previous-schema migration tests, uniqueness and immutable revision history. R08/R15/R29.
+- [x] M4-T02: Deduplication/reconciliation and official amendment/event handling. Depends T01 + M3-T04. Acceptance: changed same-URL PDF creates revision, disappearance not cancellation, ambiguous merge queued. R15/R16.
+- [x] M4-T03: Worker scheduling/leases/idempotent stages/checkpoints/retries/dead letters. Depends T01 + M2 access. Acceptance: retry/restart/concurrent run/revocation tests. R21/R22.
+- [x] M4-T04: Approval/publication/suppression transaction and outbox. Depends T02/T03. Acceptance: unreviewed revision never replaces live, concurrent stale approvals rejected, critical correction suppresses affected facts. R17/R28.
 
 ## M5 — Backend API and identity
 - [ ] M5-T01: Public API/read projection/search/cursors/OpenAPI. Depends M4-T04. Acceptance: approved-only queries, safe errors, unknowns, Bangla search and cursor tests. R19/R20.
@@ -66,4 +66,7 @@ M1-T01 (R29), M1-T02 (prototype isolation/provenance), and M1-T03 (R12/R24/R29) 
 M2-T01 (R01/R02/R05/R28), M2-T02 (R03/R04), M2-T03 (R05/R06/R07/R27), M2-T04 (observed draft configs and access assessment) completed. Code/test trace and source limitations: [M2 verification](milestones/M2.md). M3 was subsequently authorized and completed; see below.
 
 ## M3 completion evidence
-M3-T01 (R08/R09/R23), M3-T02 (R10/R11/R12), M3-T03 (R14) and M3-T04 (R07/R13) completed. Code/test trace, executed benchmark, unknowns and production limits: [M3 verification](milestones/M3.md). STOP before M4; no later task is authorized.
+M3-T01 (R08/R09/R23), M3-T02 (R10/R11/R12), M3-T03 (R14) and M3-T04 (R07/R13) completed. Code/test trace, executed benchmark, unknowns and production limits: [M3 verification](milestones/M3.md). M4 was subsequently authorized and completed; see below.
+
+## M4 completion evidence
+M4-T01 (R08/R15/R29), M4-T02 (R15/R16), M4-T03 (R04/R21/R22) and M4-T04 (R07/R13/R17/R28) completed. Executed code/test trace, real DB/Redis recovery and practical limits: [M4 verification](milestones/M4.md). STOP before M5; it is not authorized.

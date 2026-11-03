@@ -10,13 +10,17 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "migrations"
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
+    "@uttirno/contracts": "0.1.0",
+    "@uttirno/domain": "0.1.0",
+    "@uttirno/source-config": "0.1.0",
     "drizzle-orm": "0.45.4",
     "pg": "8.23.1"
   }

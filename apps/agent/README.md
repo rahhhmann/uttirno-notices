@@ -16,4 +16,4 @@ preview is offline. collect inventories discovery candidates/attachments, not fu
 
 Plans contain versioned literal field labels and whole-line position ranges; [format and limitations](../../config/extraction/README.md). No employer branches or title enums. Unsupported layouts require reviewed adaptation. Text/scan/table/quality caveats and measured results: [M3 report](../../docs/milestones/M3.md).
 
-No AI key is required. The optional JSON gateway package is not enabled by a CLI flag or .env alone; no real provider is configured. Scheduling, persistent job metadata, publication and API/admin workflows remain later milestones. Do not sign/activate real sources to make a demo pass.
+No AI key is required. The optional JSON gateway package is not enabled by a CLI flag or .env alone; no real provider is configured. M4 adds [durable worker](../worker/README.md), DB metadata/revisions and independent review/publication transactions; API/auth and admin UI remain later milestones. Agent extraction itself never publishes. Do not sign/activate real sources to make a demo pass.

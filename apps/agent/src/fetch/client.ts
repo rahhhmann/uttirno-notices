@@ -26,7 +26,7 @@ import {
   type Transport,
   type WireResponse,
 } from './network.js';
-import { sharedHostLimiter, type HostLimiter } from './limiter.js';
+import { sharedHostLimiter, type HostThrottle } from './limiter.js';
 type Robots = ReturnType<typeof robotsParser>;
 export type AcquiredPage = {
   url: string;
@@ -44,9 +44,11 @@ type Options = {
   userAgent: string;
   resolver?: Resolver;
   transport?: Transport;
-  limiter?: HostLimiter;
+  limiter?: HostThrottle;
   now?: () => Date;
   sleep?: (ms: number) => Promise<void>;
+  reserveRequest?: () => Promise<void>;
+  recordResponse?: (bytes:number) => Promise<void>;
 };
 export class SourceClient {
   private requests = 0;
@@ -97,6 +99,7 @@ export class SourceClient {
         throw new SourcePolicyError('REQUEST_BUDGET');
       if (configFingerprint(fresh.config) !== configFingerprint(config))
         throw new SourcePolicyError('CONFIG_CHANGED_DURING_RUN');
+      await this.options.reserveRequest?.();
       const addresses = await new Promise<Awaited<ReturnType<Resolver>>>((resolve, reject) => {
         const timer = setTimeout(
           () => reject(new SourcePolicyError('DNS_TIMEOUT')),
@@ -128,6 +131,7 @@ export class SourceClient {
           : fresh.config.limits.maxBytes,
       });
       this.bytes += response.body.length;
+      await this.options.recordResponse?.(response.body.length);
       if (
         response.body.length >
           (robotsOnly
@@ -230,17 +234,20 @@ export class SourceClient {
         throw new SourcePolicyError('SOURCE_ACCESS_BLOCKED');
       }
       if (response.status === 429 || response.status >= 500) {
-        if (attempts++ >= config.limits.retries) {
-          this.stopped = true;
-          throw new SourcePolicyError('RETRY_LIMIT');
-        }
         const retry = response.headers['retry-after'];
         const seconds = retry
           ? Number.isFinite(Number(retry))
             ? Number(retry)
             : Math.max(0, (Date.parse(retry) - this.now().getTime()) / 1000)
           : 1;
-        if (!Number.isFinite(seconds) || seconds > 30) throw new SourcePolicyError('RETRY_LATER');
+        if (!Number.isFinite(seconds)||seconds<0)throw new SourcePolicyError('INVALID_RETRY_AFTER');
+        const milliseconds=Math.max(1000,seconds*1000);
+        await (this.options.limiter??sharedHostLimiter).defer?.(new URL(url).hostname,milliseconds);
+        if (attempts++ >= config.limits.retries) {
+          this.stopped = true;
+          throw new SourcePolicyError('RETRY_LIMIT',milliseconds);
+        }
+        if (seconds > 30) throw new SourcePolicyError('RETRY_LATER',milliseconds);
         await (
           this.options.sleep ??
           (async (ms) => {

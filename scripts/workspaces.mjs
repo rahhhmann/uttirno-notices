@@ -48,11 +48,12 @@ function run(item, task) {
   if (result.error) throw result.error;
   if (result.status !== 0) process.exit(result.status ?? 1);
 }
+const isLibrary = (item) => item.folder.startsWith('packages') || Boolean(item.manifest.exports);
 if (mode === 'typecheck') {
-  for (const item of sorted.filter((x) => x.folder.startsWith('packages'))) run(item, 'build');
+  for (const item of sorted.filter(isLibrary)) run(item, 'build');
   for (const item of sorted) run(item, 'typecheck');
 } else
   for (const item of sorted.filter(
-    (x) => mode !== 'build-packages' || x.folder.startsWith('packages'),
+    (x) => mode !== 'build-packages' || isLibrary(x),
   ))
     run(item, 'build');

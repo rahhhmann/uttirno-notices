@@ -9,6 +9,7 @@ import {
   type TrustKeys,
 } from '@uttirno/source-config';
 import { DocumentTextSchema, type DocumentText } from '@uttirno/contracts';
+import { verifyDocument } from '@uttirno/domain';
 
 export const sha256 = (bytes: Uint8Array | string) =>
   createHash('sha256').update(bytes).digest('hex');
@@ -20,27 +21,7 @@ export function sealText(input: Omit<DocumentText, 'textVersion'>): DocumentText
   return { ...body, textVersion: sha256(JSON.stringify(body)) };
 }
 export function validateText(input: unknown): DocumentText {
-  const parsed = DocumentTextSchema.parse(input);
-  const { textVersion, ...body } = parsed;
-  if (sealText(body).textVersion !== textVersion) throw new Error('TEXT_HASH_MISMATCH');
-  for (const [i, page] of parsed.pages.entries()) {
-    if (page.page !== i + 1) throw new Error('INVALID_PAGE_ORDER');
-    for (const word of page.words) {
-      const [x, y, w, h] = word.box;
-      if (
-        word.start >= word.end ||
-        word.end > page.text.length ||
-        x < 0 ||
-        y < 0 ||
-        w < 0 ||
-        h < 0 ||
-        x + w > page.width + 1 ||
-        y + h > page.height + 1
-      )
-        throw new Error('INVALID_WORD_PROVENANCE');
-    }
-  }
-  return parsed;
+  return verifyDocument(DocumentTextSchema.parse(input));
 }
 type Capture = {
   sourceId: string;
@@ -60,7 +41,7 @@ type ArchiveOptions = {
   keys: () => Promise<TrustKeys>;
   now?: () => Date;
 };
-// Private local content-addressed backend. No public serving; DB/S3 metadata repositories arrive in M4.
+// Private local content-addressed backend. Worker persists receipts/text via the database package; no public serving.
 export class ArtifactArchive {
   constructor(private readonly options: ArchiveOptions) {}
   private async gate(url?: string) {
@@ -159,7 +140,7 @@ export class ArtifactArchive {
         : null,
       expiresAt: new Date(
         Math.min(
-          now.getTime() + retention.maxDays * 86400000,
+          Date.parse(acquisition?.capturedAt ?? now.toISOString()) + retention.maxDays * 86400000,
           Date.parse(retention.expiresAt),
           Date.parse(source.expiresAt),
         ),

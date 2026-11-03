@@ -36,3 +36,7 @@ Network acquisition runs in a restricted worker boundary with an explicit egress
 
 ## Environments
 Local, staging and production use separate DB/Redis/buckets/secrets/source permissions. Staging uses fixtures by default. No real crawl merely because the web server starts. No application requires an LLM key for ordinary portal reads or deterministic extraction.
+
+## M4 execution boundary
+
+[ADR 0008](decisions/0008-m4-persistence-and-execution.md) records the implemented repositories, authored/checked SQL migrations, generation-checked two-person publication, scoped critical suppression, BullMQ 6.5.4 transport, durable DB leases/checkpoints/outbox and distributed host quotas/cooldowns. Multi-process acquisition must use the shared-DB worker. Logical actor roles are implemented; authenticated API identity and production DB credential/grant separation remain M5/M8. No real source or default actor is activated by migration/startup.

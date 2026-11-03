@@ -14,6 +14,7 @@
                        "research/prototype"
                    ],
     "scripts":  {
+                    "db:migrate": "npm run build:packages && tsx scripts/migrate-database.ts",
                     "benchmark:documents": "tsx scripts/benchmark-documents.ts",
                     "smoke:foundation":  "node scripts/smoke-foundation.mjs",
                     "lint":  "biome lint .",

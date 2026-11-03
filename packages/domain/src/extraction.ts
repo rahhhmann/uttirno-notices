@@ -69,10 +69,22 @@ export function normalize(raw: string, derivation: CandidateValue['derivation'])
   }
 }
 
-export function validatePlan(document: DocumentText, plan: ExtractionPlan): void {
-  const { textVersion, ...body } = DocumentTextSchema.parse(document);
+export function verifyDocument(document: DocumentText): DocumentText {
+  const parsed = DocumentTextSchema.parse(document);
+  const { textVersion, ...body } = parsed;
   if (createHash('sha256').update(JSON.stringify(body)).digest('hex') !== textVersion)
     throw new Error('TEXT_HASH_MISMATCH');
+  for (const [i,page] of parsed.pages.entries()) {
+    if(page.page!==i+1)throw new Error('INVALID_PAGE_ORDER');
+    for(const word of page.words){const [x,y,w,h]=word.box;
+      if(word.start>=word.end||word.end>page.text.length||x<0||y<0||w<0||h<0||x+w>page.width+1||y+h>page.height+1)
+        throw new Error('INVALID_WORD_PROVENANCE');
+    }
+  }
+  return parsed;
+}
+export function validatePlan(document: DocumentText, plan: ExtractionPlan): void {
+  verifyDocument(document);
   ExtractionPlanSchema.parse(plan);
   const occupied = new Map<number, Array<{ start: number; end: number }>>();
   const ids = new Set<string>();

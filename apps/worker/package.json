@@ -10,6 +10,13 @@
     "start": "node dist/main.js"
   },
   "dependencies": {
-    "@uttirno/env": "0.1.0"
+    "@uttirno/agent": "0.1.0",
+    "@uttirno/database": "0.1.0",
+    "@uttirno/contracts": "0.1.0",
+    "@uttirno/domain": "0.1.0",
+    "@uttirno/source-config": "0.1.0",
+    "@uttirno/env": "0.1.0",
+    "bullmq": "6.5.4",
+    "ioredis": "6.0.0"
   }
 }

@@ -1,5 +1,6 @@
 import type { TitleFact } from '@uttirno/contracts';
 export * from './extraction.js';
+export * from './lifecycle.js';
 
 export type ReviewState = 'draft' | 'needs_review' | 'approved' | 'rejected' | 'superseded';
 export function titleLabel(fact: TitleFact): string | null {

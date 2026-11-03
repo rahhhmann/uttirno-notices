@@ -9,7 +9,10 @@ function deniedDomain(hostname: string): boolean {
 }
 
 export class SourcePolicyError extends Error {
-  constructor(readonly code: string) {
+  constructor(
+    readonly code: string,
+    readonly retryAfterMs?: number,
+  ) {
     super(code);
     this.name = 'SourcePolicyError';
   }
@@ -106,7 +109,16 @@ export const SourceConfigSchema = z
         expiresAt: z.iso.datetime(),
       })
       .optional(),
-    documentExtraction: z.strictObject({ forceOcr: z.boolean() }).optional(),
+    documentExtraction: z
+      .strictObject({ forceOcr: z.boolean(), jobNoticeOnly: z.literal(true).optional() })
+      .optional(),
+    identityLabels: z.strictObject({ memo: text }).optional(),
+    eventLabels: z
+      .partialRecord(
+        z.enum(['circular', 'amendment', 'extension', 'cancellation', 'exam', 'admit', 'result']),
+        text,
+      )
+      .optional(),
     policyEvidence: z.array(proof).max(20),
     adapterSamples: z
       .array(

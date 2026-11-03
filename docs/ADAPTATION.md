@@ -1,27 +1,29 @@
-# Easy adaptation and onboarding
+# Easy adaptation and onboarding — M2 implementation
 
-## Aim
-Most new table/card/list/detail sites should need configuration, not changes to the collector. New formats may need a small adapter implementing the same contract. New job titles never require source code edits.
+## What is configurable now
+Source class/identity, version, review evidence/dates, collection/display status, exact origins, path prefixes, allowed query keys, HTTP exceptions, seeds, HTML or JSON adapter, optional detail adapter, optional browser ready selector, robots policy and request/time/byte/page/redirect/retry limits.
 
-## Planned configuration
-Versioned JSON validated against runtime schemas. Fields: source_id, authority, authority_class, ownership_evidence[], exact_origins[], attachment_origins[], source_status, collection_access, display_access, robots_review, reviewed_by/at, permission_expiry, adapter_type, seed_urls, ready_condition, list_items, detail_link, pagination strategy, sibling-role navigation, field_mappings, document_links, language, timezone, rate/size/page limits, revisit schedule and drift expectations.
+HTML mapping uses scoped CSS selectors, allowed attributes, required/cardinality checks and trim/whitespace/Bangla-digit transforms. JSON mapping uses bounded JSON pointers. New titles are not enums. No eval, remote code, guessed APIs or arbitrary regex transforms.
 
-Mapping primitives: CSS selector + text/attribute, scoped label/value, table column, PDF references, JSON path for observed approved public endpoints. Date/number transformations use an allowlisted transform catalogue. No eval, arbitrary JavaScript, shell, unreviewed regex execution or arbitrary remote imports.
+The authoritative runtime schema is in the source-config package. Defaults are applied before canonicalization/signing. Active sources require recorded adapter sample hashes/counts/reviewer, current policy evidence and a signature from a separately provisioned trusted Ed25519 public key. No production private key is stored here.
 
-This is a design contract, not a validated config schema yet. M2 implements schemas and bad-config tests.
+## Workflow
+1. Register an unsigned candidate with observed official provenance. Domain suffix is never certification.
+2. Record collection/display/robots assessment independently. Unknown or blocked stays disabled.
+3. Capture minimal permitted listing/detail/attachment samples and inventory expected candidates/documents.
+4. Preview a generic config offline. For the observed BPSC table fixture:
+```powershell
+node apps/agent/dist/main.js validate-source config/sources/bpsc-noncadre.draft.json
+node apps/agent/dist/main.js preview config/sources/bpsc-noncadre.draft.json tests/fixtures/real/bpsc-noncadre.fragment.html
+```
+5. Validate cardinality, sibling field scope, attachment origins, all pages and new titles against fixtures. Proposals always remain needs_review.
+6. An authorized reviewer approves ownership/collection/display and adapter samples. Provision the public trust key outside the proposed source; sign canonical normalized config outside the heuristic. Admin signing UX is M5/M6.
+7. A bounded canary uses the signed config and external trust store through the single broker. Source collection remains separate from M3 document extraction and M4 publication approval.
+8. Changed config requires a new signature/version; failed policy/layout checks stop or return incomplete. Review changes before re-enabling.
 
-## Process
-1. Register URL as candidate and document official ownership; reject ineligible source classes.
-2. Check collection/display permissions and public access. Bounded research needs a permitted research policy; it does not inherit production enablement.
-3. Inspect listing/detail/attachment and pagination with request/resource limits. Observe actual endpoint calls only; no guessed APIs or ID enumeration.
-4. Suggest config using generic primitives, optionally with an LLM. Proposals have no authority to enable network or publish.
-5. Validate on saved real fixtures: selector cardinality, sibling/row scoping, pagination termination, link validity, all positions and documents accounted for.
-6. Compare extracted samples against a reviewer-labelled sample. Approve signed/versioned config with required role.
-7. Run bounded staging canary; enable production source separately.
-8. Monitor drift; pause/quarantine when the structure or meaning changes. Re-approve new config version; do not auto-repair directly in production.
+## Supported adaptation / limits
+Tables/cards/list/detail HTML, next-link pagination, sibling links, public JSON and document URL inventories are supported. JS pages can use a declared ready selector with offline brokered rendering. New behavior may need a small adapter implementing the same boundary, not a rewrite of the core.
 
-## Example acceptance exercise
-A synthetic table site and synthetic card site use different configs with the same engine. Add a previously unseen job title to each: it must survive ingestion unchanged without code edits. Separately validate each actual BPSC/Teletalk config with current official fixtures; synthetic success does not authorize the real source.
+An unapproved storage host is quarantined. A missing/invalid robots result fails closed unless the limited signed 404/410 exception exists. IP-only links and login/CAPTCHA are not supported automatically. One broker process is required until M4 distributed leases. No claim that every site works without code.
 
-## Exceptions
-HTTP-only legacy official links require a reviewed origin-specific exception, no credentials and no silent downgrade. IP-only links and new storage hosts remain quarantined until provenance/network controls pass. An official page linking a site is evidence for review, not automatic unlimited host approval.
+Current real drafts are based on observed patterns, not authorized live sources. [Research and access findings](research/M2-sources.md).

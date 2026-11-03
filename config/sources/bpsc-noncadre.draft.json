@@ -1,0 +1,54 @@
+{
+  "config": {
+    "schemaVersion": 1,
+    "version": 1,
+    "authority": "Bangladesh Public Service Commission",
+    "state": "candidate",
+    "collection": "unknown",
+    "display": "unknown",
+    "policyEvidence": [],
+    "reviewedBy": "research-observation-only",
+    "reviewedAt": "2026-11-03T07:25:00.000Z",
+    "expiresAt": "2027-01-01T00:00:00.000Z",
+    "robots": {
+      "missingReviewed": false,
+      "maxAgeSeconds": 3600
+    },
+    "limits": {},
+    "id": "bpsc-noncadre",
+    "sourceClass": "designated_application_platform",
+    "ownershipEvidence": [
+      {
+        "url": "https://bpsc.teletalk.com.bd/ncad/apply.php",
+        "note": "Observed authority identity and public circular links; not collection/display approval."
+      }
+    ],
+    "origins": [
+      {
+        "origin": "https://bpsc.teletalk.com.bd",
+        "paths": [
+          {
+            "prefix": "/ncad/apply.php",
+            "queryKeys": []
+          },
+          {
+            "prefix": "/ncad/doc/",
+            "queryKeys": []
+          }
+        ]
+      }
+    ],
+    "seeds": [
+      "https://bpsc.teletalk.com.bd/ncad/apply.php"
+    ],
+    "adapter": {
+      "kind": "html",
+      "items": "a.circular",
+      "title": "$self",
+      "attachments": "$self",
+      "fields": [],
+      "minItems": 1,
+      "maxItems": 200
+    }
+  }
+}

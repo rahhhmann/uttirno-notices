@@ -44,3 +44,9 @@ Server applications load root .env explicitly at startup (injected environment t
 The pinned GitHub Actions workflow mirrors clean install/check/build/services/integration/HTTP smoke and shuts services down. Local execution is measured independently of any remote CI result. M1 smoke tests prove built HTTP responses and dependency connectivity; they do not replace browser accessibility/E2E or production security/restore acceptance.
 
 Stop after the current milestone and report results. M2 requires the user's explicit permission.
+
+## M2 agent tools
+
+M2 adds source validation and offline onboarding preview; see [agent commands](../apps/agent/README.md) and [adaptation](ADAPTATION.md). Install Chromium for the browser integration checks with `npm exec --workspace @uttirno/agent -- playwright install chromium` (Linux CI includes `--with-deps`). The integration suite uses synthetic browser data and loopback transport fixtures, never live job sites. Source signing keys/approvals are not automatically generated.
+
+M2 is now authorized; after completing it, stop and wait for explicit M3 permission. Earlier M1 commands remain available.

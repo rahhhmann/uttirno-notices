@@ -6,6 +6,7 @@
       "packages/**",
       "scripts/**",
       "tests/**",
+      "!tests/fixtures",
       "vitest*.ts",
       "!**/dist",
       "!**/.next",

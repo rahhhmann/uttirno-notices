@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "deniedDomains": ["bdjobs.com", "bdjobs.com.bd"],
+  "reason": "Explicit project requirement: exclude third-party job marketplaces. This global policy cannot be overridden by a source proposal. Other sources still require verified official classification and approval."
+}

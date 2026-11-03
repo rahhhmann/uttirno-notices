@@ -1,0 +1,50 @@
+{
+  "config": {
+    "schemaVersion": 1,
+    "version": 1,
+    "authority": "Bangladesh Public Service Commission",
+    "state": "candidate",
+    "collection": "unknown",
+    "display": "unknown",
+    "policyEvidence": [],
+    "reviewedBy": "research-observation-only",
+    "reviewedAt": "2026-11-03T07:25:00.000Z",
+    "expiresAt": "2027-01-01T00:00:00.000Z",
+    "robots": {
+      "missingReviewed": false,
+      "maxAgeSeconds": 3600
+    },
+    "limits": {},
+    "id": "bpsc-authority",
+    "sourceClass": "government_authority",
+    "ownershipEvidence": [
+      {
+        "url": "https://bpsc.gov.bd/pages/static-pages/6ad5e44f3c97e6c4ab675017",
+        "note": "Observed authority identity and public circular links; not collection/display approval."
+      }
+    ],
+    "origins": [
+      {
+        "origin": "https://bpsc.gov.bd",
+        "paths": [
+          {
+            "prefix": "/pages/static-pages/6ad5e44f3c97e6c4ab675017",
+            "queryKeys": []
+          }
+        ]
+      }
+    ],
+    "seeds": [
+      "https://bpsc.gov.bd/pages/static-pages/6ad5e44f3c97e6c4ab675017"
+    ],
+    "adapter": {
+      "kind": "html",
+      "items": ".wrapper.ck-content a[href$='.pdf']",
+      "title": "$self",
+      "attachments": "$self",
+      "fields": [],
+      "minItems": 1,
+      "maxItems": 200
+    }
+  }
+}

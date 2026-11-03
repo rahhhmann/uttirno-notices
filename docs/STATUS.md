@@ -3,25 +3,27 @@
 Updated: 2026-11-03.
 
 ## Completed
-- M0 specification, architecture, source policy, adaptation plan and release gates.
-- M1-T01/T02/T03 executable foundation; see [verification results](milestones/M1.md).
-- Root workspace/toolchain/lockfile; all five application foundations and six shared packages build.
-- Typed facts/evidence/unknowns, environment validation, layer boundary checks, development services and CI definition.
-- Prototype moved to [research workspace](../research/prototype/README.md); four original regressions preserved and both sources remain disabled.
-- 18 unit + 4 prototype + 3 real integration tests passed; built API/Portal/Admin HTTP smoke and two configuration CLIs passed.
-- Root ignored .env exists locally with isolated development credentials. No credentials in Git.
+- M0 planning and M1 executable foundations. [M1 report](milestones/M1.md).
+- M2-T01–T04 source trust, secure acquisition, configurable adaptation and observed source drafts. [M2 report](milestones/M2.md).
+- Signed official-source configs with external trust keys, expiry/revocation/sample gates; independent collection/display policy; separately configured global marketplace exclusions.
+- Pinned-DNS broker, robots, redirects, budgets/backoff/conditional requests, shared per-process host limiter and offline brokered Chromium.
+- Config-driven HTML/JSON parsing, scoped fields, pagination/details/siblings, attachment inventory and always-reviewable onboarding proposals.
+- 96 unit + 4 prototype + 6 real integration cases passed; builds, lint/types, HTTP smoke and CLI preview/input bounds passed.
+- M1 remote CI was independently checked and succeeded. M2 remote CI must be checked against its own commit/run.
 
-## Runtime and data
-Native PostgreSQL on port 5432 is untouched. Separate container services use 55432/56379/54566 and retained volumes. No application schema migrations or production seeds exist. Changing DATABASE_URL never copies data or creates tables. Follow [development setup](DEVELOPMENT.md) to start/check/stop services.
+## Sources and data
+Both real M2 configs are unsigned candidates, not enabled sources. Collection/display remain unresolved. External storage references are quarantined. Alljobs remains permission-pending. Prototype sources remain disabled.
 
-## Not implemented
-M2-M9: production source trust/adaptation/fetch boundaries, PDF/OCR and job extraction, job schema/revisions/publication, queues/schedules, authenticated admin APIs/workflows, public job features and production deployment/release evaluation.
+No production source crawl was enabled. Manual public research and minimal offline DOM fragments are recorded separately. No PDF/OCR/full job facts or published vacancies are claimed.
 
-Portal/Admin currently show honest foundation notices. API has health routes only. Agent/worker support configuration checks only. No public job listing or admin mutation exists.
+Native PostgreSQL on 5432 remains separate. Development containers use 55432/56379/54566 and retained volumes. Root .env is local/ignored; no credentials or signing private keys in Git. See [development setup](DEVELOPMENT.md).
 
-## Approval boundary / next step
-M1 is complete. STOP. Wait for explicit user permission for M2.
-After that permission, begin M2-T01, then dependency-ready tasks in [task plan](TASKS.md). Do not resume M1 or infer M2 approval merely from a model/session switch.
+## Remaining
+M3-M9: PDF/OCR and structured evidence-verified extraction, persistent document/job schema/revisions/publication, queues/distributed leases, authentication/admin workflows, public job features and deployment/release evaluation. Portal/Admin still show foundation notices; API has health routes only.
 
-## Verification provenance
-[Detailed M1 report](milestones/M1.md) distinguishes local checks from remote CI and production acceptance. Source evidence/gold labels and external permission requirements remain in [open questions](OPEN_QUESTIONS.md).
+## Approval boundary
+M2 is complete. STOP. M3 requires explicit user authorization.
+Once authorized, begin M3-T01 in the [task plan](TASKS.md). Model/session changes do not grant permission for later milestones.
+
+## Conditions to preserve
+One acquisition broker process until distributed host leases are implemented. No source activation just to make a demo pass. A source approval signature is never a substitute for actual ownership/permission/fixture review. Read [M2 limits](milestones/M2.md) and [open questions](OPEN_QUESTIONS.md).

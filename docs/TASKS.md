@@ -1,6 +1,6 @@
 # Dependency-ordered implementation plan
 
-State: M0 and M1 are complete. STOP after each milestone; M2 requires explicit user authorization. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
+State: M0, M1 and M2 are complete. STOP after each milestone; M3 requires explicit user authorization. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
 
 ## M0 — Specification and scaffold
 - [x] M0-T01: Document scope, R01-R29, component structure and ADRs.
@@ -13,10 +13,10 @@ State: M0 and M1 are complete. STOP after each milestone; M2 requires explicit u
 - [x] M1-T03: Implement contracts/domain and local DB/Redis/object-store setup, env validation and CI foundation. Depends T01. Acceptance: deterministic runtime config failures, local dependency readiness and minimal CI build/tests. R12/R24/R29.
 
 ## M2 — Source trust and easy adaptation
-- [ ] M2-T01: Source/config/policy schemas and versioning; official/access/display gates. Depends M1. Acceptance: ineligible, pending, expired and revoked configs fail before network. R01/R02/R05/R28.
-- [ ] M2-T02: Restricted fetch/render/download boundary with robots, host-wide throttling, redirects/DNS/private-IP/resource checks. Depends T01. Acceptance: each bypass path denied, retries respect permissions and limits. R03/R04.
-- [ ] M2-T03: Generic list/table/card/detail/public-JSON primitives, pagination and sibling navigation; bounded onboarding proposals. Depends T02. Acceptance: two different synthetic layouts configured without core edits; invented selectors rejected. R05/R06/R07/R27.
-- [ ] M2-T04: Real source research/config draft and drift expectations. Depends T03 and source access evidence. Acceptance: observed listing/detail/attachment samples, exact origins, default disabled and reviewed permissions.
+- [x] M2-T01: Source/config/policy schemas and versioning; official/access/display gates. Depends M1. Acceptance: ineligible, pending, expired and revoked configs fail before network. R01/R02/R05/R28.
+- [x] M2-T02: Restricted fetch/render/download boundary with robots, host-wide throttling, redirects/DNS/private-IP/resource checks. Depends T01. Acceptance: each bypass path denied, retries respect permissions and limits. R03/R04.
+- [x] M2-T03: Generic list/table/card/detail/public-JSON primitives, pagination and sibling navigation; bounded onboarding proposals. Depends T02. Acceptance: two different synthetic layouts configured without core edits; invented selectors rejected. R05/R06/R07/R27.
+- [x] M2-T04: Real source research/config draft and drift expectations. Depends T03 and source access evidence. Acceptance: observed listing/detail/attachment samples, exact origins, default disabled and reviewed permissions.
 
 ## M3 — Documents, structured extraction and verification
 - [ ] M3-T01: Immutable artifact/text storage; PDF/text/OCR benchmark and selected engine. Depends M2-T02 + M1 contracts. Acceptance: hashes/page provenance, limits, malformed/scanned/mixed text fixtures and benchmark report. R08/R09/R23.
@@ -61,3 +61,6 @@ When completing a task append: task ID; requirement IDs; code locations; exact c
 
 ## M1 completion evidence
 M1-T01 (R29), M1-T02 (prototype isolation/provenance), and M1-T03 (R12/R24/R29) completed. Code locations and executed results: [M1 verification](milestones/M1.md). Next milestone requires explicit user permission.
+
+## M2 completion evidence
+M2-T01 (R01/R02/R05/R28), M2-T02 (R03/R04), M2-T03 (R05/R06/R07/R27), M2-T04 (observed draft configs and access assessment) completed. Code/test trace and source limitations: [M2 verification](milestones/M2.md). M3 needs explicit permission.

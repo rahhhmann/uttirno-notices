@@ -17,6 +17,7 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      - run: npm exec --workspace @uttirno/agent -- playwright install --with-deps chromium
       - run: npm run check
       - run: npm run build
       - run: npm run local:init

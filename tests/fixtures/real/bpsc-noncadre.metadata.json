@@ -1,0 +1,24 @@
+{
+    "sourceUrl":  "https://bpsc.teletalk.com.bd/ncad/apply.php",
+    "capturedAt":  "2026-11-03T07:24:57.867Z",
+    "kind":  "minimal public DOM fragment",
+    "use":  "Internal offline parser research only; not an approved production snapshot or republication license.",
+    "expectedItems":  2,
+    "observedLinks":  [
+                          "doc/ad_202607.pdf",
+                          "doc/ad_202608.pdf"
+                      ],
+    "selectorsObserved":  true,
+    "collectionPermission":  "unresolved",
+    "displayPermission":  "unresolved",
+    "robots":  {
+                   "url":  "https://bpsc.teletalk.com.bd/robots.txt",
+                   "observedRules":  [
+                                         "User-agent: *",
+                                         "Disallow: /bcs/lib",
+                                         "Disallow: /bcs/images"
+                                     ],
+                   "bodyCaptured":  false
+               },
+    "fragmentSha256":  "ae85419058b152804b14c38593eecd890dd225f32ab9b7969ca8ccb738f8e881"
+}

@@ -2,7 +2,7 @@
 
 Agent + public job portal + admin review system, planned around official Bangladesh recruitment sources only.
 
-**বর্তমান অবস্থা:** M1 foundation সম্পন্ন। Planning, isolated research prototype এবং executable workspace foundations আছে। পূর্ণ agent, চাকরির portal features ও admin review এখনো বাস্তবায়িত নয়।
+**বর্তমান অবস্থা:** M1 foundation ও M2 source trust/adaptation সম্পন্ন। Planning, isolated research prototype এবং executable workspace foundations আছে। পূর্ণ PDF/OCR job extraction, চাকরির portal features ও admin review এখনো বাস্তবায়িত নয়।
 
 ## Start here
 1. [Project and scope](docs/PROJECT.md)

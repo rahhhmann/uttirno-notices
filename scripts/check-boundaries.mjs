@@ -6,6 +6,7 @@ export const allowedEdges = {
   '@uttirno/contracts': [],
   '@uttirno/domain': ['@uttirno/contracts'],
   '@uttirno/env': [],
+  '@uttirno/source-config': [],
   '@uttirno/database': ['@uttirno/contracts', '@uttirno/domain'],
   '@uttirno/infrastructure': ['@uttirno/env', '@uttirno/database'],
   '@uttirno/ui': [],
@@ -19,6 +20,7 @@ export const allowedEdges = {
     '@uttirno/domain',
   ],
   '@uttirno/agent': [
+    '@uttirno/source-config',
     '@uttirno/env',
     '@uttirno/contracts',
     '@uttirno/domain',
@@ -132,7 +134,10 @@ export async function checkBoundaries(root = process.cwd()) {
             if (!dependencyAllowed(owner, spec)) errors.push(`${file} forbidden import ${spec}`);
             if (spec.startsWith('.')) {
               const target = path.resolve(path.dirname(file), spec);
-              if (target !== folder && !target.startsWith(folder + path.sep))
+              const testHelper =
+                file.endsWith('.test.ts') &&
+                target.startsWith(path.resolve(root, 'tests/helpers') + path.sep);
+              if (!testHelper && target !== folder && !target.startsWith(folder + path.sep))
                 errors.push(`${file} crosses workspace via relative import ${spec}`);
             } else if (!spec.startsWith('node:')) {
               const name = spec.startsWith('@')

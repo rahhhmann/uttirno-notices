@@ -1,0 +1,13 @@
+{
+  "name": "@uttirno/research-prototype",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/normalize.test.mjs",
+    "examples": "node src/examples.mjs"
+  },
+  "dependencies": {
+    "playwright": "1.64.1"
+  }
+}

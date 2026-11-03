@@ -1,5 +1,3 @@
-# ui
+# Shared UI foundation
 
-Accessible shared tokens and UI primitives. No acquisition/domain-service/persistence logic.
-
-Status: planned boundary; implementation pending. See [root plan](../../docs/TASKS.md).
+FoundationNotice is a reusable accessible section/title/description primitive used by both web app shells. It owns no domain facts or transport/persistence logic. Full design tokens/components and accessibility acceptance arrive with M6/M7.

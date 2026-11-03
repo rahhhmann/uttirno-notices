@@ -3,22 +3,25 @@
 Updated: 2026-11-03.
 
 ## Completed
-- Research snapshots and four passing prototype regression tests exist.
-- M0 planning scaffold: component boundaries, requirements, architecture decisions, source policy, adaptation, data/evidence contracts, task sequence, testing and release gates.
-- Legacy collection defaults disabled during planning.
+- M0 specification, architecture, source policy, adaptation plan and release gates.
+- M1-T01/T02/T03 executable foundation; see [verification results](milestones/M1.md).
+- Root workspace/toolchain/lockfile; all five application foundations and six shared packages build.
+- Typed facts/evidence/unknowns, environment validation, layer boundary checks, development services and CI definition.
+- Prototype moved to [research workspace](../research/prototype/README.md); four original regressions preserved and both sources remain disabled.
+- 18 unit + 4 prototype + 3 real integration tests passed; built API/Portal/Admin HTTP smoke and two configuration CLIs passed.
+- Root ignored .env exists locally with isolated development credentials. No credentials in Git.
+
+## Runtime and data
+Native PostgreSQL on port 5432 is untouched. Separate container services use 55432/56379/54566 and retained volumes. No application schema migrations or production seeds exist. Changing DATABASE_URL never copies data or creates tables. Follow [development setup](DEVELOPMENT.md) to start/check/stop services.
 
 ## Not implemented
-Production workspace/toolchain, generic adaptation engine, full PDF/OCR extraction, DB/migrations, production queue/scheduler, authenticated admin/API, public portal, deployment, restore and release evaluation.
+M2-M9: production source trust/adaptation/fetch boundaries, PDF/OCR and job extraction, job schema/revisions/publication, queues/schedules, authenticated admin APIs/workflows, public job features and production deployment/release evaluation.
 
-Existing source-specific prototype logic is intentionally not represented as satisfying the future no-core-hardcoding requirement. M1 migrates it into a clearly labelled research area. Current source configs are not approved production configs.
+Portal/Admin currently show honest foundation notices. API has health routes only. Agent/worker support configuration checks only. No public job listing or admin mutation exists.
 
-## Next step
-On implementation authorization: M1-T01, then M1-T02 and M1-T03. Read [tasks](TASKS.md). Do not start with portal mockups or broad crawling ahead of the pipeline gates.
+## Approval boundary / next step
+M1 is complete. STOP. Wait for explicit user permission for M2.
+After that permission, begin M2-T01, then dependency-ready tasks in [task plan](TASKS.md). Do not resume M1 or infer M2 approval merely from a model/session switch.
 
-## Executed M0 checks
-- Existing `npm test`: 4/4 prototype regressions passed; no live source calls.
-- Local Markdown link check: 79 Markdown files scanned, 0 broken relative links.
-- Requirements trace check: all R01-R29 present in requirements and task plan.
-- Task state: 3 completed planning tasks; 31 implementation tasks remain unchecked.
-- Source registry parses as JSON; both prototype sources disabled; editor diagnostics report no JSON errors.
-- No production code, framework installation, database, deployment or real-world extraction acceptance was performed in M0.
+## Verification provenance
+[Detailed M1 report](milestones/M1.md) distinguishes local checks from remote CI and production acceptance. Source evidence/gold labels and external permission requirements remain in [open questions](OPEN_QUESTIONS.md).

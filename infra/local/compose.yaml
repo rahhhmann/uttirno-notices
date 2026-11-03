@@ -1,0 +1,46 @@
+name: uttirno-local
+services:
+  postgres:
+    image: postgres:18-alpine@sha256:10a5c69a83035ab5239f5620d708520e8b28f5aa1f2b20143e6024532edadfb5
+    environment:
+      POSTGRES_USER: uttirno_dev
+      POSTGRES_PASSWORD: ${LOCAL_POSTGRES_PASSWORD:?Set local PostgreSQL password}
+      POSTGRES_DB: uttirno_dev
+    ports: ['127.0.0.1:55432:5432']
+    volumes: ['postgres_data:/var/lib/postgresql']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U uttirno_dev -d uttirno_dev']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  redis:
+    image: redis:8-alpine@sha256:21090af93f8324db2f0f0f4f38a7c60369d47d917e000c3423d89d2ae2883537
+    environment:
+      REDISCLI_AUTH: ${LOCAL_REDIS_PASSWORD:?Set local Redis password}
+    command: ['sh', '-c', 'exec redis-server --appendonly yes --requirepass "$$REDISCLI_AUTH"']
+    ports: ['127.0.0.1:56379:6379']
+    volumes: ['redis_data:/data']
+    healthcheck:
+      test: ['CMD', 'redis-cli', 'ping']
+      interval: 3s
+      timeout: 3s
+      retries: 30
+  storage:
+    image: localstack/localstack:4.10.0@sha256:a65ee2a9d45a7a34a1f1faae515d2e577ce11210312c077700ccc82daefec238
+    environment:
+      SERVICES: s3
+      AWS_DEFAULT_REGION: us-east-1
+      PERSISTENCE: '1'
+    ports: ['127.0.0.1:54566:4566']
+    volumes:
+      - storage_data:/var/lib/localstack
+      - ./init-storage.sh:/etc/localstack/init/ready.d/10-bucket.sh:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'awslocal s3api head-bucket --bucket uttirno-dev-artifacts']
+      interval: 5s
+      timeout: 5s
+      retries: 40
+volumes:
+  postgres_data:
+  redis_data:
+  storage_data:

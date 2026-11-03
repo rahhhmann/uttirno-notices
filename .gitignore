@@ -9,3 +9,6 @@ coverage/
 playwright-report/
 test-results/
 *.log
+*.tsbuildinfo
+.local/
+research/prototype/data/

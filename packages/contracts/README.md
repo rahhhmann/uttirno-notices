@@ -1,5 +1,5 @@
-# contracts
+# Contracts foundation
 
-Runtime config/API/job/event schemas and versioned DTOs. No persistence or browser implementation dependencies. M1/M2/M5.
+Runtime Zod evidence/fact envelopes preserve stated/unknown/not-extracted/not-applicable/conflicting values. Populated candidates require structurally valid source/artifact/text/position/locator/quote evidence. Unknown states cannot hide an invented value. Arbitrary original titles are data, not an enum.
 
-Status: planned boundary; implementation pending. See [root plan](../../docs/TASKS.md).
+M1 validates shape only. Quote truth, semantic scope, approval and publication are later independent gates. API/source/queue contracts are added when their milestones need them. See [plan](../../docs/TASKS.md).

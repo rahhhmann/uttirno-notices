@@ -1,6 +1,6 @@
 # Dependency-ordered implementation plan
 
-State: only M0 is complete. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
+State: M0 and M1 are complete. STOP after each milestone; M2 requires explicit user authorization. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
 
 ## M0 — Specification and scaffold
 - [x] M0-T01: Document scope, R01-R29, component structure and ADRs.
@@ -8,9 +8,9 @@ State: only M0 is complete. Each later checkbox requires implementation, tests a
 - [x] M0-T03: Create physical folder contracts, release/test/runbooks and honest status; validate links and JSON; preserve prototype regressions.
 
 ## M1 — Executable foundation (after implementation authorization)
-- [ ] M1-T01: Confirm supported compatible stack versions; create npm workspaces, strict TypeScript and real app/package manifests. Acceptance: clean install from lockfile, workspace boundary check and minimal builds. R29; read DEVELOPMENT and ADR0001.
-- [ ] M1-T02: Migrate prototype to research/prototype, maintain research provenance and four existing tests; update root scripts/links. Depends T01. Acceptance: regressions pass, no production module imports prototype; disabled acquisition retained.
-- [ ] M1-T03: Implement contracts/domain and local DB/Redis/object-store setup, env validation and CI foundation. Depends T01. Acceptance: deterministic runtime config failures, local dependency readiness and minimal CI build/tests. R12/R24/R29.
+- [x] M1-T01: Confirm supported compatible stack versions; create npm workspaces, strict TypeScript and real app/package manifests. Acceptance: clean install from lockfile, workspace boundary check and minimal builds. R29; read DEVELOPMENT and ADR0001.
+- [x] M1-T02: Migrate prototype to research/prototype, maintain research provenance and four existing tests; update root scripts/links. Depends T01. Acceptance: regressions pass, no production module imports prototype; disabled acquisition retained.
+- [x] M1-T03: Implement contracts/domain and local DB/Redis/object-store setup, env validation and CI foundation. Depends T01. Acceptance: deterministic runtime config failures, local dependency readiness and minimal CI build/tests. R12/R24/R29.
 
 ## M2 — Source trust and easy adaptation
 - [ ] M2-T01: Source/config/policy schemas and versioning; official/access/display gates. Depends M1. Acceptance: ineligible, pending, expired and revoked configs fail before network. R01/R02/R05/R28.
@@ -58,3 +58,6 @@ State: only M0 is complete. Each later checkbox requires implementation, tests a
 
 ## Completion record
 When completing a task append: task ID; requirement IDs; code locations; exact checks and observed results; known limits; decisions changed. Leave blocked/deferred tasks unchecked with an OPEN_QUESTIONS reference. Do not check M9-T02 for sources that are still pending.
+
+## M1 completion evidence
+M1-T01 (R29), M1-T02 (prototype isolation/provenance), and M1-T03 (R12/R24/R29) completed. Code locations and executed results: [M1 verification](milestones/M1.md). Next milestone requires explicit user permission.

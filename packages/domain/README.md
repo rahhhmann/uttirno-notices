@@ -1,5 +1,5 @@
-# domain
+# Domain foundation
 
-Entities, factual status envelopes, eligibility/lifecycle/publication invariants and pure normalization rules. No UI/DB/HTTP framework imports.
+Pure fact display/review helpers use shared contracts. Unknown/conflicting facts do not turn into fabricated titles. No transport, UI or database library imports.
 
-Status: planned boundary; implementation pending. See [root plan](../../docs/TASKS.md).
+Complete eligibility, lifecycle, dedupe and publication invariants are not implemented in M1. See [plan](../../docs/TASKS.md).

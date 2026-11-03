@@ -1,5 +1,5 @@
-# agent
+# Agent foundation
 
-Acquisition/extraction application and bounded operator CLI. Produces draft candidates and verification results; cannot approve itself or import UI. Orchestrated by worker. M2-M3.
+TypeScript application entrypoint validates server configuration only. After building: npm run start --workspace @uttirno/agent -- check-config. Unknown commands fail; no acquisition or source execution occurs in M1.
 
-Status: planned boundary; implementation pending. See [root plan](../../docs/TASKS.md).
+Generic policy-gated acquisition/adaptation is M2; PDF/OCR/extraction/verification is M3. Historical code is isolated under [research](../../research/prototype/README.md) and cannot be imported. See [plan](../../docs/TASKS.md).

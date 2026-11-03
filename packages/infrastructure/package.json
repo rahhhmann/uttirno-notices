@@ -1,0 +1,25 @@
+{
+  "name": "@uttirno/infrastructure",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "dependencies": {
+    "@uttirno/env": "0.1.0",
+    "@uttirno/database": "0.1.0",
+    "@aws-sdk/client-s3": "3.1161.0",
+    "ioredis": "6.0.0"
+  }
+}

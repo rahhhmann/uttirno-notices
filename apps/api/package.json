@@ -1,0 +1,17 @@
+{
+  "name": "@uttirno/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js"
+  },
+  "dependencies": {
+    "fastify": "5.12.8",
+    "@uttirno/env": "0.1.0",
+    "@uttirno/infrastructure": "0.1.0"
+  }
+}

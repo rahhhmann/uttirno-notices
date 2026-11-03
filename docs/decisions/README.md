@@ -6,5 +6,6 @@ Planning decisions accepted for this scaffold; revisit with an ADR when evidence
 - [0002: Official sources and access](0002-official-sources.md)
 - [0003: Easy adaptation](0003-easy-adaptation.md)
 - [0004: Evidence and publication](0004-evidence-and-publication.md)
+- [0005: M1 foundation and local isolation](0005-m1-foundation.md)
 
 Next ADR numbers are sequential. Record context, decision, consequences, status and superseded references. Never change a settled decision silently.

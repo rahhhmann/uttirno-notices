@@ -1,0 +1,18 @@
+{
+  "name": "@uttirno/admin",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --port 3001",
+    "build": "next build --webpack",
+    "start": "next start --port 3001",
+    "typecheck": "next typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "16.4.4",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "@uttirno/ui": "0.1.0"
+  }
+}

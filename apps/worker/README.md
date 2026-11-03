@@ -1,5 +1,5 @@
-# worker
+# Worker foundation
 
-Queue/schedule entrypoint invoking agent pipeline. Own source leases, idempotent execution, checkpoint/retry/dead letters. No review/publication authority. M4.
+TypeScript entrypoint validates configuration only: npm run start --workspace @uttirno/worker -- check-config after a build. No schedule or queue execution yet.
 
-Status: planned boundary; implementation pending. See [root plan](../../docs/TASKS.md).
+Leases, retries, stage checkpoints and job handlers arrive in M4. Worker can never approve its own extraction for publication. See [plan](../../docs/TASKS.md).

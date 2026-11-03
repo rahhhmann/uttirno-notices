@@ -1,5 +1,5 @@
-# admin
+# Admin foundation
 
-Internal Next.js admin. Own source policy/onboarding/config review, extraction/evidence review, publication and run/audit screens. API-mediated mutations with authorization and CSRF. M6.
+Separate Next.js app on port 3001 with a foundation notice only. No operational data, source activation, review mutations or authentication claims in M1. Actual authentication and admin workflows require M5/M6.
 
-Status: planned boundary; implementation pending. See [root plan](../../docs/TASKS.md).
+Use npm run dev:admin after shared package build. Component boundaries enforce API-mediated access; no direct database/server environment imports. See [plan](../../docs/TASKS.md).

@@ -1,0 +1,18 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.4/schema.json",
+  "files": {
+    "includes": [
+      "apps/**",
+      "packages/**",
+      "scripts/**",
+      "tests/**",
+      "vitest*.ts",
+      "!**/dist",
+      "!**/.next",
+      "!**/node_modules"
+    ]
+  },
+  "formatter": { "enabled": false },
+  "assist": { "enabled": false },
+  "linter": { "enabled": true, "rules": { "preset": "recommended" } }
+}

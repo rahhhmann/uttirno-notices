@@ -2,7 +2,7 @@
 
 Agent + public job portal + admin review system, planned around official Bangladesh recruitment sources only.
 
-**বর্তমান অবস্থা:** production implementation শুরু হয়নি। এই repository-তে planning scaffold এবং আগের research prototype আছে। কোনো portal/API/database service এখন চালু নেই।
+**বর্তমান অবস্থা:** M1 foundation সম্পন্ন। Planning, isolated research prototype এবং executable workspace foundations আছে। পূর্ণ agent, চাকরির portal features ও admin review এখনো বাস্তবায়িত নয়।
 
 ## Start here
 1. [Project and scope](docs/PROJECT.md)
@@ -23,8 +23,10 @@ Agent + public job portal + admin review system, planned around official Banglad
 - [Deployment plan](infra/README.md), [tests](tests/README.md), [operations](docs/OPERATIONS.md).
 
 ## Research prototype
-Existing [collector](src/collect.mjs), [normalizer](src/normalize.mjs), [tests](test/normalize.test.mjs), [evidence](evidence/) and [samples](examples/) are research assets, not the production architecture. They stay in place until the explicit M1 migration task. Sources are disabled in the [legacy registry](config/sources.json); do not use this collector for production acquisition.
+The original [collector](research/prototype/src/collect.mjs), [normalizer](research/prototype/src/normalize.mjs), [tests](research/prototype/test/normalize.test.mjs), [evidence](research/prototype/evidence) and [samples](research/prototype/examples) are isolated research assets. Sources remain disabled in the [legacy registry](research/prototype/config/sources.json); do not use this collector for production acquisition.
 
-Existing offline regression tests: `npm test`. Research sample regeneration: `node src/examples.mjs`. These commands do not build or verify the future applications.
+Offline prototype regressions: `npm run test:prototype`. Sample regeneration: `npm run examples --workspace @uttirno/research-prototype`.
 
-No production stack versions or workspaces are installed by this planning step. See [stack decision](docs/decisions/0001-stack-and-boundaries.md) and [development setup](docs/DEVELOPMENT.md).
+## Foundation commands
+
+Run `npm ci`, then `npm run check` and `npm run build`. See [development setup](docs/DEVELOPMENT.md) for local services, environment setup and service readiness checks. M1 is not a production release; see [release gates](docs/RELEASE.md).

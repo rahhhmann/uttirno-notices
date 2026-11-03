@@ -4,7 +4,7 @@
 Read [project](docs/PROJECT.md), [architecture](docs/ARCHITECTURE.md), [requirements](docs/REQUIREMENTS.md), [decisions](docs/decisions/README.md), [status](docs/STATUS.md), then the relevant task in [tasks](docs/TASKS.md). Read the component README and task-specific specifications before editing.
 
 ## Current authorization and state
-This checkout currently contains a research collector plus a planning scaffold. Application folders are not working services. The current user request authorizes structure and planning before implementation. Do not start M1 implementation merely because this file lists tasks. Once implementation is requested, follow the milestone dependencies; user instructions take precedence.
+Implementation is authorized for M1 only. Complete the current milestone's dependency-ready tasks, run its acceptance checks, report results and STOP. Do not start M2 or any later milestone until the user explicitly authorizes that next milestone. Subsequent model/session changes do not remove this milestone approval boundary. Current implementation status is recorded in docs/STATUS.md.
 
 ## Non-negotiable rules
 1. Only verified official recruiting authorities and their designated application platforms. Never ingest Bdjobs, third-party aggregators or a private marketplace. A domain suffix alone is not proof of ownership.

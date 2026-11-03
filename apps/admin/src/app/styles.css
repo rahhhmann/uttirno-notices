@@ -1,0 +1,31 @@
+:root {
+  color-scheme: light;
+  font-family: system-ui, sans-serif;
+  background: #f4f6f8;
+  color: #15243b;
+}
+body {
+  margin: 0;
+}
+main {
+  max-width: 48rem;
+  margin: 12vh auto;
+  padding: 2rem;
+}
+section {
+  background: white;
+  border: 1px solid #d7dee8;
+  border-radius: 1rem;
+  padding: 2rem;
+}
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  line-height: 1.5;
+}
+p {
+  font-size: 1.1rem;
+  line-height: 1.9;
+}
+small {
+  color: #42516a;
+}

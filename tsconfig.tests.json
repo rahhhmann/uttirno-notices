@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": false,
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM"]
+  },
+  "include": [
+    "apps/**/*.test.ts",
+    "packages/**/*.test.ts",
+    "scripts/**/*.test.ts",
+    "scripts/check-services.ts",
+    "tests/integration/**/*.ts",
+    "vitest*.ts"
+  ],
+  "exclude": ["node_modules", "**/dist/**", "**/.next/**"]
+}

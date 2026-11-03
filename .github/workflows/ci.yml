@@ -18,6 +18,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm exec --workspace @uttirno/agent -- playwright install --with-deps chromium
+      - name: Support Chromium sandbox on restricted Ubuntu runners
+        run: bash scripts/configure-browser-sandbox-ci.sh
       - run: npm run check
       - run: npm run build
       - run: npm run local:init

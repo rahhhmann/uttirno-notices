@@ -4,3 +4,4 @@
 *.ts text eol=lf
 *.tsx text eol=lf
 tests/fixtures/real/*.html text eol=lf
+tests/fixtures/documents/*.pdf -text

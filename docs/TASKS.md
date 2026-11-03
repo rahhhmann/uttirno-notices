@@ -1,6 +1,6 @@
 # Dependency-ordered implementation plan
 
-State: M0, M1 and M2 are complete. STOP after each milestone; M3 requires explicit user authorization. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
+State: M0-M3 are complete. M3 was explicitly authorized. STOP before M4; separate explicit user authorization is required. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
 
 ## M0 — Specification and scaffold
 - [x] M0-T01: Document scope, R01-R29, component structure and ADRs.
@@ -19,10 +19,10 @@ State: M0, M1 and M2 are complete. STOP after each milestone; M3 requires explic
 - [x] M2-T04: Real source research/config draft and drift expectations. Depends T03 and source access evidence. Acceptance: observed listing/detail/attachment samples, exact origins, default disabled and reviewed permissions.
 
 ## M3 — Documents, structured extraction and verification
-- [ ] M3-T01: Immutable artifact/text storage; PDF/text/OCR benchmark and selected engine. Depends M2-T02 + M1 contracts. Acceptance: hashes/page provenance, limits, malformed/scanned/mixed text fixtures and benchmark report. R08/R09/R23.
-- [ ] M3-T02: Position-scoped field extraction and value envelopes; deterministic dates/fees/age/transforms. Depends T01 + M2-T03. Acceptance: multi-position/footnote/fee/deadline cases and explicit unknowns. R10/R11/R12.
-- [ ] M3-T03: Optional constrained LLM provider, versioned prompts/budgets and injection tests. Depends T02. Acceptance: no tools/secrets, invalid/unsupported output rejected and deterministic path works without API keys. R14.
-- [ ] M3-T04: Evidence and semantic verifier, conflicts and attachment/position coverage gates. Depends T02/T03. Acceptance: wrong sibling, false quote meaning and partial extraction cannot pass publication eligibility. R07/R13.
+- [x] M3-T01: Immutable artifact/text storage; PDF/text/OCR benchmark and selected engine. Depends M2-T02 + M1 contracts. Acceptance: hashes/page provenance, limits, malformed/scanned/mixed text fixtures and benchmark report. R08/R09/R23.
+- [x] M3-T02: Position-scoped field extraction and value envelopes; deterministic dates/fees/age/transforms. Depends T01 + M2-T03. Acceptance: multi-position/footnote/fee/deadline cases and explicit unknowns. R10/R11/R12.
+- [x] M3-T03: Optional constrained LLM provider, versioned prompts/budgets and injection tests. Depends T02. Acceptance: no tools/secrets, invalid/unsupported output rejected and deterministic path works without API keys. R14.
+- [x] M3-T04: Evidence and semantic verifier, conflicts and attachment/position coverage gates. Depends T02/T03. Acceptance: wrong sibling, false quote meaning and partial extraction cannot pass publication eligibility. R07/R13.
 
 ## M4 — Persistence, lifecycle and reliable execution
 - [ ] M4-T01: DB schema/repositories/migrations implementing DATA_MODEL. Depends M3 contracts. Acceptance: empty/previous-schema migration tests, uniqueness and immutable revision history. R08/R15/R29.
@@ -63,4 +63,7 @@ When completing a task append: task ID; requirement IDs; code locations; exact c
 M1-T01 (R29), M1-T02 (prototype isolation/provenance), and M1-T03 (R12/R24/R29) completed. Code locations and executed results: [M1 verification](milestones/M1.md). Next milestone requires explicit user permission.
 
 ## M2 completion evidence
-M2-T01 (R01/R02/R05/R28), M2-T02 (R03/R04), M2-T03 (R05/R06/R07/R27), M2-T04 (observed draft configs and access assessment) completed. Code/test trace and source limitations: [M2 verification](milestones/M2.md). M3 needs explicit permission.
+M2-T01 (R01/R02/R05/R28), M2-T02 (R03/R04), M2-T03 (R05/R06/R07/R27), M2-T04 (observed draft configs and access assessment) completed. Code/test trace and source limitations: [M2 verification](milestones/M2.md). M3 was subsequently authorized and completed; see below.
+
+## M3 completion evidence
+M3-T01 (R08/R09/R23), M3-T02 (R10/R11/R12), M3-T03 (R14) and M3-T04 (R07/R13) completed. Code/test trace, executed benchmark, unknowns and production limits: [M3 verification](milestones/M3.md). STOP before M4; no later task is authorized.

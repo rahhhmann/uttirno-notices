@@ -1,14 +1,19 @@
-# Agent — M2
+# Agent — M2/M3
 
-Implemented: strict source validation, signed policy gates, pinned-address HTTP transport, conservative robots enforcement, bounded retries/rate/size limits, conditional requests, restricted offline browser rendering, config-driven HTML/JSON parsing, bounded discovery and offline onboarding proposals.
+M2 provides signed official-source gates, restricted broker/rendering, generic discovery/adapters and offline onboarding proposals. M3 adds private immutable archive, native PDF/OCR, field extraction and evidence preflight. All checked-in real sources remain unsigned candidates with unresolved permissions.
 
-## Commands from repository root
-Build first with npm run build.
+## Commands
+
+Build with npm run build first.
+
 - node apps/agent/dist/main.js check-config
 - node apps/agent/dist/main.js validate-source config/sources/bpsc-noncadre.draft.json
 - node apps/agent/dist/main.js preview config/sources/bpsc-noncadre.draft.json tests/fixtures/real/bpsc-noncadre.fragment.html
-- node apps/agent/dist/main.js collect SIGNED_SOURCE_JSON EXTERNAL_TRUST_KEYS_JSON
+- node apps/agent/dist/main.js collect SIGNED_SOURCE EXTERNAL_TRUST_KEYS
+- node apps/agent/dist/main.js extract-document SIGNED_SOURCE EXTERNAL_TRUST_KEYS OFFICIAL_PDF_URL PRIVATE_ARCHIVE_ROOT [REVIEWED_PLAN_JSON]
 
-preview is offline and never enables a source. collect fails before DNS/HTTP unless current policy/signature/gates pass. It reports bounded discovery candidates, document URLs and acquisition metadata; it is not M3 PDF/OCR extraction, persistent archival or job publication. No AI key is needed for M2.
+preview is offline. collect inventories discovery candidates/attachments, not full job facts. extract-document processes one operator-selected public job notice; it requires current signed collection and explicit retention grants before network access, then uses all broker protections, records original bytes/response/config metadata and hashes, extracts pages and optional mapped position candidates. It always returns needs_review and publicationApproved=false. Result PDFs/applicant records are outside this command's scope. There is no public archive endpoint.
 
-Real checked-in sources remain unsigned candidates with unresolved permissions. Do not sign/activate them just to obtain a successful run. See [source research](../../docs/research/M2-sources.md) and [adaptation](../../docs/ADAPTATION.md).
+Plans contain versioned literal field labels and whole-line position ranges; [format and limitations](../../config/extraction/README.md). No employer branches or title enums. Unsupported layouts require reviewed adaptation. Text/scan/table/quality caveats and measured results: [M3 report](../../docs/milestones/M3.md).
+
+No AI key is required. The optional JSON gateway package is not enabled by a CLI flag or .env alone; no real provider is configured. Scheduling, persistent job metadata, publication and API/admin workflows remain later milestones. Do not sign/activate real sources to make a demo pass.

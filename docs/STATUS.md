@@ -3,27 +3,29 @@
 Updated: 2026-11-03.
 
 ## Completed
+
 - M0 planning and M1 executable foundations. [M1 report](milestones/M1.md).
 - M2-T01–T04 source trust, secure acquisition, configurable adaptation and observed source drafts. [M2 report](milestones/M2.md).
-- Signed official-source configs with external trust keys, expiry/revocation/sample gates; independent collection/display policy; separately configured global marketplace exclusions.
-- Pinned-DNS broker, robots, redirects, budgets/backoff/conditional requests, shared per-process host limiter and offline brokered Chromium.
-- Config-driven HTML/JSON parsing, scoped fields, pagination/details/siblings, attachment inventory and always-reviewable onboarding proposals.
-- 96 unit + 4 prototype + 6 real integration cases passed; builds, lint/types, HTTP smoke and CLI preview/input bounds passed.
-- M1 remote CI was independently checked and succeeded. M2 remote CI must be checked against its own commit/run.
+- M3-T01–T04 private immutable artifact/text archive, bounded Poppler/Tesseract, position-scoped field contracts/derivations, optional constrained JSON gateway and evidence/semantic/coverage preflight. [M3 report](milestones/M3.md).
+- 121 unit + 4 prototype + 9 real integration cases passed; all app/package builds, types, boundaries and built HTTP smoke passed. [Synthetic PDF/OCR benchmark](research/M3-benchmark.json).
+- M2 remote CI was independently verified successful. M3 remote CI must be checked against its own pushed commit/run.
 
 ## Sources and data
-Both real M2 configs are unsigned candidates, not enabled sources. Collection/display remain unresolved. External storage references are quarantined. Alljobs remains permission-pending. Prototype sources remain disabled.
 
-No production source crawl was enabled. Manual public research and minimal offline DOM fragments are recorded separately. No PDF/OCR/full job facts or published vacancies are claimed.
+Both real configs remain unsigned candidates. Collection, display and retention remain unresolved; no production source activation, PDF collection or applicant processing was enabled. External object-storage origins stay quarantined; Alljobs permission-pending. Synthetic generated PDFs are explicitly labelled, checksummed and contain no actual vacancies.
 
-Native PostgreSQL on 5432 remains separate. Development containers use 55432/56379/54566 and retained volumes. Root .env is local/ignored; no credentials or signing private keys in Git. See [development setup](DEVELOPMENT.md).
+The archive is a private local backend with policy rechecks, scoped retention and hash verification. Production object storage, OS parser isolation, automated purge and DB metadata are not complete. Model integration is optional, gateway-contract tested with mocked transport only, and has no configured live provider/key.
+
+Native PostgreSQL on 5432 remains separate. Development containers use 55432/56379/54566 and retained volumes. Root .env is local/ignored. [Development](DEVELOPMENT.md).
 
 ## Remaining
-M3-M9: PDF/OCR and structured evidence-verified extraction, persistent document/job schema/revisions/publication, queues/distributed leases, authentication/admin workflows, public job features and deployment/release evaluation. Portal/Admin still show foundation notices; API has health routes only.
+
+M4–M9: persistent schemas/revisions/lifecycle/publication, queues/leases, authentication/admin workflows, actual job portal features, deployment and real-source/gold-set acceptance. Portal/Admin still show foundation notices; API has health routes only.
 
 ## Approval boundary
-M2 is complete. STOP. M3 requires explicit user authorization.
-Once authorized, begin M3-T01 in the [task plan](TASKS.md). Model/session changes do not grant permission for later milestones.
+
+M3 was explicitly authorized and is complete. STOP. Do not start M4 without the user's explicit authorization, including after model/session changes. Next task after authorization: M4-T01 in [tasks](TASKS.md).
 
 ## Conditions to preserve
-One acquisition broker process until distributed host leases are implemented. No source activation just to make a demo pass. A source approval signature is never a substitute for actual ownership/permission/fixture review. Read [M2 limits](milestones/M2.md) and [open questions](OPEN_QUESTIONS.md).
+
+One acquisition broker process until distributed host leases. No source activation or fake approval to make a demo pass. Literal labelled-line extraction needs reviewed mappings/scopes; unsupported layouts, OCR quality and missing inventories remain unresolved. M3 preflight never publishes. See [M3 limits](milestones/M3.md) and [open questions](OPEN_QUESTIONS.md).

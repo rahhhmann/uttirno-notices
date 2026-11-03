@@ -24,3 +24,9 @@ Wrong employer/title/post, deadline/timezone, fee/payment instructions, eligibil
 
 ## Reprocessing
 New extraction creates another draft tied to the same raw artifact, never modifies approved facts in place. Preserve engine/prompt versions, reviewer decisions and field lineage.
+
+## Implemented in M3
+
+Private local content-addressed bytes/capture/text storage, current signed collection/retention gates, bounded Poppler bbox + Tesseract ben/eng TSV, engine/model hashes, and field/page/position evidence are implemented. See [engine decision](decisions/0007-m3-document-extraction.md), [versioned plan format](../config/extraction/README.md) and [executed acceptance](milestones/M3.md).
+
+The deterministic grammar currently uses literal labelled lines and explicitly reviewed whole-line ranges. Missing mappings default to not_extracted, not a claim of absence. Free-form prose/merged tables/legacy-font documents need reviewed adaptation; every native page requires quality/layout review. Optional model candidates must reproduce deterministic supported output. No real provider is configured. Preflight is not publication; durable inventory, authenticated approval and public projection remain M4/M5. Native subprocess controls are not production OS isolation.

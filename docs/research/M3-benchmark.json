@@ -1,0 +1,270 @@
+{
+  "synthetic": true,
+  "platform": "win32",
+  "node": "v24.19.0",
+  "rows": [
+    {
+      "file": "mixed-text.pdf",
+      "mode": "hybrid",
+      "sha256": "f1e6a762c16fe5d4bdfaa0a7199489eebdf9d9850f317842b128d8bb50703a70",
+      "milliseconds": 270,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "text",
+          "characters": 208,
+          "bengaliCharacters": 57,
+          "words": 32,
+          "flags": [
+            "layout_review"
+          ],
+          "hasEngineer": true,
+          "hasDate": true
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "mixed-text.pdf",
+      "mode": "ocr-only",
+      "sha256": "f1e6a762c16fe5d4bdfaa0a7199489eebdf9d9850f317842b128d8bb50703a70",
+      "milliseconds": 1355,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "ocr",
+          "characters": 206,
+          "bengaliCharacters": 54,
+          "words": 30,
+          "flags": [
+            "ocr_review",
+            "layout_review"
+          ],
+          "hasEngineer": true,
+          "hasDate": true
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "table.pdf",
+      "mode": "hybrid",
+      "sha256": "cf169271f223fd55783ca94ed7824048deff24ab6a2fe3b673703887aefe69e3",
+      "milliseconds": 253,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "text",
+          "characters": 146,
+          "bengaliCharacters": 19,
+          "words": 21,
+          "flags": [
+            "layout_review"
+          ],
+          "hasEngineer": true,
+          "hasDate": false
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "table.pdf",
+      "mode": "ocr-only",
+      "sha256": "cf169271f223fd55783ca94ed7824048deff24ab6a2fe3b673703887aefe69e3",
+      "milliseconds": 1391,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "ocr",
+          "characters": 148,
+          "bengaliCharacters": 17,
+          "words": 22,
+          "flags": [
+            "ocr_review",
+            "layout_review"
+          ],
+          "hasEngineer": true,
+          "hasDate": false
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "columns.pdf",
+      "mode": "hybrid",
+      "sha256": "a28bc861b32694d5bf0cccf7f9dcaf9591addf2bc87a5262fa12764139d9316f",
+      "milliseconds": 314,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "text",
+          "characters": 71,
+          "bengaliCharacters": 0,
+          "words": 8,
+          "flags": [
+            "layout_review"
+          ],
+          "hasEngineer": true,
+          "hasDate": false
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "columns.pdf",
+      "mode": "ocr-only",
+      "sha256": "a28bc861b32694d5bf0cccf7f9dcaf9591addf2bc87a5262fa12764139d9316f",
+      "milliseconds": 1175,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "ocr",
+          "characters": 75,
+          "bengaliCharacters": 0,
+          "words": 9,
+          "flags": [
+            "ocr_review",
+            "layout_review",
+            "low_confidence"
+          ],
+          "hasEngineer": true,
+          "hasDate": false
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "scanned.pdf",
+      "mode": "hybrid",
+      "sha256": "371034db59de7879534979eaf2c83cb89f53a7b6ccd41634754728d244ffab23",
+      "milliseconds": 1517,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "ocr",
+          "characters": 206,
+          "bengaliCharacters": 54,
+          "words": 30,
+          "flags": [
+            "ocr_review",
+            "layout_review"
+          ],
+          "hasEngineer": true,
+          "hasDate": true
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "scanned.pdf",
+      "mode": "ocr-only",
+      "sha256": "371034db59de7879534979eaf2c83cb89f53a7b6ccd41634754728d244ffab23",
+      "milliseconds": 1595,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "ocr",
+          "characters": 206,
+          "bengaliCharacters": 54,
+          "words": 30,
+          "flags": [
+            "ocr_review",
+            "layout_review"
+          ],
+          "hasEngineer": true,
+          "hasDate": true
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "mixed-pages.pdf",
+      "mode": "hybrid",
+      "sha256": "9b4122957362162a9325f62b2d74d1cb3107c9e85b78fd2899af76ed1bbce2d0",
+      "milliseconds": 1755,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "text",
+          "characters": 208,
+          "bengaliCharacters": 57,
+          "words": 32,
+          "flags": [
+            "layout_review"
+          ],
+          "hasEngineer": true,
+          "hasDate": true
+        },
+        {
+          "page": 2,
+          "method": "ocr",
+          "characters": 206,
+          "bengaliCharacters": 57,
+          "words": 30,
+          "flags": [
+            "ocr_review",
+            "layout_review",
+            "low_confidence"
+          ],
+          "hasEngineer": true,
+          "hasDate": true
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "mixed-pages.pdf",
+      "mode": "ocr-only",
+      "sha256": "9b4122957362162a9325f62b2d74d1cb3107c9e85b78fd2899af76ed1bbce2d0",
+      "milliseconds": 2533,
+      "engine": "poppler-bbox-v1/pdfinfo version 25.07.0+tesseract-tsv-v1/tesseract v5.5.3.20260724/ben+eng/psm3/scale2400/models:ben:6023b62209ffcc089452781ab963144f7b21cea78f61d1cfb0d98d490249f828,eng:7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "pages": [
+        {
+          "page": 1,
+          "method": "ocr",
+          "characters": 206,
+          "bengaliCharacters": 54,
+          "words": 30,
+          "flags": [
+            "ocr_review",
+            "layout_review"
+          ],
+          "hasEngineer": true,
+          "hasDate": true
+        },
+        {
+          "page": 2,
+          "method": "ocr",
+          "characters": 206,
+          "bengaliCharacters": 57,
+          "words": 30,
+          "flags": [
+            "ocr_review",
+            "layout_review",
+            "low_confidence"
+          ],
+          "hasEngineer": true,
+          "hasDate": true
+        }
+      ],
+      "outcome": "extracted_needs_review"
+    },
+    {
+      "file": "malformed.pdf",
+      "mode": "hybrid",
+      "sha256": "f371b417f70c70ffaf58eadb7ce0f291daf772a86a29038f558e4754a31bd193",
+      "milliseconds": 50,
+      "outcome": "rejected",
+      "reason": "DOCUMENT_PROCESS_FAILED"
+    }
+  ]
+}

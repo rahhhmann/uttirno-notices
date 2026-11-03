@@ -1,5 +1,5 @@
-# Domain foundation
+# Domain
 
-Pure fact display/review helpers use shared contracts. Unknown/conflicting facts do not turn into fabricated titles. No transport, UI or database library imports.
+Pure fact helpers plus M3 position extraction, versioned deterministic transforms and evidence/meaning/scope/coverage preflight. Uses contracts and Node's deterministic hash implementation; no transport, UI or persistence libraries. These routines are server domain code; browser clients use contract DTOs.
 
-Complete eligibility, lifecycle, dedupe and publication invariants are not implemented in M1. See [plan](../../docs/TASKS.md).
+All configured fields preserve original raw values, reproducible normalized values and page/position evidence. Unsupported grammar remains unresolved. Preflight does not publish. Lifecycle, dedupe and transactional publication remain M4. [M3 limits](../../docs/milestones/M3.md).

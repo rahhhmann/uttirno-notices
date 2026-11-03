@@ -7,7 +7,7 @@ Proceed with independent planned work; do not invent answers.
 | Q01 | Current per-source collection/display rights and robots evidence | Before enabling each real source | Disabled; researcher documents policy |
 | Q02 | Alljobs written consent/data-sharing approval | Before Alljobs automated collection or republication | Permission-pending; no automatic permission email |
 | Q03 | Current source samples and complete position/attachment inventories | Source acceptance M9 | Browser research/manual permitted fixtures; no guessed selectors |
-| Q04 | OCR engine and Bangla font/table performance | M3 concrete engine choice | Benchmark candidate engines against same labelled fixtures |
+| Q04 | Real Bangla legacy-font/table/poor-scan performance | M9 source acceptance | M3 selected Poppler/Tesseract hybrid from synthetic strategy benchmark; actual adjudicated source corpus remains unmeasured |
 | Q05 | Admin identity provider and operator identities | M5 auth implementation | Established provider/session mechanism; no default admin password |
 | Q06 | Hosting region/provider, budget and artifact retention | M8 production provisioning | Local development/staging specs first; no cloud spend assumed |
 | Q07 | 150-record independently reviewed gold set | M9 acceptance | Prepare rubric early; model-generated labels cannot self-verify |

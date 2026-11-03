@@ -1,52 +1,39 @@
 # Development setup
 
-M1 provides executable workspace foundations. Use Node 24.19.0 (the declared supported range is >=24.19.0 <25) and npm 11.17.0. Exact direct dependency versions and transitive integrity hashes are in the single root lockfile. [ADR 0005](decisions/0005-m1-foundation.md) records the stack/tooling decisions.
+Use Node 24.19.0 (supported >=24.19.0 <25) and npm 11.17.0. Exact JS dependency versions/integrities are in the root lockfile. [M1 stack decision](decisions/0005-m1-foundation.md), [M3 engine decision](decisions/0007-m3-document-extraction.md).
 
 ## Install and verify
-```powershell
-npm ci
-npm run check
-npm run build
-```
 
-check runs Biome lint, dependency boundaries, strict types including tests, unit tests and historical research regressions. Build compiles shared packages before dependent applications. Web typecheck generates Next route types first, including on a fresh checkout. Research is never imported by application workspaces.
+Run npm ci, npm run check and npm run build. Checks cover Biome, dependency boundaries, strict types including tests, unit cases and original prototype regressions. Packages build before applications. No production module imports research code.
+
+For browser integration: npm exec --workspace @uttirno/agent -- playwright install chromium. Linux CI uses --with-deps plus scoped sandbox support.
+
+## PDF/OCR prerequisites
+
+Install trusted maintained Poppler tools (pdfinfo, pdftotext, pdftoppm) and Tesseract with ben and eng traineddata on PATH. Windows development currently has Poppler 25.07.0 / Tesseract 5.5.3.20260724. Do not download binaries from job notices. Linux CI explicitly installs poppler-utils, tesseract-ocr, tesseract-ocr-eng and tesseract-ocr-ben. Engine/model fingerprints are stored in each text version, so different native packages/models can legitimately create a different text version.
+
+Native tools get local temporary PDFs/image stdin, bounded arguments, no shell, scrubbed environment and sanitized output/errors. This is not production OS isolation; see M3 limits. No Python or AI key is needed.
+
+npm run benchmark:documents writes ignored data/m3-benchmark.json; an explicit output argument can record a report. Fixtures are synthetic and checksummed. Fixture regeneration with node scripts/generate-document-fixtures.mjs is a deliberate maintainer action and can change PDF hashes/fonts; ordinary tests never regenerate them.
 
 ## Isolated local services
-Docker Desktop/engine must be running. The checked-in Compose definitions are development-only and loopback-bound. Initialize a new ignored root environment file without overwriting an existing file:
 
-```powershell
-npm run local:init
-npm run local:up
-npm run check:services
-npm run test:integration
-npm run smoke:foundation
-```
+Docker Desktop/engine must be running. npm run local:init creates an ignored random development .env and refuses overwriting it. Then npm run local:up, npm run check:services, npm run test:integration and npm run smoke:foundation.
 
-local:init generates random PostgreSQL/Redis development passwords, no production credentials and no default admin identity. PostgreSQL uses host port 55432, Redis 56379 and LocalStack S3 emulator 54566. PostgreSQL/Redis data use named volumes. The bucket is uttirno-dev-artifacts. LocalStack uses explicitly synthetic test credentials and is never a production S3 provider.
+PostgreSQL uses 55432, Redis 56379 and LocalStack S3 54566, all loopback-bound. The bucket is uttirno-dev-artifacts, with explicitly synthetic credentials. Named volumes persist. Existing native PostgreSQL on 5432 is separate. Changing DATABASE_URL never creates/seeds/copies a database automatically. Schemas/migrations are M4.
 
-Existing PostgreSQL on port 5432 is not touched. To use a pre-provisioned dedicated native development DB, edit DATABASE_URL privately in the root .env, then start only Redis/storage with:
-```powershell
-docker compose --env-file .env -f infra/local/compose.yaml up -d --wait redis storage
-```
-No automatic schema creation, migration or seeding occurs when credentials change. Job schema/migrations belong to M4. The .env.example is a template; REPLACE values are not real credentials.
+npm run local:down stops containers without deleting volumes. No down -v unless deliberately discarding development data. Native PostgreSQL remains independent.
 
-Stop local containers without deleting their volumes: npm run local:down. Do not use down -v unless deliberately discarding development data. Native PostgreSQL is independent.
+## Application and document tools
 
-## Run foundation applications
-Build shared packages first (npm run build:packages), then use npm run dev:api, npm run dev:portal, or npm run dev:admin in separate terminals. API uses the root ignored environment file; portal is on 3000 and admin on 3001. Portal/admin expose a foundation notice only, no job data or administrative mutations. API exposes /health/live and /health/ready only. Readiness checks actual dependencies and returns 503 on failure.
+Build shared packages, then npm run dev:api, dev:portal or dev:admin. API has live/readiness health routes only; both web apps show foundation notices. Portal/admin never import DB/server environment/agent modules.
 
-Agent configuration check: npm run start --workspace @uttirno/agent -- check-config after a build. Worker offers the same check-config command. Neither executes sources/jobs in M1. No LLM key is required. Provider/key/model variables are preparatory validation only; AI extraction is M3.
+[Agent CLI](../apps/agent/README.md) provides source preview/discovery and one-document extraction. Sources remain disabled until legitimate ownership/collection/robots/retention approval. Capture/text files go to the operator-selected private archive root, conventionally data/artifacts (ignored), not db.json. No public file serving. DB metadata/S3 production wiring and purge are later work.
 
-## Environment boundaries
-Server applications load root .env explicitly at startup (injected environment takes precedence); no import-time loading or browser export. Missing/invalid values report variable names without secret values. The root .env is ignored. Public web apps do not import server environment/database packages. Production identity, source policy/user-agent and model processing options are added in their own gated milestones.
+Server startup loads root .env with injected environment taking precedence. Errors expose variable names only. Optional AI variables do not automatically enable an extraction gateway or grant processing permission. No private keys, real credentials or raw production documents in Git.
 
-## CI and limits
-The pinned GitHub Actions workflow mirrors clean install/check/build/services/integration/HTTP smoke and shuts services down. Local execution is measured independently of any remote CI result. M1 smoke tests prove built HTTP responses and dependency connectivity; they do not replace browser accessibility/E2E or production security/restore acceptance.
+## CI and milestone boundary
 
-Stop after the current milestone and report results. M2 requires the user's explicit permission.
+CI performs clean npm ci, native/browser setup, check/build, real isolated services, integrations and HTTP smoke, then shuts services down. Remote CI status is independent evidence checked per commit. Browser accessibility, authenticated E2E, production storage/OS controls, restore and gold-set accuracy remain release gates.
 
-## M2 agent tools
-
-M2 adds source validation and offline onboarding preview; see [agent commands](../apps/agent/README.md) and [adaptation](ADAPTATION.md). Install Chromium for the browser integration checks with `npm exec --workspace @uttirno/agent -- playwright install chromium` (Linux CI includes `--with-deps`). The integration suite uses synthetic browser data and loopback transport fixtures, never live job sites. Source signing keys/approvals are not automatically generated.
-
-M2 is now authorized; after completing it, stop and wait for explicit M3 permission. Earlier M1 commands remain available.
+M3 is complete. Stop before M4 until the user's explicit authorization, even after model/session changes.

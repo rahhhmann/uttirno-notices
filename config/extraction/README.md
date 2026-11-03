@@ -1,0 +1,9 @@
+# Versioned extraction plans
+
+Pass an independently reviewed JSON plan to extract-document. It is data, never executable code. The runtime schema is ExtractionPlanSchema in packages/contracts/src/extraction.ts. No real source plan is approved by this milestone.
+
+A plan has version, positions[{id,ranges[{page,start,end}]}] and rules[{field,label,derivation,absence}]. Pages are one-based; offsets are JavaScript UTF-16 offsets in the exact immutable extracted page text. Ranges must bound complete lines and cannot overlap, including between siblings. Position inventory and applicable footnotes require human review against original documents. Shared text must be attributed explicitly without borrowing another post's conditions.
+
+Rules match a whole line starting with the literal label followed by colon and space. Site-specific labels, aliases and position ranges belong in the versioned plan, not core branches. No generated regular expressions, scripts or inferred title taxonomy. Normalizers are fixed, versioned domain transforms: date DD/MM/YYYY with optional HH:mm and explicitly stated BDT; BDT amounts with optional [category]; age MIN-MAX as of DD/MM/YYYY with optional [category]; literal text; positive/zero integer counts; original application URLs subject to independent approval.
+
+absence defaults to not_extracted. Set not_stated only after verifying that the reviewed document/scope genuinely does not state the field; failure to match a selector/label is not proof of absence. Review binds the entire plan and text hash, not only its version string. Changes need re-review. [Synthetic fixture helper](../../tests/helpers/extraction.ts) demonstrates two positions and all field mappings. Unsupported real layouts require a reviewed adapter/plan, not guessed labels or fabricated facts.

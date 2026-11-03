@@ -4,6 +4,8 @@ import { SignedSourceSchema, SourcePolicyError, type TrustKeys } from '@uttirno/
 import { proposeHtml, validateProposal } from './onboarding/propose.js';
 import { SourceClient } from './fetch/client.js';
 import { discover } from './discovery/crawl.js';
+import { ArtifactArchive } from './documents/archive.js';
+import { acquireJobDocument } from './documents/pipeline.js';
 async function readJson(file: string | undefined): Promise<unknown> {
   return JSON.parse((await readBounded(file)).toString('utf8'));
 }
@@ -27,6 +29,37 @@ async function readBounded(file: string | undefined): Promise<Buffer> {
 }
 async function main() {
   const [command, file, extra, last] = process.argv.slice(2);
+  if (command === 'extract-document') {
+    const root = process.argv[6];
+    const planFile = process.argv[7];
+    if (!file || !extra || !last || !root) throw new Error('MISSING_EXTRACTION_ARGUMENTS');
+    const load = async () => SignedSourceSchema.parse(await readJson(file));
+    const keys = async (): Promise<TrustKeys> => {
+      const input = await readJson(extra);
+      if (
+        !input ||
+        typeof input !== 'object' ||
+        Array.isArray(input) ||
+        Object.values(input).some((v) => typeof v !== 'string')
+      )
+        throw new Error('INVALID_TRUST_KEYS');
+      return input as TrustKeys;
+    };
+    const client = new SourceClient({
+      load,
+      keys,
+      userAgent: 'UttirnoNoticeBot/0.3 (+https://kaizenext.com; contact@kaizenext.com)',
+    });
+    const archive = new ArtifactArchive({ root, load, keys });
+    const result = await acquireJobDocument(
+      client,
+      archive,
+      last,
+      planFile ? await readJson(planFile) : undefined,
+    );
+    console.log(JSON.stringify(result, null, 2));
+    return;
+  }
   if (command === 'check-config') {
     loadServerEnvironment();
     console.log('agent configuration valid; no source requests or jobs executed.');
@@ -97,7 +130,7 @@ async function main() {
     return;
   }
   throw new Error(
-    'USAGE: agent check-config | validate-source FILE | preview SOURCE SNAPSHOT [ADAPTER] | collect SIGNED_SOURCE TRUST_KEYS',
+    'USAGE: agent check-config | validate-source FILE | preview SOURCE SNAPSHOT [ADAPTER] | collect SIGNED_SOURCE TRUST_KEYS | extract-document SOURCE TRUST_KEYS URL ARCHIVE_ROOT [PLAN]',
   );
 }
 main().catch((error) => {

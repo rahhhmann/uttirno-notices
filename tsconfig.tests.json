@@ -12,6 +12,7 @@
     "packages/**/*.test.ts",
     "scripts/**/*.test.ts",
     "scripts/check-services.ts",
+    "scripts/benchmark-documents.ts",
     "tests/integration/**/*.ts",
     "vitest*.ts"
   ],

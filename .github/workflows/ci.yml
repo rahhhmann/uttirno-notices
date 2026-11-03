@@ -17,6 +17,8 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      - name: Install PDF and Bangla/English OCR tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils tesseract-ocr tesseract-ocr-eng tesseract-ocr-ben
       - run: npm exec --workspace @uttirno/agent -- playwright install --with-deps chromium
       - name: Support Chromium sandbox on restricted Ubuntu runners
         run: bash scripts/configure-browser-sandbox-ci.sh

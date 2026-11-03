@@ -3,7 +3,7 @@
 ## Stack decision
 Target: TypeScript across portal/admin/API/agent/worker; Next.js for the two browser apps; Fastify API; PostgreSQL with Drizzle-managed persistence; Redis/BullMQ for jobs; Playwright for necessary public rendering; S3-compatible object storage for permitted artifacts. Use npm workspaces initially to keep tooling lean. Exact maintained, mutually compatible versions must be checked and locked at M1, not guessed here.
 
-PDF text and Bangla/English OCR are capability interfaces. Choose concrete engines through the M3 benchmark, including text layer, fonts, layout, tables, scanned PDFs and sandboxing. If Python/native tooling wins, isolate it behind a document-extraction process/service contract; do not maintain duplicate business rules in two languages.
+M3 selected native Poppler bbox text and Tesseract ben+eng TSV behind a bounded subprocess contract, using synthetic hybrid/OCR-only benchmarks. Binary/model fingerprints and text versions are recorded. Layout/legacy-font/real-source accuracy and production OS isolation remain acceptance gates; see [ADR 0007](decisions/0007-m3-document-extraction.md). Business rules remain in TypeScript domain/contracts, not duplicated in native tools.
 
 Search starts in PostgreSQL with Bangla Unicode/title-alias evaluation. Add a dedicated search service only after measured requirements. No Kubernetes, independent service per pipeline stage, or vector database is required for the first release.
 

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+export * from './extraction.js';
 
 export const EvidenceSchema = z.strictObject({
   sourceId: z.string().min(1),

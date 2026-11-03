@@ -98,6 +98,15 @@ export const SourceConfigSchema = z
       'blocked',
       'revoked',
     ]),
+    retention: z
+      .strictObject({
+        permitted: z.literal(true),
+        evidence: proof,
+        maxDays: z.number().int().min(1).max(3650),
+        expiresAt: z.iso.datetime(),
+      })
+      .optional(),
+    documentExtraction: z.strictObject({ forceOcr: z.boolean() }).optional(),
     policyEvidence: z.array(proof).max(20),
     adapterSamples: z
       .array(

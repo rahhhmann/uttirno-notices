@@ -2,7 +2,7 @@
 
 Agent + public job portal + admin review system for verified official Bangladesh recruiting authorities only.
 
-**বর্তমান অবস্থা:** M1–M4 সম্পন্ন: foundation, source adaptation, document extraction, persistence/revisions এবং durable worker/publication gates। Real sources এখনও unsigned candidates। API/auth, admin UI ও public job features পরবর্তী milestones-এর কাজ; production readiness দাবি করা হচ্ছে না।
+**Current state:** M1-M5 complete: foundations, official-source adaptation, documents/evidence, durable persistence/worker/publication and authenticated public/admin APIs. Real sources remain unsigned disabled candidates. Admin/public feature UIs and production acceptance remain M6-M9.
 
 ## Start here
 
@@ -13,7 +13,7 @@ Agent + public job portal + admin review system for verified official Bangladesh
 5. [Tasks](docs/TASKS.md)
 6. [Status](docs/STATUS.md)
 7. [Working rules](AGENTS.md)
-8. [M4 acceptance and limits](docs/milestones/M4.md)
+8. [M5 acceptance and limits](docs/milestones/M5.md)
 
 ## Components
 

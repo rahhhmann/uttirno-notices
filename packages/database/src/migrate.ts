@@ -1,7 +1,11 @@
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import type { Pool } from 'pg';
-export const migrationNames = ['0001_core.sql', '0002_guards.sql'] as const;
+export const migrationNames = [
+  '0001_core.sql',
+  '0002_guards.sql',
+  '0003_api_identity.sql',
+] as const;
 export function schemaName(value: string): string {
   if (!/^[a-z][a-z0-9_]{0,62}$/.test(value)) throw new Error('INVALID_DATABASE_SCHEMA');
   return value;
@@ -57,5 +61,18 @@ export async function migrate(pool: Pool, schema = 'uttirno', to: number = migra
       .query('SELECT pg_advisory_unlock(hashtextextended($1,0))', [`uttirno-migration:${schema}`])
       .catch(() => {});
     client.release();
+  }
+}
+export async function schemaReady(pool: Pool) {
+  try {
+    const rows = (
+      await pool.query<{ name: string }>('SELECT name FROM schema_migrations ORDER BY name')
+    ).rows;
+    return (
+      rows.length === migrationNames.length &&
+      migrationNames.every((name, index) => rows[index]?.name === name)
+    );
+  } catch {
+    return false;
   }
 }

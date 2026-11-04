@@ -2,17 +2,22 @@ import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { loadServerEnvironment } from '@uttirno/env';
-import { checkDependencies } from '@uttirno/infrastructure';
-import { createApp } from '../apps/api/dist/app.js';
+import { JobsPageSchema } from '@uttirno/contracts';
+import { buildApplication } from '../apps/api/dist/startup.js';
 
 const env = loadServerEnvironment();
-const api = createApp(() => checkDependencies(env));
+const api = await buildApplication(env);
 try {
   const address = await api.listen({ host: '127.0.0.1', port: 0 });
   assert.equal((await fetch(`${address}/health/live`)).status, 200);
   assert.equal((await fetch(`${address}/health/ready`)).status, 200);
-  assert.equal((await fetch(`${address}/v1/jobs`)).status, 404);
-  console.log('Built API HTTP smoke passed: live, real readiness, no fabricated jobs endpoint.');
+  const jobs = await fetch(`${address}/v1/jobs`);
+  assert.equal(jobs.status, 200);
+  JobsPageSchema.parse(await jobs.json());
+  assert.equal((await fetch(`${address}/v1/admin/session`)).status, 401);
+  console.log(
+    'Built API HTTP smoke passed: live, real readiness, approved-only jobs contract, unauthenticated admin denial.',
+  );
 } finally {
   await api.close();
 }

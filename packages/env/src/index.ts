@@ -1,4 +1,5 @@
 import { z } from 'zod';
+export { parseApiEnvironment, type ApiEnvironment } from './api.js';
 import { fileURLToPath } from 'node:url';
 const blankToUndefined = (v: unknown) => (typeof v === 'string' && v.trim() === '' ? undefined : v);
 const optionalText = z.preprocess(blankToUndefined, z.string().trim().min(1).optional());

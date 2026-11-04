@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { parse } from '@babel/parser';
 export const allowedEdges = {
   '@uttirno/contracts': [],
+  '@uttirno/api-client': ['@uttirno/contracts'],
   '@uttirno/domain': ['@uttirno/contracts'],
   '@uttirno/env': [],
   '@uttirno/source-config': [],
@@ -11,8 +12,13 @@ export const allowedEdges = {
   '@uttirno/database': ['@uttirno/contracts', '@uttirno/domain', '@uttirno/source-config'],
   '@uttirno/infrastructure': ['@uttirno/env', '@uttirno/database'],
   '@uttirno/ui': [],
-  '@uttirno/portal': ['@uttirno/ui', '@uttirno/contracts', '@uttirno/domain'],
-  '@uttirno/admin': ['@uttirno/ui', '@uttirno/contracts', '@uttirno/domain'],
+  '@uttirno/portal': [
+    '@uttirno/ui',
+    '@uttirno/contracts',
+    '@uttirno/domain',
+    '@uttirno/api-client',
+  ],
+  '@uttirno/admin': ['@uttirno/ui', '@uttirno/contracts', '@uttirno/domain', '@uttirno/api-client'],
   '@uttirno/api': [
     '@uttirno/env',
     '@uttirno/infrastructure',
@@ -44,7 +50,8 @@ export function importSpecifiers(text, file = 'module.ts') {
   const result = [];
   const source = parse(text, {
     sourceType: 'module',
-    plugins: ['typescript', 'jsx'],
+    plugins:
+      file.endsWith('.tsx') || file.endsWith('.jsx') ? ['typescript', 'jsx'] : ['typescript'],
     sourceFilename: file,
     createImportExpressions: true,
   });
@@ -90,6 +97,7 @@ export function dependencyAllowed(owner, spec) {
       '@uttirno/admin',
       '@uttirno/ui',
       '@uttirno/contracts',
+      '@uttirno/api-client',
       '@uttirno/domain',
     ].includes(owner) &&
     persistencePackages.includes(name)

@@ -1,5 +1,8 @@
 // biome-ignore-all lint/style/noNonNullAssertion: Synthetic records are checked before their IDs are used.
 import { expect, it } from 'vitest';
+import { readFile } from 'node:fs/promises';
+import { PublicReadRepository } from '@uttirno/database';
+import { TaxonomySchema } from '@uttirno/contracts';
 import { m4Context } from '../helpers/m4.js';
 import type { DocumentText } from '@uttirno/contracts';
 function evidence(doc: DocumentText, quote: string) {
@@ -226,6 +229,11 @@ it('R16 approved cancellation is terminal; exam/admit/result events cannot reope
       evidence: evidence(notice.doc, 'Cancellation: SYN-ENG'),
       reason: 'SYNTHETIC cancellation',
     });
+    const publicRead = new PublicReadRepository(
+      c.options,
+      TaxonomySchema.parse(JSON.parse(await readFile('config/taxonomy/search.v1.json', 'utf8'))),
+    );
+    expect(await publicRead.events(f.target)).toBeNull();
     await expect(
       c.events.decide('reviewer', id, 'approved', 'missing original review'),
     ).rejects.toThrow('EVENT_DOCUMENT_REVIEW_REQUIRED');
@@ -240,6 +248,14 @@ it('R16 approved cancellation is terminal; exam/admit/result events cannot reope
         ])
       ).rows[0].recruitment_state,
     ).toBe('cancelled');
+    expect(await publicRead.job(f.target)).toBeNull();
+    expect(await publicRead.events(f.target)).toMatchObject({
+      status: 'cancelled',
+      events: expect.arrayContaining([expect.objectContaining({ kind: 'cancellation' })]),
+    });
+    c.setKeys({});
+    expect(await publicRead.events(f.target)).toBeNull();
+    c.setKeys(c.source.trust);
     expect(await c.publication.publicPositions()).toHaveLength(1);
   } finally {
     await c.close();

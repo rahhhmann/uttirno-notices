@@ -1,30 +1,25 @@
 # Current state
 
-Updated: 2026-11-03.
+Updated: 2026-11-04.
 
 ## Completed
 
-- M0 planning; M1 executable foundations; M2 signed source trust/adaptation; M3 documents and deterministic evidence preflight.
-- M4-T01–T04 persistence/schema/migrations, immutable drafts and reconciliation, scoped lifecycle handling, durable BullMQ/DB execution, reviewed publication/suppression and transactional outbox. [M4 report](milestones/M4.md).
-- 125 unit + 4 original prototype + 28 integration cases passed (157 total). Lint/boundaries/types, all app/package builds and built HTTP smoke passed.
-- M3 Linux CI independently passed for b2e142a. M4 remote CI is separate evidence to check against its pushed commit/run.
+M0-M4 are complete: foundations, official-source trust/adaptation, deterministic document/evidence processing and durable persistence/worker/publication. M4 commit 0d6747a passed remote CI run 41681098242.
 
-## Sources and data
+M5-T01-T03 are complete: approved-only public API/search/cursors/OpenAPI; confidential OIDC, explicit staff roles, opaque sessions/CSRF and audited idempotent admin APIs; typed clients with DB/HTTP contract acceptance. [M5 report](milestones/M5.md), [ADR0009](decisions/0009-m5-api-and-identity.md).
 
-Real checked-in sources remain unsigned candidates; collection/display/retention unresolved. No real approval, source activation, applicant processing or model provider was introduced. Tests use generated identities/keys/notice data inside guarded temporary schemas/queues only.
+129 unit + 4 original prototype + 39 integration cases passed (172 total). Lint/boundaries/strict types, all builds and built API/web HTTP smoke passed. M5 remote CI is independent evidence to verify against the pushed commit/run.
 
-PostgreSQL is canonical for metadata, revisions/reviews/run/checkpoint/outbox state. Original bytes remain in the private local archive; permitted text is immutable and versioned. M4 does not provide production S3 deployment, purge or public downloads. Logical role checks are implemented; authenticated sessions/API and physical production DB credential separation remain M5/M8.
+## Sources and local data
 
-Native PostgreSQL on 5432 is separate. Dedicated local services use 55432/56379/54566 and retained volumes. Root .env remains ignored. Schema migration is an explicit command, not startup/seeding. [Development](DEVELOPMENT.md).
+Real checked-in sources remain unsigned disabled candidates; collection/display/retention unresolved. No live OIDC registration, real staff account, source activation, applicant processing or model provider was introduced. Tests use generated signed OIDC/staff/source fixtures in guarded temporary schemas/queues only.
 
-## Remaining
+PostgreSQL is canonical for metadata, revisions/reviews/run/checkpoint/outbox and identity/session/idempotency state. Original bytes remain private. Schema 0003 was explicitly applied to local development, without seeding. Root .env is ignored; random API secrets and loopback origins were added without replacing credentials. Dedicated services use 55432/56379/54566 with retained volumes; native PostgreSQL 5432 stays separate. [Development](DEVELOPMENT.md).
 
-M5–M9: public/admin APIs and identity, admin review UI, actual job portal features, deployment/operations and legitimate real-source/gold-set acceptance. API still exposes health routes only; portal/admin still show foundation notices.
+## Remaining and approval boundary
 
-## Approval boundary
+M6-M9: admin review UI, actual public portal features, production deployment/operations and legitimate source/gold-set acceptance. Both web apps still show foundation notices. M5 was explicitly authorized and is complete. **STOP before M6.** A model/session change does not authorize it. Next task after explicit approval: M6-T01 in [tasks](TASKS.md).
 
-M4 was explicitly authorized and is complete. STOP before M5. Do not start it after a model/session change without separate user authorization. Next task, after authorization: M5-T01 in [tasks](TASKS.md).
+Generic OIDC is implemented but live issuer registration and staff subjects remain Q05. Physical production DB grants, distributed quotas/proxy topology, cleanup scheduling, production storage/OS isolation, restore and measured SLOs remain later gates. No production completion claim. [M5 limits](milestones/M5.md), [open questions](OPEN_QUESTIONS.md).
 
-## Conditions to preserve
-
-Use the shared-database worker for multi-process acquisition; standalone agent CLI retains its single-broker constraint. No source activation to make a demo pass. Reviewed labelled-line plans and literal event/identity mappings remain the supported grammar; unknown layouts/quality/coverage pause for review. Draft ingestion cannot publish. [M4 limits](milestones/M4.md), [open questions](OPEN_QUESTIONS.md).
+Use shared-database worker for multi-process acquisition. Unknown layouts/quality/coverage pause for review; no source activation to pass a demo. Original language/evidence, explicit unknowns and independent reviewed publication remain mandatory.

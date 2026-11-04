@@ -1,5 +1,5 @@
-# packages
+# Shared packages
 
-Shared code with explicit dependency boundaries. Future workspace manifests are created at M1; these READMEs are contracts, not installed packages.
+Executable workspaces enforce explicit dependency boundaries. Contracts/domain stay independent of UI, transport and persistence libraries. Database alone owns SQL/migrations. API clients depend only on runtime contracts and browser fetch. Server environment, source trust and agent code never enter portal/admin bundles.
 
-Status: planned boundary; implementation pending. See [root plan](../docs/TASKS.md).
+See [structure](../docs/STRUCTURE.md), [API clients](api-client/README.md), [database](database/README.md) and [current status](../docs/STATUS.md). Unimplemented observability/UI feature directories still contain planning contracts; folders alone are not completion evidence.

@@ -10,8 +10,14 @@
     "start": "node dist/main.js"
   },
   "dependencies": {
-    "fastify": "5.12.8",
+    "@fastify/cookie": "11.1.5",
+    "@fastify/rate-limit": "11.2.2",
+    "@fastify/swagger": "9.9.3",
+    "@uttirno/contracts": "0.1.0",
+    "@uttirno/database": "0.1.0",
     "@uttirno/env": "0.1.0",
-    "@uttirno/infrastructure": "0.1.0"
+    "@uttirno/infrastructure": "0.1.0",
+    "fastify": "5.12.8",
+    "openid-client": "6.8.9"
   }
 }

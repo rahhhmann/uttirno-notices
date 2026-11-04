@@ -1,7 +1,7 @@
 // biome-ignore-all lint/style/noNonNullAssertion: Synthetic records and IDs are asserted in each fixture flow.
 import { expect, it } from 'vitest';
 import { randomUUID } from 'node:crypto';
-import { createDatabase, migrate, tablesFor } from '@uttirno/database';
+import { createDatabase, migrate, tablesFor, migrationNames } from '@uttirno/database';
 import { m4Context, integrationEnvironment } from '../helpers/m4.js';
 import { sealText } from '../helpers/extraction.js';
 import { RevisionBundleSchema } from '@uttirno/contracts';
@@ -20,9 +20,18 @@ it('R29 empty -> previous schema -> guarded schema upgrade, data preservation, c
       'INSERT INTO artifacts(sha256,size,media_type,storage_key) VALUES($1,10,$2,$1)',
       ['a'.repeat(64), 'text/plain'],
     );
+    await migrate(db.pool, schema, 2);
+    expect(
+      (await db.pool.query("SELECT to_regclass('admin_sessions') AS name")).rows[0].name,
+    ).toBeNull();
     await Promise.all([migrate(db.pool, schema), migrate(db.pool, schema)]);
+    expect(
+      (await db.pool.query("SELECT to_regclass('admin_sessions') AS name")).rows[0].name,
+    ).not.toBeNull();
     expect((await db.db.select().from(tablesFor(schema).artifacts))[0]?.size).toBe(10);
-    expect((await db.pool.query('SELECT count(*) FROM schema_migrations')).rows[0].count).toBe('2');
+    expect((await db.pool.query('SELECT count(*) FROM schema_migrations')).rows[0].count).toBe(
+      String(migrationNames.length),
+    );
     await expect(db.pool.query('UPDATE artifacts SET size=11')).rejects.toThrow(
       'IMMUTABLE_HISTORY',
     );

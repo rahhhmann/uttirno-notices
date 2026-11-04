@@ -1,4 +1,5 @@
 import { createHash, randomUUID } from 'node:crypto';
+import { AsyncLocalStorage } from 'node:async_hooks';
 import type { Pool, PoolClient } from 'pg';
 import {
   authorizeSource,
@@ -12,14 +13,25 @@ import {
 export const digest = (input: unknown) =>
   createHash('sha256').update(canonical(input)).digest('hex');
 export type DatabaseOptions = { pool: Pool; keys: () => Promise<TrustKeys> };
+const transactions = new AsyncLocalStorage<{ pool: Pool; client: PoolClient }>();
+const authorization = new AsyncLocalStorage<{ actor: string; tokenHash: string }>();
+export function withSessionAuthorization<T>(
+  actor: string,
+  tokenHash: string,
+  action: () => Promise<T>,
+) {
+  return authorization.run({ actor, tokenHash }, action);
+}
 export async function transaction<T>(
   pool: Pool,
   action: (client: PoolClient) => Promise<T>,
 ): Promise<T> {
+  const parent = transactions.getStore();
+  if (parent?.pool === pool) return action(parent.client);
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
-    const result = await action(client);
+    const result = await transactions.run({ pool, client }, () => action(client));
     await client.query('COMMIT');
     return result;
   } catch (error) {
@@ -30,6 +42,17 @@ export async function transaction<T>(
   }
 }
 export async function requireRole(client: PoolClient, actor: string, roles: string[]) {
+  const session = authorization.getStore();
+  if (session) {
+    if (session.actor !== actor) throw new Error('ACTOR_NOT_AUTHORIZED');
+    const active = await client.query(
+      `SELECT 1 FROM admin_sessions s JOIN identity_bindings b ON b.issuer=s.issuer AND b.subject=s.subject
+      WHERE s.token_hash=$1 AND s.actor_id=$2 AND b.actor_id=s.actor_id AND s.revoked_at IS NULL
+      AND s.expires_at>clock_timestamp() AND s.idle_expires_at>clock_timestamp() FOR SHARE OF s,b`,
+      [session.tokenHash, actor],
+    );
+    if (!active.rowCount) throw new Error('SESSION_EXPIRED');
+  }
   const result = await client.query(
     'SELECT 1 FROM admin_roles r JOIN admin_identities i ON i.id=r.actor_id WHERE i.id=$1 AND NOT i.disabled AND r.role=ANY($2::text[]) LIMIT 1 FOR SHARE OF i,r',
     [actor, roles],

@@ -1,0 +1,10 @@
+{
+  "version": "search-v1",
+  "aliases": [
+    { "terms": ["software engineer", "সফটওয়্যার ইঞ্জিনিয়ার", "সফটওয়্যার ইঞ্জিনিয়ার"] },
+    { "terms": ["computer science", "কম্পিউটার বিজ্ঞান", "cse"] }
+  ],
+  "categories": [
+    { "id": "ict", "titleIncludes": ["software", "programmer", "কম্পিউটার", "প্রোগ্রামার", "সফটওয়্যার", "সফটওয়্যার"] }
+  ]
+}

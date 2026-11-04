@@ -11,4 +11,6 @@ Planning decisions accepted for this scaffold; revisit with an ADR when evidence
 - [0007: M3 documents and constrained extraction](0007-m3-document-extraction.md)
 - [0008: M4 persistence and execution](0008-m4-persistence-and-execution.md)
 
+- [0009: M5 API and identity](0009-m5-api-and-identity.md)
+
 Next ADR numbers are sequential. Record context, decision, consequences, status and superseded references. Never change a settled decision silently.

@@ -40,7 +40,7 @@ export function integrationEnvironment() {
     throw new Error('ISOLATED_M4_SERVICES_REQUIRED');
   return env;
 }
-export async function m4Context(overrides: Record<string, unknown> = {}) {
+export async function m4Context(overrides: Record<string, unknown> = {}, registerSource = true) {
   const env = integrationEnvironment(),
     schema = `m4_test_${randomUUID().replaceAll('-', '')}`;
   const database = createDatabase(env.DATABASE_URL, schema);
@@ -98,22 +98,26 @@ export async function m4Context(overrides: Record<string, unknown> = {}) {
       publication = new PublicationRepository(options),
       events = new EventRepository(options),
       outbox = new OutboxRepository(options);
-    await sources.registerAuthority(
-      'approver',
-      'synthetic-authority',
-      'SYNTHETIC authority',
-      source.config.ownershipEvidence,
-    );
-    await sources.register('approver', 'synthetic-authority', source.bundle);
-    const epoch = (
-      await database.pool.query('SELECT control_epoch FROM sources WHERE id=$1', [source.config.id])
-    ).rows[0].control_epoch;
-    await sources.controls('approver', source.config.id, {
-      collectionHalted: false,
-      displayHalted: source.config.display !== 'permitted',
-      reason: 'SYNTHETIC test activation',
-      expectedEpoch: epoch,
-    });
+    if (registerSource) {
+      await sources.registerAuthority(
+        'approver',
+        'synthetic-authority',
+        'SYNTHETIC authority',
+        source.config.ownershipEvidence,
+      );
+      await sources.register('approver', 'synthetic-authority', source.bundle);
+      const epoch = (
+        await database.pool.query('SELECT control_epoch FROM sources WHERE id=$1', [
+          source.config.id,
+        ])
+      ).rows[0].control_epoch;
+      await sources.controls('approver', source.config.id, {
+        collectionHalted: false,
+        displayHalted: source.config.display !== 'permitted',
+        reason: 'SYNTHETIC test activation',
+        expectedEpoch: epoch,
+      });
+    }
     const archive = new ArtifactArchive({
       root,
       load: () => sources.current(source.config.id),

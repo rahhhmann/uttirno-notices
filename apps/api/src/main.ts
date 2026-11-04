@@ -1,11 +1,10 @@
 import { loadServerEnvironment } from '@uttirno/env';
-import { checkDependencies } from '@uttirno/infrastructure';
-import { createApp } from './app.js';
+import { buildApplication } from './startup.js';
 const env = loadServerEnvironment();
-const app = createApp(() => checkDependencies(env));
+const app = await buildApplication(env);
 for (const signal of ['SIGINT', 'SIGTERM'] as const)
   process.once(signal, () => {
     void app.close();
   });
 await app.listen({ host: env.HOST, port: env.PORT });
-console.log('Uttirno API foundation listening on configured host/port.');
+console.log('Uttirno API listening on configured host/port.');

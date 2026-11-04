@@ -262,4 +262,49 @@ export class PublicationRepository {
       return result;
     });
   }
+  async suppress(
+    actor: string,
+    positionId: string,
+    expectedRevision: string,
+    expectedGeneration: number,
+    reason: string,
+  ) {
+    if (!reason.trim()) throw new Error('REASON_REQUIRED');
+    await transaction(this.options.pool, async (c) => {
+      await requireRole(c, actor, ['reviewer', 'administrator']);
+      const initial = (
+        await c.query(
+          'SELECT p.*,r.source_id,r.circular_id FROM published_positions p JOIN circular_revisions r ON r.id=p.circular_revision_id WHERE p.position_id=$1',
+          [positionId],
+        )
+      ).rows[0];
+      if (!initial) throw new Error('POSITION_NOT_PUBLISHED');
+      await c.query('SELECT id FROM sources WHERE id=$1 FOR UPDATE', [initial.source_id]);
+      const circular = (
+        await c.query('SELECT generation FROM circulars WHERE id=$1 FOR UPDATE', [
+          initial.circular_id,
+        ])
+      ).rows[0];
+      const current = (
+        await c.query('SELECT * FROM published_positions WHERE position_id=$1 FOR UPDATE', [
+          positionId,
+        ])
+      ).rows[0];
+      if (circular.generation !== expectedGeneration || current.revision_id !== expectedRevision)
+        throw new Error('STALE_REVIEW');
+      await c.query(
+        "INSERT INTO review_actions(id,circular_revision_id,actor_id,action,reason,expected_generation) VALUES($1,$2,$3,'suppressed',$4,$5)",
+        [randomUUID(), initial.circular_revision_id, actor, reason, expectedGeneration],
+      );
+      await c.query(
+        'UPDATE published_positions SET suppressed=true,reason=$2 WHERE position_id=$1',
+        [positionId, reason],
+      );
+      await audit(c, actor, 'position_suppressed', positionId, { expectedRevision, reason });
+      await c.query(
+        "INSERT INTO outbox_events(id,dedupe_key,topic,payload) VALUES($1,$2,'suppression',$3)",
+        [randomUUID(), `manual-suppression:${randomUUID()}`, JSON.stringify({ positionId })],
+      );
+    });
+  }
 }

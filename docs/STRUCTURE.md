@@ -13,7 +13,7 @@ TypeScript monorepo with separately deployable applications and shared domain/co
     admin/            # internal Next.js web application
       src/{app,features,components,lib}/
     api/              # Fastify HTTP service
-      src/{modules,plugins}/
+      src/{auth,routes,modules,plugins}/
     agent/            # collection/extraction/onboarding runtime + CLI
       src/{onboarding,discovery,fetch,adapters,documents,extraction,verification,reconciliation}/
     worker/           # scheduled/queued execution
@@ -21,9 +21,10 @@ TypeScript monorepo with separately deployable applications and shared domain/co
   packages/
     domain/           # entities, lifecycle and publication rules
     contracts/        # runtime schemas, API schemas, queue payloads
+    api-client/       # browser-safe typed public/admin clients
     env/              # server-only runtime configuration and safe validation
     infrastructure/   # reusable dependency readiness clients
-    database/         # schema, repositories, migrations, synthetic seeds
+    database/         # schema, repositories, migrations; no automatic seeds
     source-config/    # registry/config validation and versioned loading
     llm/              # provider interface, prompts and constrained output
     observability/    # logging, metrics and tracing
@@ -51,9 +52,11 @@ TypeScript monorepo with separately deployable applications and shared domain/co
 M1 adds executable foundations only. Unimplemented feature directories retain their README contracts. Do not add fake endpoints, empty exports, generated migrations or placeholder passing checks to make the repository appear complete.
 
 ## Placement
+
 Feature code stays in its application module. Unit tests live next to their future implementation as *.test.ts. Cross-service integration, browser journeys and labelled extraction evaluation live under tests. Only the database package owns DB schema/repositories/migrations. Browser apps depend on contracts/domain-safe utilities and API clients, never database/agent code.
 
 New source configuration lives under config/sources, not in a core switch statement. Generic adapter types are table/list/card/detail/PDF/public-JSON. Do not create packages named after individual employers.
 
 ## Explicit migration
+
 The original src/test/evidence/examples and source registry are now under research/prototype with working relative imports. Current research documents remain linked. Prototype tests remain research regressions, not production extraction acceptance.

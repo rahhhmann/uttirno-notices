@@ -56,7 +56,7 @@ export async function buildApplication(
         health.database = health.database && (await schemaReady(database.pool));
         return health;
       },
-      { env, database: options, taxonomy },
+      { env, database: options, taxonomy, ...(typeof input.PRIVATE_ARCHIVE_ROOT==='string'&&input.PRIVATE_ARCHIVE_ROOT?{archiveRoot:input.PRIVATE_ARCHIVE_ROOT}:{}) },
     );
     app.addHook('onClose', () => database.close());
     return app;

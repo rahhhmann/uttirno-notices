@@ -118,7 +118,12 @@ export async function m4Context(overrides: Record<string, unknown> = {}, registe
         expectedEpoch: epoch,
       });
     }
+    // Fixture receipts use the canonical DB clock, avoiding host/VM millisecond skew without relaxing production retention checks.
+    let archiveNow = (await database.pool.query<{ now: Date }>('SELECT clock_timestamp() AS now'))
+      .rows[0]?.now;
+    if (!archiveNow) throw new Error('SYNTHETIC_CLOCK_REQUIRED');
     const archive = new ArtifactArchive({
+      now: () => archiveNow ?? new Date(0),
       root,
       load: () => sources.current(source.config.id),
       keys: options.keys,
@@ -127,13 +132,15 @@ export async function m4Context(overrides: Record<string, unknown> = {}, registe
     async function makeDocument(
       changes: {
         memo?: boolean;
+        memoValue?: string;
+        ocrMistake?: boolean;
         postCode?: boolean;
         note?: string;
         deadline?: string;
         apply?: string;
       } = {},
     ) {
-      const header = `${changes.memo === false ? 'SYNTHETIC unlabelled notice' : 'Memo: SYN-2026-001'}\n${changes.note ? `${changes.note}\n` : ''}`;
+      const header = `${changes.memo === false ? 'SYNTHETIC unlabelled notice' : `Memo: ${changes.memoValue ?? 'SYN-2026-001'}`}\n${changes.note ? `${changes.note}\n` : ''}`;
       const first = [
         syntheticLines[0],
         ...(changes.postCode === false ? [] : ['Post code: SYN-ENG']),
@@ -148,7 +155,15 @@ export async function m4Context(overrides: Record<string, unknown> = {}, registe
         .replace('SYN-ENG', 'SYN-ANA')
         .replace('BSc CSE', 'MSc Statistics');
       const content = `${header}${first}\n${second}`;
+      archiveNow = (await database.pool.query<{ now: Date }>('SELECT clock_timestamp() AS now'))
+        .rows[0]?.now;
+      if (!archiveNow) throw new Error('SYNTHETIC_CLOCK_REQUIRED');
       const capture = await archive.capture(Buffer.from(content), url, 'text/plain');
+      // SYNTHETIC faulty OCR: retained original is unchanged; independent human page review must reject the text error.
+      const extractedFirst = changes.ocrMistake
+        ? first.replace('BSc CSE', 'SYNTHETIC wrong sibling qualification')
+        : first;
+      const extractedContent = `${header}${extractedFirst}\n${second}`;
       const doc = sealText({
         schemaVersion: 1,
         sourceId: source.config.id,
@@ -156,7 +171,15 @@ export async function m4Context(overrides: Record<string, unknown> = {}, registe
         artifactSha256: capture.sha256,
         engine: 'SYNTHETIC-m4-v1',
         pages: [
-          { page: 1, width: 600, height: 900, method: 'text', text: content, words: [], flags: [] },
+          {
+            page: 1,
+            width: 600,
+            height: 900,
+            method: changes.ocrMistake ? 'ocr' : 'text',
+            text: extractedContent,
+            words: [],
+            flags: changes.ocrMistake ? ['ocr_review'] : [],
+          },
         ],
       });
       await archive.storeText(capture.captureId, doc);
@@ -165,11 +188,17 @@ export async function m4Context(overrides: Record<string, unknown> = {}, registe
       plan.positions = [
         {
           id: 'engineer',
-          ranges: [{ page: 1, start: header.length, end: header.length + first.length }],
+          ranges: [{ page: 1, start: header.length, end: header.length + extractedFirst.length }],
         },
         {
           id: 'analyst',
-          ranges: [{ page: 1, start: header.length + first.length + 1, end: content.length }],
+          ranges: [
+            {
+              page: 1,
+              start: header.length + extractedFirst.length + 1,
+              end: extractedContent.length,
+            },
+          ],
         },
       ];
       const bundle = RevisionBundleSchema.parse({

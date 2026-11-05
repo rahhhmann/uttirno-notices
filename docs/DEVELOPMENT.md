@@ -26,7 +26,7 @@ npm run local:down stops containers without deleting volumes. No down -v unless 
 
 ## Application and document tools
 
-Build shared packages, then npm run dev:api, dev:portal or dev:admin. API implements public/admin M5 routes; both web apps still show foundation notices. Portal/admin never import DB/server environment/agent modules.
+Build shared packages, then npm run dev:api, dev:portal or dev:admin. API implements public/admin routes and the staff console has M6 workflows; the public portal remains a foundation until M7. Portal/admin never import DB/server environment/agent modules.
 
 [Agent CLI](../apps/agent/README.md) provides source preview/discovery and one-document extraction. Sources remain disabled until legitimate ownership/collection/robots/retention approval. Capture/text files go to the operator-selected private archive root, conventionally data/artifacts (ignored), not db.json. M4 stores immutable metadata/text/revisions in PostgreSQL. No public file serving; production S3 deployment and purge remain later gates.
 
@@ -36,7 +36,7 @@ Server startup loads root .env with injected environment taking precedence. Erro
 
 CI performs clean npm ci, native/browser setup, check/build, real isolated services, integrations and HTTP smoke, then shuts services down. Remote CI status is independent evidence checked per commit. Browser accessibility, authenticated E2E, production storage/OS controls, restore and gold-set accuracy remain release gates.
 
-M5 is authorized. Stop before M6 until the user's explicit authorization, even after model/session changes.
+M6 is authorized. Stop before M7 until the user's explicit authorization, even after model/session changes.
 
 ## M4 schema and worker
 
@@ -55,3 +55,7 @@ Public API uses configured external source public trust keys; missing dev keys r
 For real OIDC, set AUTH_ISSUER, AUTH_CLIENT_ID, AUTH_CLIENT_SECRET, AUTH_REDIRECT_URI (API_PUBLIC_ORIGIN plus /v1/admin/auth/callback), AUTH_ALLOWED_ORIGINS (exact issuer/token/JWKS origins) and random 32-byte hex AUTH_STATE_KEY. Register the fixed callback with a confidential RS256 provider. Production requires HTTPS origins and complete OIDC/trust configuration. Loopback test providers alone may use AUTH_ALLOW_HTTP_LOOPBACK=true outside production. Never paste credentials into chat.
 
 The owner-operated npm run identity:bootstrap -- <private-json-path> explicitly binds actorId, issuer, subject, roles (including administrator) and reason when no administrator exists. Use a protected file outside Git, verify subject with the real provider and remove it under the owner's retention policy. The command does not invent identities; do not run against production accidentally. Subsequent bindings/role updates require administrator API authorization. No live provider or accounts were configured during M5.
+
+## M6 staff console
+
+Build the admin app before npm run test:admin; isolated services/native tools/Chromium must be available. CI now runs this real browser suite after integration tests. Export ADMIN_API_ORIGIN into the Next server (default http://127.0.0.1:4000); optional ADMIN_HOME_URL/ADMIN_BRAND_NAME customize the host identity. The Next application does not auto-load the root API .env. Configure API ADMIN_ORIGIN/OIDC callback for the intended external browser URL. Set PRIVATE_ARCHIVE_ROOT in API runtime to the worker archive root for retained original views/downloads; mount it read-only in deployment. Never point it at an arbitrary shared user folder. No credentials or source activation are seeded. [Admin runbook](../apps/admin/README.md), [lead handoff](ADMIN_HANDOFF.md). M6 is authorized; stop before M7.

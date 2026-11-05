@@ -6,4 +6,5 @@ export type ApiOptions = {
   database: DatabaseOptions;
   taxonomy: Taxonomy;
   rateLimitMax?: number;
+  archiveRoot?: string;
 };

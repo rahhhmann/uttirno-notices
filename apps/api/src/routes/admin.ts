@@ -24,11 +24,21 @@ import {
   RoleSchema,
   ReasonSchema,
   HashSchema,
+  SourceAssessmentSchema,
+  SourcePreviewBodySchema,
+  AuthorityRegistrationSchema,
+  AdminCaseSchema,
+  ReviewContextSchema,
+  OriginalDocumentSchema,
   type Role,
 } from '@uttirno/contracts';
 import { ApiErrorSchema } from '@uttirno/contracts';
 import type { createAuth } from '../auth/session.js';
 import type { CursorCodec } from '../cursor.js';
+import { previewSource } from '../source-preview.js';
+import { readOriginal } from '../original.js';
+import { SignedSourceSchema } from '@uttirno/source-config';
+import { renderOriginalPng } from '@uttirno/agent/document-review';
 type Auth = ReturnType<typeof createAuth>;
 const readers: Role[] = ['operator', 'reviewer', 'source_approver', 'administrator'];
 const roles = {
@@ -43,6 +53,8 @@ export function registerAdmin(
   options: DatabaseOptions,
   auth: Auth,
   cursor: CursorCodec,
+  archiveRoot?: string,
+  checkHealth?: () => Promise<{ database: boolean; redis: boolean; storage: boolean }>,
 ) {
   const source = new SourceRepository(options),
     revision = new RevisionRepository(options),
@@ -99,6 +111,151 @@ export function registerAdmin(
       },
     );
   }
+  app.get('/v1/admin/health', { schema: { tags: ['admin'] } }, async (request) =>
+    get(request, readers, async () => {
+      if (!checkHealth) throw new Error('HEALTH_UNAVAILABLE');
+      const dependencies = await checkHealth();
+      return {
+        checkedAt: new Date().toISOString(),
+        ready: Object.values(dependencies).every(Boolean),
+        dependencies,
+      };
+    }),
+  );
+  const notFound = (request: FastifyRequest, reply: import('fastify').FastifyReply) =>
+    reply
+      .code(404)
+      .send({ error: { code: 'NOT_FOUND', message: 'Record not found.', requestId: request.id } });
+  post('/v1/admin/source-preview', SourcePreviewBodySchema, roles.approver, async (_actor, body) =>
+    previewSource(body),
+  );
+  app.get(
+    '/v1/admin/sources/:id/assessment',
+    {
+      schema: {
+        tags: ['admin'],
+        response: { 200: z.toJSONSchema(SourceAssessmentSchema, { target: 'draft-7' }) },
+      },
+    },
+    async (request, reply) => {
+      const result = await get(request, readers, (actor) =>
+        read.assessment(actor, sourceId(request)),
+      );
+      return result ?? notFound(request, reply);
+    },
+  );
+  app.get(
+    '/v1/admin/revisions/:id/context',
+    {
+      schema: {
+        tags: ['admin'],
+        response: { 200: z.toJSONSchema(ReviewContextSchema, { target: 'draft-7' }) },
+      },
+    },
+    async (request, reply) => {
+      const result = await get(request, roles.reviewer, (actor) =>
+        read.context(actor, id(request)),
+      );
+      return result ?? notFound(request, reply);
+    },
+  );
+  for (const kind of ['duplicate', 'event'] as const)
+    app.get(
+      `/v1/admin/${kind === 'duplicate' ? 'duplicates' : 'events'}/:id`,
+      {
+        schema: {
+          tags: ['admin'],
+          response: { 200: z.toJSONSchema(AdminCaseSchema, { target: 'draft-7' }) },
+        },
+      },
+      async (request, reply) => {
+        const result = await get(request, roles.reviewer, (actor) =>
+          read.case(actor, kind, id(request)),
+        );
+        return result ?? notFound(request, reply);
+      },
+    );
+  app.get(
+    '/v1/admin/documents/:id/original-text',
+    { schema: { tags: ['admin'] } },
+    async (request, reply) => {
+      const version = z.strictObject({ id: HashSchema }).parse(request.params).id;
+      const meta = await get(request, readers, (actor) => read.original(actor, version));
+      if (!meta) return notFound(request, reply);
+      if (!archiveRoot) throw new Error('ARCHIVE_NOT_CONFIGURED');
+      if (!['text/plain', 'text/html'].includes(meta.mediaType))
+        throw new Error('INVALID_TEXT_PREVIEW_TYPE');
+      const bytes = await readOriginal(archiveRoot, meta.sha256, meta.size),
+        text = bytes.toString('utf8');
+      return { text: text.slice(0, 262144), truncated: text.length > 262144 };
+    },
+  );
+  app.get(
+    '/v1/admin/documents/:id/pages/:page',
+    { schema: { tags: ['admin'] } },
+    async (request, reply) => {
+      const { id: version, page } = z
+        .strictObject({ id: HashSchema, page: z.coerce.number().int().min(1).max(100) })
+        .parse(request.params);
+      const document = await get(request, readers, (actor) => read.document(actor, version));
+      if (!document?.pages.some((p) => p.page === page)) return notFound(request, reply);
+      const meta = await get(request, readers, (actor) => read.original(actor, version));
+      if (!meta) return notFound(request, reply);
+      if (!archiveRoot) throw new Error('ARCHIVE_NOT_CONFIGURED');
+      if (meta.mediaType !== 'application/pdf') throw new Error('INVALID_PDF_PREVIEW_TYPE');
+      const png = await renderOriginalPng(
+        await readOriginal(archiveRoot, meta.sha256, meta.size),
+        page,
+      );
+      return reply
+        .type('image/png')
+        .header('Cross-Origin-Resource-Policy', 'same-origin')
+        .send(png);
+    },
+  );
+  app.get(
+    '/v1/admin/documents/:id/original-info',
+    {
+      schema: {
+        tags: ['admin'],
+        response: { 200: z.toJSONSchema(OriginalDocumentSchema, { target: 'draft-7' }) },
+      },
+    },
+    async (request, reply) => {
+      const version = z.strictObject({ id: HashSchema }).parse(request.params).id;
+      const result = await get(request, readers, (actor) => read.original(actor, version));
+      return result ?? notFound(request, reply);
+    },
+  );
+  app.get(
+    '/v1/admin/documents/:id/original',
+    { schema: { tags: ['admin'] } },
+    async (request, reply) => {
+      const version = z.strictObject({ id: HashSchema }).parse(request.params).id;
+      const result = await get(request, readers, (actor) => read.original(actor, version));
+      if (!result) return notFound(request, reply);
+      if (!archiveRoot) throw new Error('ARCHIVE_NOT_CONFIGURED');
+      const bytes = await readOriginal(archiveRoot, result.sha256, result.size);
+      // Remote HTML/PDF never executes in the staff application's origin.
+      return reply
+        .type('application/octet-stream')
+        .header(
+          'Content-Disposition',
+          `attachment; filename="notice-${result.sha256}.${result.mediaType === 'application/pdf' ? 'pdf' : 'txt'}"`,
+        )
+        .send(bytes);
+    },
+  );
+  post('/v1/admin/sources/:id/canary', ScheduleBodySchema, roles.operator, async (actor, b, r) => {
+    const bundle = SignedSourceSchema.parse(await source.current(sourceId(r)));
+    if (
+      bundle.config.limits.maxPages !== 1 ||
+      bundle.config.limits.maxRequests > 5 ||
+      bundle.config.limits.maxTotalBytes > 2097152
+    )
+      throw new Error('SOURCE_CANARY_LIMITS_REQUIRED');
+    return { runId: await source.schedule(actor, sourceId(r), b.reason, 'canary') };
+  });
   for (const resource of [
     'sources',
     'runs',
@@ -172,18 +329,8 @@ export function registerAdmin(
       });
     return result;
   });
-  post(
-    '/v1/admin/authorities',
-    z.strictObject({
-      id: z.string().min(1).max(100),
-      name: z.string().min(1).max(1000),
-      evidence: z
-        .array(z.strictObject({ url: z.string().url(), note: z.string().min(1).max(1000) }))
-        .min(1)
-        .max(20),
-    }),
-    roles.approver,
-    (actor, b) => source.registerAuthority(actor, b.id, b.name, b.evidence),
+  post('/v1/admin/authorities', AuthorityRegistrationSchema, roles.approver, (actor, b) =>
+    source.registerAuthority(actor, b.id, b.name, b.evidence),
   );
   post('/v1/admin/sources', SourceRegistrationSchema, roles.approver, async (actor, b) => ({
     fingerprint: await source.register(actor, b.authorityId, b.bundle),

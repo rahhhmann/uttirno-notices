@@ -25,3 +25,9 @@ All mutations require an authenticated authorized session, exact configured Orig
 ## Errors and limits
 
 Errors are {error:{code,message,requestId}} without source HTML, provider tokens, SQL or stack traces. Invalid schemas return 400; unauthenticated 401; forbidden/origin/CSRF 403 (missing required headers 400); unknown public IDs 404; stale review/idempotency/last-admin conflicts 409; body limit 413; policy/evidence rejection 422; rate limit 429; unavailable dependencies 503. Bodies max 2 MiB, pages max 50, process-local IP quota 120/minute, cursor lifetime 15 minutes. Sessions idle after 15 minutes and absolutely expire after eight hours. API responses use no-store, nosniff and exact credentialed admin CORS; clients cap public/private response sizes. Production proxy/distributed quotas and measured SLOs remain M8.
+
+## M6 staff extensions
+
+GET auth/status exposes provider availability only. GET health is authenticated real dependency readiness. GET sources/:id/assessment returns separate signed-policy eligibility, pause controls, epoch and version history. POST source-preview evaluates an uploaded bounded sample offline and always returns needs_review. POST sources/:id/canary requires signed one-page/five-request/two-MiB limits and current collection access.
+
+GET revisions/:id/context adds current generation, decision/history, pending events and canonical positions. GET duplicates/:id and events/:id return reviewer-only scoped evidence/documents. GET documents/:version/original-info returns permitted capture metadata; original is an attachment with hash verification; original-text is a literal bounded UTF-8 preview with explicit truncation; pages/:page returns a bounded PNG from the retained PDF. Every read uses live session/role and source/retention gates; no arbitrary path, external fetch or active HTML/PDF execution is exposed. PRIVATE_ARCHIVE_ROOT is an explicit private read-only deployment dependency.

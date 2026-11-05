@@ -1,6 +1,6 @@
 # Dependency-ordered implementation plan
 
-State: M0-M5 are complete. M5 was explicitly authorized on 2026-11-04 and passed acceptance verification. STOP before M6; separate explicit user authorization is required. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
+State: M0-M6 are complete. M6 was explicitly authorized on 2026-11-05 and passed acceptance verification. STOP before M7; separate explicit user authorization is required. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
 
 ## M0 — Specification and scaffold
 
@@ -43,9 +43,9 @@ State: M0-M5 are complete. M5 was explicitly authorized on 2026-11-04 and passed
 
 ## M6 — Admin interface
 
-- [ ] M6-T01: Source onboarding/sample/config/policy review, canary/enable/pause controls. Depends M5. Acceptance: unsupported source cannot be activated; accessible real state transitions. R02/R06/R18.
-- [ ] M6-T02: Position/evidence/document/conflict review, duplicates and revision publication. Depends T01. Acceptance: reviewer compares original page, rejects mismatch and publishes a correct revision. R13/R15/R17.
-- [ ] M6-T03: Health/run/audit screens, expiry and drift actions. Depends T01/T02. Acceptance: failure replay and critical amendment flows; admin E2E tests. R18/R22/R24.
+- [x] M6-T01: Source onboarding/sample/config/policy review, canary/enable/pause controls. Depends M5. Acceptance: unsupported source cannot be activated; accessible real state transitions. R02/R06/R18.
+- [x] M6-T02: Position/evidence/document/conflict review, duplicates and revision publication. Depends T01. Acceptance: reviewer compares original page, rejects mismatch and publishes a correct revision. R13/R15/R17.
+- [x] M6-T03: Health/run/audit screens, expiry and drift actions. Depends T01/T02. Acceptance: failure replay and critical amendment flows; admin E2E tests. R18/R22/R24.
 
 ## M7 — Public portal
 
@@ -88,4 +88,8 @@ M4-T01 (R08/R15/R29), M4-T02 (R15/R16), M4-T03 (R04/R21/R22) and M4-T04 (R07/R13
 
 ## M5 completion evidence
 
-M5-T01 (R19/R20), M5-T02 (R18/R23/R26) and M5-T03 (typed clients/DB-backed contract acceptance) completed. [M5 report](milestones/M5.md) records actual test/build/migration/smoke evidence, the generic OIDC decision and live-provider/source/production limits. STOP before M6; separate explicit authorization is required.
+M5-T01 (R19/R20), M5-T02 (R18/R23/R26) and M5-T03 (typed clients/DB-backed contract acceptance) completed. [M5 report](milestones/M5.md) records actual test/build/migration/smoke evidence, the generic OIDC decision and live-provider/source/production limits. M6 was subsequently explicitly authorized; see its completion record below.
+
+## M6 completion evidence
+
+M6-T01 (R02/R06/R18), M6-T02 (R13/R15/R17) and M6-T03 (R18/R22/R24/R26) completed. [M6 acceptance](milestones/M6.md) records implementation, actual API/DB/native/browser checks, 185 passing cases, setup/handoff decisions and observed limits. STOP before M7; it requires separate explicit authorization.

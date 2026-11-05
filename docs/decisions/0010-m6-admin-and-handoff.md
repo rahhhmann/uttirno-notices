@@ -1,0 +1,21 @@
+# ADR 0010: M6 admin console and host integration boundary
+
+Status: accepted, 2026-11-05. R02/R06/R13/R15/R17/R18/R22/R24/R26. Extends ADR0009 and incorporates the [Uttirno integration research](../research/uttirno-integration-review-2026-11-05.md).
+
+## Decision
+
+Build the independent Next.js staff console on typed API clients. The console never imports database, acquisition or signing clients. Its server-only /v1/admin gateway forwards only to a configured exact API origin, with bounded body/time, no-store and a small header allowlist. Only staff cookie names cross the gateway; unrelated Uttirno consumer cookies do not. The API's fixed configured Origin and CSRF/session/DB roles remain authoritative. Never infer the public Origin from Next's internal request URL behind a proxy. Never cache authenticated responses or store staff tokens/forms in localStorage. Only a non-sensitive theme preference is persisted.
+
+Use a configurable wordmark/home URL and local CSS tokens inspired by the observed Uttirno visual identity; no invented official logo or main-app connection. The public job portal, consumer identity/entitlements and job-to-preparation mapping remain M7 or explicitly added scope. Handoff can preserve these services while the lead wires the actual Uttirno hosting/router/assets.
+
+Source onboarding previews bounded uploaded HTML/JSON offline in a time/memory/output-limited worker using the existing adapter. A matching preview stays needs_review. Register versioned candidates or externally signed active configs; existing source trust/ownership/collection/display/retention gates decide eligibility. No in-app signing key or automatic source trust exists. Collection/display pauses remain independent and generation-fenced. Canary scheduling requires a signed one-page/five-request/two-MiB budget and currently allowed collection. Run it against a legitimately reviewed narrow seed; pagination/inventory failures stay failures. Register and review a wider signed version separately before normal collection.
+
+Review immutable fields, normalized values, unknowns/conflicts, page offsets, original hashes/inventory and review history. For retained originals, recheck staff access/current source policy/retention/capture, resolve only a DB-owned SHA-256 under the private archive and verify bytes. Original text/HTML is rendered as literal bounded text; PDFs render one page to a bounded PNG through the M3 argv-only Poppler boundary (two concurrent requests/process, max edge 1400, max PNG eight MiB). Never execute remote HTML or embed an active PDF in the staff origin. Full original downloads are attachments. Flagged pages and supporting documents require explicit independent human review; no automatic checkbox completion. Missing/truncated/failed originals cannot be interpreted as verification. OS-level parser isolation remains M8.
+
+Approval/rejection, duplicate identity resolution, scoped event resolution, suppression/restore and reruns retain API idempotency, independent creator/reviewer, current revision/generation and source/evidence gates. A stale browser tab gets a conflict. The UI retains the same idempotency key for identical failed retries and clears private screens on session failure. Operations displays real persisted states and authenticated dependency checks, not invented worker uptime/counts.
+
+## Consequences and deployment prerequisites
+
+No new database migration or seeded production identities/sources are needed. Configure ADMIN_API_ORIGIN for the Next server, approved ADMIN_HOME_URL/ADMIN_BRAND_NAME, the API's ADMIN_ORIGIN and fixed OIDC callback, plus PRIVATE_ARCHIVE_ROOT as the worker's same read-only archive mount. Do not forward consumer account credentials to the notice service. A live provider/staff binding, host DNS/proxy/TLS, physical DB grants, distributed quotas, monitoring/restore and real-source/gold-set acceptance remain M8/M9 gates. Local cross-port development must consistently use 127.0.0.1; production Host cookies require the chosen staff public origin.
+
+Automated axe checks and selected keyboard/mobile journeys are bounded evidence, not full WCAG certification or a complete manual accessibility audit. The main Uttirno site has not been modified or integrated by M6.

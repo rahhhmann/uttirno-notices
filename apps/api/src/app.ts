@@ -47,7 +47,9 @@ export function createApp(check: () => Promise<DependencyHealth>, options?: ApiO
       }
       const authenticated =
         route.url.startsWith('/v1/admin') &&
-        !['/v1/admin/auth/login', '/v1/admin/auth/callback'].includes(route.url);
+        !['/v1/admin/auth/login', '/v1/admin/auth/callback', '/v1/admin/auth/status'].includes(
+          route.url,
+        );
       route.schema = { ...route.schema, security: authenticated ? [{ adminCookie: [] }] : [] };
       route.schema.response = {
         ...Object.fromEntries(
@@ -183,7 +185,7 @@ export function createApp(check: () => Promise<DependencyHealth>, options?: ApiO
         cursor = new CursorCodec(options.env.API_CURSOR_SECRET);
       registerPublic(api, options.database, options.taxonomy, cursor);
       auth.register(api);
-      registerAdmin(api, options.database, auth, cursor);
+      registerAdmin(api, options.database, auth, cursor, options.archiveRoot, check);
     } else
       api.get('/v1/jobs', async () => {
         throw new AuthError('API_NOT_CONFIGURED', 503);

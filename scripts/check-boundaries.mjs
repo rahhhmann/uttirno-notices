@@ -20,6 +20,8 @@ export const allowedEdges = {
   ],
   '@uttirno/admin': ['@uttirno/ui', '@uttirno/contracts', '@uttirno/domain', '@uttirno/api-client'],
   '@uttirno/api': [
+    '@uttirno/agent',
+    '@uttirno/source-config',
     '@uttirno/env',
     '@uttirno/infrastructure',
     '@uttirno/database',

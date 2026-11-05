@@ -24,7 +24,7 @@ async function smokeWeb() {
     const response = await fetch(`http://127.0.0.1:${address.port}`);
     assert.equal(response.status, 200);
     assert.ok((await response.text()).includes(title), `Missing ${name} title`);
-    console.log(`Built ${name} HTTP smoke passed with Bangla foundation notice.`);
+    console.log(`Built ${name} HTTP smoke passed with the expected Bangla application heading.`);
   } finally {
     server.closeAllConnections();
     await new Promise((resolve) => server.close(resolve));

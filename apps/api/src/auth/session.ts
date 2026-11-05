@@ -96,6 +96,7 @@ export function createAuth(options: DatabaseOptions, env: ApiEnvironment) {
       throw new AuthError('CSRF_REJECTED', 403);
   }
   function register(app: FastifyInstance) {
+    app.get('/v1/admin/auth/status', async () => ({ configured: Boolean(provider) }));
     app.get('/v1/admin/auth/login', async (_request, reply) => {
       if (!provider) throw new AuthError('AUTH_NOT_CONFIGURED', 503);
       try {

@@ -29,6 +29,7 @@ jobs:
       - run: npm run db:migrate
       - run: npm run check:services
       - run: npm run test:integration
+      - run: npm run test:admin
       - run: npm run smoke:foundation
       - if: always()
         run: docker compose --env-file .env -f infra/local/compose.yaml down

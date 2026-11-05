@@ -1,4 +1,4 @@
-﻿import { it, expect } from 'vitest';
+﻿import { it, expect, vi } from 'vitest';
 import { PublicApiClient } from './index.js';
 it('R19 clients validate DTOs and redact invalid upstream error contents', async () => {
   const invalid = new PublicApiClient({
@@ -15,4 +15,19 @@ it('R19 clients validate DTOs and redact invalid upstream error contents', async
   expect(() => new PublicApiClient({ baseUrl: 'http://evil.example' })).toThrow(
     'INVALID_API_ORIGIN',
   );
+});
+
+it('M6 default browser fetch retains the global receiver', async () => {
+  const spy = vi.spyOn(globalThis, 'fetch').mockImplementation(function (this: typeof globalThis) {
+    expect(this).toBe(globalThis);
+    return Promise.resolve(
+      Response.json({ items: [], nextCursor: null, asOf: new Date().toISOString() }),
+    );
+  });
+  try {
+    const client = new PublicApiClient({ baseUrl: 'http://127.0.0.1:4000' });
+    expect((await client.jobs()).items).toEqual([]);
+  } finally {
+    spy.mockRestore();
+  }
 });

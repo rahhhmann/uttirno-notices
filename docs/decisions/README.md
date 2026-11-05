@@ -13,4 +13,6 @@ Planning decisions accepted for this scaffold; revisit with an ADR when evidence
 
 - [0009: M5 API and identity](0009-m5-api-and-identity.md)
 
+- [0010: M6 admin console and host handoff](0010-m6-admin-and-handoff.md)
+
 Next ADR numbers are sequential. Record context, decision, consequences, status and superseded references. Never change a settled decision silently.

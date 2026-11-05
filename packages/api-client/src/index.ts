@@ -15,6 +15,21 @@ import {
   ScheduleBodySchema,
   IdentityResolutionSchema,
   RestoreBodySchema,
+  AdminHealthSchema,
+  AuthAvailabilitySchema,
+  OriginalTextPreviewSchema,
+  AdminPageSchema,
+  SourceAssessmentSchema,
+  SourcePreviewBodySchema,
+  SourcePreviewSchema,
+  SourceRegistrationSchema,
+  AuthorityRegistrationSchema,
+  AdminCaseSchema,
+  ReviewContextSchema,
+  OriginalDocumentSchema,
+  DocumentTextSchema,
+  EventDecisionSchema,
+  type AdminResource,
   type JobsQuery,
 } from '@uttirno/contracts';
 export class ApiClientError extends Error {
@@ -27,10 +42,7 @@ export class ApiClientError extends Error {
   }
 }
 export type ClientOptions = { baseUrl: string; fetch?: typeof fetch };
-const page = z.strictObject({
-  items: z.array(z.record(z.string(), z.unknown())).max(50),
-  nextCursor: z.string().nullable(),
-});
+const page = AdminPageSchema;
 export class PublicApiClient {
   protected readonly base: URL;
   private readonly fetcher: typeof fetch;
@@ -45,7 +57,8 @@ export class PublicApiClient {
         !['127.0.0.1', 'localhost', '[::1]'].includes(this.base.hostname))
     )
       throw new Error('INVALID_API_ORIGIN');
-    this.fetcher = options.fetch ?? fetch;
+    // Browser fetch requires its global receiver; a method call on this client must not rebind it.
+    this.fetcher = options.fetch ?? ((input, init) => globalThis.fetch(input, init));
   }
   protected async request<T>(
     path: string,
@@ -140,6 +153,9 @@ export class PublicApiClient {
 }
 export class AdminApiClient extends PublicApiClient {
   private csrf: string | undefined;
+  authStatus() {
+    return this.request('/v1/admin/auth/status', AuthAvailabilitySchema, { admin: true });
+  }
   loginUrl() {
     return new URL('/v1/admin/auth/login', this.base).href;
   }
@@ -168,10 +184,7 @@ export class AdminApiClient extends PublicApiClient {
     this.csrf = undefined;
     return result;
   }
-  inventory(
-    resource: 'sources' | 'runs' | 'revisions' | 'duplicates' | 'events' | 'audit' | 'stages',
-    cursor?: string,
-  ) {
+  inventory(resource: AdminResource, cursor?: string) {
     const url = new URL(`/v1/admin/${resource}`, this.base);
     if (cursor) url.searchParams.set('cursor', cursor);
     return this.request(url.pathname + url.search, page, { admin: true });
@@ -179,6 +192,113 @@ export class AdminApiClient extends PublicApiClient {
   review(id: string) {
     z.uuid().parse(id);
     return this.request(`/v1/admin/revisions/${id}`, AdminReviewSnapshotSchema, { admin: true });
+  }
+  health() {
+    return this.request('/v1/admin/health', AdminHealthSchema, { admin: true });
+  }
+  source(id: string) {
+    return this.request(
+      `/v1/admin/sources/${encodeURIComponent(id)}/assessment`,
+      SourceAssessmentSchema,
+      { admin: true },
+    );
+  }
+  preview(body: z.input<typeof SourcePreviewBodySchema>, key?: string) {
+    return this.mutate(
+      '/v1/admin/source-preview',
+      SourcePreviewSchema,
+      SourcePreviewBodySchema.parse(body),
+      key,
+    );
+  }
+  registerSource(body: z.input<typeof SourceRegistrationSchema>, key?: string) {
+    return this.mutate(
+      '/v1/admin/sources',
+      z.strictObject({ fingerprint: z.string() }),
+      SourceRegistrationSchema.parse(body),
+      key,
+    );
+  }
+  registerAuthority(body: z.input<typeof AuthorityRegistrationSchema>, key?: string) {
+    return this.mutate(
+      '/v1/admin/authorities',
+      AckSchema,
+      AuthorityRegistrationSchema.parse(body),
+      key,
+    );
+  }
+  context(id: string) {
+    z.uuid().parse(id);
+    return this.request(`/v1/admin/revisions/${id}/context`, ReviewContextSchema, { admin: true });
+  }
+  case(kind: 'duplicate' | 'event', id: string) {
+    z.uuid().parse(id);
+    return this.request(
+      `/v1/admin/${kind === 'duplicate' ? 'duplicates' : 'events'}/${id}`,
+      AdminCaseSchema,
+      { admin: true },
+    );
+  }
+  document(version: string) {
+    return this.request(`/v1/admin/documents/${encodeURIComponent(version)}`, DocumentTextSchema, {
+      admin: true,
+    });
+  }
+  originalInfo(version: string) {
+    return this.request(
+      `/v1/admin/documents/${encodeURIComponent(version)}/original-info`,
+      OriginalDocumentSchema,
+      { admin: true },
+    );
+  }
+  originalUrl(version: string) {
+    return new URL(`/v1/admin/documents/${encodeURIComponent(version)}/original`, this.base).href;
+  }
+  originalText(version: string) {
+    return this.request(
+      `/v1/admin/documents/${encodeURIComponent(version)}/original-text`,
+      OriginalTextPreviewSchema,
+      { admin: true },
+    );
+  }
+  originalPageUrl(version: string, page: number) {
+    return new URL(`/v1/admin/documents/${encodeURIComponent(version)}/pages/${page}`, this.base)
+      .href;
+  }
+  rerun(id: string, reason: string, key?: string) {
+    z.uuid().parse(id);
+    return this.mutate(
+      `/v1/admin/runs/${id}/rerun`,
+      z.strictObject({ runId: z.uuid() }),
+      ScheduleBodySchema.parse({ reason }),
+      key,
+    );
+  }
+  canary(id: string, reason: string, key?: string) {
+    return this.mutate(
+      `/v1/admin/sources/${encodeURIComponent(id)}/canary`,
+      z.strictObject({ runId: z.uuid() }),
+      ScheduleBodySchema.parse({ reason }),
+      key,
+    );
+  }
+  decideEvent(id: string, body: z.input<typeof EventDecisionSchema>, key?: string) {
+    z.uuid().parse(id);
+    return this.mutate(
+      `/v1/admin/events/${id}/decision`,
+      AckSchema,
+      EventDecisionSchema.parse(body),
+      key,
+    );
+  }
+  restore(id: string, body: z.input<typeof RestoreBodySchema>, key?: string) {
+    z.uuid().parse(id);
+    return this.mutate(
+      `/v1/admin/positions/${id}/restore`,
+      AckSchema,
+      RestoreBodySchema.parse(body),
+      key,
+    );
   }
   approve(id: string, body: z.input<typeof ApproveBodySchema>, key?: string) {
     z.uuid().parse(id);

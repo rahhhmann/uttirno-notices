@@ -6,19 +6,28 @@ import { TaxonomySchema, type Role } from '@uttirno/contracts';
 import { createApp } from '../../apps/api/src/app.js';
 import { m4Context } from './m4.js';
 import { oidcFixture } from './oidc.js';
-export async function m5Context(registerSource = true) {
-  const c = await m4Context({}, registerSource),
-    provider = await oidcFixture();
+export async function m5Context(
+  registerSource = true,
+  settings: {
+    apiPublicOrigin?: string;
+    adminOrigin?: string;
+    sourceOverrides?: Record<string, unknown>;
+  } = {},
+) {
+  const c = await m4Context(settings.sourceOverrides ?? {}, registerSource),
+    provider = await oidcFixture(
+      `${settings.apiPublicOrigin ?? 'http://127.0.0.1:4000'}/v1/admin/auth/callback`,
+    );
   const env = parseApiEnvironment({
     NODE_ENV: 'test',
-    API_PUBLIC_ORIGIN: 'http://127.0.0.1:4000',
-    ADMIN_ORIGIN: 'http://127.0.0.1:3001',
+    API_PUBLIC_ORIGIN: settings.apiPublicOrigin ?? 'http://127.0.0.1:4000',
+    ADMIN_ORIGIN: settings.adminOrigin ?? 'http://127.0.0.1:3001',
     API_CURSOR_SECRET: 'SYNTHETIC-cursor-secret-not-real-000000',
     API_SESSION_SECRET: 'SYNTHETIC-session-secret-not-real-000000',
     AUTH_ISSUER: provider.issuer,
     AUTH_CLIENT_ID: provider.clientId,
     AUTH_CLIENT_SECRET: provider.clientSecret,
-    AUTH_REDIRECT_URI: 'http://127.0.0.1:4000/v1/admin/auth/callback',
+    AUTH_REDIRECT_URI: `${settings.apiPublicOrigin ?? 'http://127.0.0.1:4000'}/v1/admin/auth/callback`,
     AUTH_ALLOWED_ORIGINS: provider.issuer,
     AUTH_STATE_KEY: 'a'.repeat(64),
     AUTH_ALLOW_HTTP_LOOPBACK: 'true',
@@ -52,6 +61,7 @@ export async function m5Context(registerSource = true) {
     database: c.options,
     taxonomy,
     rateLimitMax: 2000,
+    archiveRoot: c.root,
   });
   await app.ready();
   async function login(subject: string) {

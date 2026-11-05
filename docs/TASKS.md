@@ -1,6 +1,6 @@
 # Dependency-ordered implementation plan
 
-State: M0-M6 are complete. M7 was explicitly authorized on 2026-11-05: M7-T01/T02 passed development acceptance; M7-T03 remains blocked on an approved real-source record and full required acceptance. STOP before M8; separate explicit authorization is required. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
+State: M0-M6 are complete; M7-T01/T02 passed development acceptance. M8 was explicitly authorized on 2026-11-05; independent operations implementation and controlled rehearsals are recorded in the M8 report. M7-T03 and all M8 checkboxes remain unchecked pending legitimate real-source/live operational acceptance. STOP before M9. Each checkbox requires recorded acceptance evidence. Tasks may proceed independently only where dependencies permit. No delegated agents unless explicitly authorized.
 
 ## M0 — Specification and scaffold
 
@@ -96,4 +96,8 @@ M6-T01 (R02/R06/R18), M6-T02 (R13/R15/R17) and M6-T03 (R18/R22/R24/R26) complete
 
 ## M7 completion evidence and blocker
 
-M7-T01 (R19/R20/R26) and M7-T02 (R11/R17/R19/R28) completed. [M7 report](milestones/M7.md) records code, 132 unit + 4 prototype + 43 integration + 12 browser cases (191 total), all builds and HTTP smoke. M7-T03 remains unchecked: no legitimately approved real-source record is available (Q01/Q03), and selected accessibility checks are not full acceptance. Host assets/router/canonical/indexing remain Q08; noindex and no JobPosting remain deliberate. [ADR0011](decisions/0011-m7-public-portal.md). All independent authorized M7 work is complete; STOP before M8. Do not activate sources or start M9 to fabricate this gate.
+M7-T01 (R19/R20/R26) and M7-T02 (R11/R17/R19/R28) completed. [M7 report](milestones/M7.md) records code, 132 unit + 4 prototype + 43 integration + 12 browser cases (191 total), all builds and HTTP smoke. M7-T03 remains unchecked: no legitimately approved real-source record is available (Q01/Q03), and selected accessibility checks are not full acceptance. Host assets/router/canonical/indexing remain Q08; noindex and no JobPosting remain deliberate. [ADR0011](decisions/0011-m7-public-portal.md). Subsequent explicit authorization permits independent M8 work; do not activate sources or start M9 to fabricate this gate.
+
+## M8 implementation and acceptance blockers
+
+[M8 report](milestones/M8.md) and [ADR0012](decisions/0012-m8-operations.md) record container/native isolation, physical DB grants, shared quotas, protected metrics/incident rehearsal, encrypted isolated restore and synthetic load measurements. T01-T03 remain unchecked: actual staging/TLS/live provider, compatible prior-release rollback, owner alert delivery and agreed production load/restore/retention criteria are unavailable (Q05/Q06/Q08/Q09/Q10/Q11). Complete independent checks and stop before M9; local fixtures cannot replace these requirements.

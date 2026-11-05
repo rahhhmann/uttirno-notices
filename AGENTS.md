@@ -4,7 +4,7 @@
 Read [project](docs/PROJECT.md), [architecture](docs/ARCHITECTURE.md), [requirements](docs/REQUIREMENTS.md), [decisions](docs/decisions/README.md), [status](docs/STATUS.md), then the relevant task in [tasks](docs/TASKS.md). Read the component README and task-specific specifications before editing.
 
 ## Current authorization and state
-Implementation is authorized through M7, explicitly requested by the user on 2026-11-05. Complete dependency-ready M7 work, run its acceptance checks, document legitimate blockers and STOP. M7-T03 requires an approved real-source record; synthetic fixtures cannot complete that gate. Do not start M8 or later milestones until explicitly authorized. Subsequent model/session changes do not remove this boundary. Current implementation status is recorded in docs/STATUS.md.
+Implementation is authorized through M8, explicitly requested by the user on 2026-11-05. Complete dependency-ready M8 work, run acceptance checks, document legitimate external blockers and STOP before M9. M7-T03 still requires an approved real-source record; synthetic fixtures cannot complete it. Live hosting/identity/alert owners and agreed load targets cannot be invented to mark M8 complete. Subsequent model/session changes do not remove this boundary. Current implementation status is recorded in docs/STATUS.md.
 
 ## Non-negotiable rules
 1. Only verified official recruiting authorities and their designated application platforms. Never ingest Bdjobs, third-party aggregators or a private marketplace. A domain suffix alone is not proof of ownership.

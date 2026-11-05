@@ -17,4 +17,6 @@ Proceed with independent planned work; do not invent answers.
 
 These are future stage dependencies, not reasons to stop creating the structure. Permission/access evidence must be supplied or established legitimately before the dependent stage runs.
 
+Q11 (M8): actual incident/monitoring owner, approved delivery channel, escalation/acknowledgment and correction/takedown responsibilities are not supplied. Development alert rules and synthetic receiver checks do not establish real delivery. Real hosting/TLS/SSO (Q05/Q06/Q08), agreed volume/SLO/restore targets (Q09), backup/key custody/retention (Q06/Q10) and an actually retained schema-0004-compatible prior release remain live acceptance dependencies. M8 code/rehearsal may proceed independently; checkboxes stay open until these criteria pass.
+
 M7 checkpoint (2026-11-05): T01/T02 development acceptance passed. T03 stays unchecked until Q01/Q03 provide a legitimately approved real record and its required journey. Q08 still blocks final host assets/routing/canonical/indexing and real preparation destinations; the public shell is configurable, preparation defaults empty, and noindex remains. Synthetic tests do not resolve these dependencies.

@@ -5,6 +5,7 @@ export const migrationNames = [
   '0001_core.sql',
   '0002_guards.sql',
   '0003_api_identity.sql',
+  '0004_operations.sql',
 ] as const;
 export function schemaName(value: string): string {
   if (!/^[a-z][a-z0-9_]{0,62}$/.test(value)) throw new Error('INVALID_DATABASE_SCHEMA');
@@ -20,7 +21,7 @@ export async function migrate(pool: Pool, schema = 'uttirno', to: number = migra
       `uttirno-migration:${schema}`,
     ]);
     await client.query(`CREATE SCHEMA IF NOT EXISTS "${schema}"`);
-    await client.query(`SET search_path TO "${schema}",pg_catalog`);
+    await client.query(`SET search_path TO "${schema}",pg_catalog,pg_temp`);
     await client.query(
       'CREATE TABLE IF NOT EXISTS schema_migrations (name text PRIMARY KEY, checksum text NOT NULL, applied_at timestamptz NOT NULL DEFAULT now())',
     );

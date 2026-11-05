@@ -3,6 +3,8 @@ import { drizzle } from 'drizzle-orm/node-postgres';
 import { schemaName } from './migrate.js';
 import { tablesFor } from './schema.js';
 export * from './schema.js';
+export { encryptBackup, decryptBackup } from './backup.js';
+export { provisionRuntimeGrants, operationsSnapshot } from './operations.js';
 export { PublicReadRepository, queryTerms } from './public-read.js';
 export { IdentityRepository, type IdentityInput } from './identity.js';
 export { AdminReadRepository } from './admin-read.js';

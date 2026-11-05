@@ -11,9 +11,11 @@ import { createAuth, AuthError } from './auth/session.js';
 import { CursorCodec, CursorError } from './cursor.js';
 import { registerPublic } from './routes/public.js';
 import { registerAdmin } from './routes/admin.js';
+import { registerOperations } from './operations.js';
 export function createApp(check: () => Promise<DependencyHealth>, options?: ApiOptions) {
   const app = Fastify({
     logger: false,
+    trustProxy: options?.trustedProxies ?? false,
     bodyLimit: 2097152,
     requestTimeout: 30000,
     connectionTimeout: 10000,
@@ -22,7 +24,17 @@ export function createApp(check: () => Promise<DependencyHealth>, options?: ApiO
   });
   app.register(async (api) => {
     await api.register(cookie);
-    await api.register(rateLimit, { max: options?.rateLimitMax ?? 120, timeWindow: 60000 });
+    if (options?.env.NODE_ENV === 'production' && !options.rateLimitRedis)
+      throw new Error('DISTRIBUTED_RATE_LIMIT_REQUIRED');
+    await api.register(rateLimit, {
+      max: options?.rateLimitMax ?? 120,
+      timeWindow: 60000,
+      skipOnError: false,
+      ...(options?.rateLimitRedis
+        ? { redis: options.rateLimitRedis, nameSpace: 'uttirno-api-v1-' }
+        : {}),
+    });
+    registerOperations(api, options?.operations ?? {}, options?.database, check);
     await api.register(swagger, {
       openapi: {
         openapi: '3.1.0',

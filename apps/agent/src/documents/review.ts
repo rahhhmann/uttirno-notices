@@ -2,10 +2,27 @@ import { mkdtemp, writeFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { nativeRunner } from './native.js';
+import { parserCall } from './parser-client.js';
 export { extractPdf } from './native.js';
 let active = 0;
 // Reuse the M3 bounded, argv-only Poppler boundary. No remote fetch or active PDF in the browser.
 export async function renderOriginalPng(bytes: Buffer, page: number) {
+  if (process.env.PARSER_SOCKET) {
+    const png = await parserCall('page', { pdf: bytes.toString('base64'), page });
+    if (
+      png.length < 24 ||
+      png.length > 8388608 ||
+      !png.subarray(0, 8).equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])) ||
+      png.readUInt32BE(16) > 1400 ||
+      png.readUInt32BE(20) > 1400
+    )
+      throw new Error('INVALID_REVIEW_IMAGE');
+    return png;
+  }
+  if (process.env.NODE_ENV === 'production') throw new Error('NATIVE_ISOLATION_REQUIRED');
+  return renderOriginalPngLocal(bytes, page);
+}
+export async function renderOriginalPngLocal(bytes: Buffer, page: number) {
   if (
     !Number.isInteger(page) ||
     page < 1 ||

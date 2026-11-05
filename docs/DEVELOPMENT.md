@@ -36,7 +36,7 @@ Server startup loads root .env with injected environment taking precedence. Erro
 
 CI performs clean npm ci, native/browser setup, check/build, real isolated services, integrations and HTTP smoke, then shuts services down. Remote CI status is independent evidence checked per commit. Browser accessibility, authenticated E2E, production storage/OS controls, restore and gold-set accuracy remain release gates.
 
-M7 was explicitly authorized on 2026-11-05. Complete dependency-ready work and document the real-source acceptance blocker; stop before M8.
+M8 was explicitly authorized on 2026-11-05. Complete independent operations work and document real-source/live acceptance blockers; stop before M9.
 
 ## M4 schema and worker
 
@@ -58,8 +58,14 @@ The owner-operated npm run identity:bootstrap -- <private-json-path> explicitly 
 
 ## M6 staff console
 
-Build the admin app before npm run test:admin; isolated services/native tools/Chromium must be available. CI now runs this real browser suite after integration tests. Export ADMIN_API_ORIGIN into the Next server (default http://127.0.0.1:4000); optional ADMIN_HOME_URL/ADMIN_BRAND_NAME customize the host identity. The Next application does not auto-load the root API .env. Configure API ADMIN_ORIGIN/OIDC callback for the intended external browser URL. Set PRIVATE_ARCHIVE_ROOT in API runtime to the worker archive root for retained original views/downloads; mount it read-only in deployment. Never point it at an arbitrary shared user folder. No credentials or source activation are seeded. [Admin runbook](../apps/admin/README.md), [lead handoff](ADMIN_HANDOFF.md). M7 is authorized; stop before M8.
+Build the admin app before npm run test:admin; isolated services/native tools/Chromium must be available. CI now runs this real browser suite after integration tests. Export ADMIN_API_ORIGIN into the Next server (default http://127.0.0.1:4000); optional ADMIN_HOME_URL/ADMIN_BRAND_NAME customize the host identity. The Next application does not auto-load the root API .env. Configure API ADMIN_ORIGIN/OIDC callback for the intended external browser URL. Set PRIVATE_ARCHIVE_ROOT in API runtime to the worker archive root for retained original views/downloads; mount it read-only in deployment. Never point it at an arbitrary shared user folder. No credentials or source activation are seeded. [Admin runbook](../apps/admin/README.md), [lead handoff](ADMIN_HANDOFF.md). M8 is authorized; stop before M9.
 
 ## M7 public portal
 
 Export PORTAL_API_ORIGIN, PORTAL_HOME_URL and PORTAL_BRAND_NAME into the Next process. Optional PORTAL_PREPARATION_LINKS contains reviewed category/label/url JSON entries under the same approved home origin; default is empty. Build both portal and admin before npm run test:admin (now both browser suites). Dynamic pages and API fetches are no-store; pages remain noindex until host routing/canonical and indexing lifecycle acceptance. See [portal](../apps/portal/README.md).
+
+## M8 operations rehearsal
+
+M8 was explicitly authorized on 2026-11-05; stop before M9. Apply explicit db:migrate for schema 0004 on the intended dedicated local DB. Migration creates no users/source approvals. Physical production-role provisioning remains owner-operated and separate from application startup. [Deployment runbook](../infra/deployment/README.md) explains immutable images, protected per-service config, parser isolation, preflight and the M7/0004 rollback incompatibility.
+
+The new integration tests need Docker-hosted PostgreSQL tools for the guarded encrypted restore fixture. npm run test:deployment is a separate actual app/parser container rehearsal after building both Docker targets and starting dedicated local services. It creates and cleans its own temporary schemas/roles/config files; does not start the optional acquisition profile; leaves all named volumes intact. Do not run heavy checks concurrently on this 8-GB workstation. Ignored .local reports record bounded synthetic restore/load/container observations, not agreed production SLO/RPO/RTO. Actual hosting/domain/provider/alert owners/volume targets are still required; never paste secrets into chat.

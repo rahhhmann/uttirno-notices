@@ -18,3 +18,11 @@ Do not scrape applicant profiles, user IDs, payment status or authenticated admi
 
 ## Audit and retention
 Audit source activation, policy decisions, approvals, overrides, suppression and merges. App roles cannot rewrite historical audit records. Hashing alone is not tamper-proof; enforce append permissions and immutable backup policy. Raw content may be retained only when allowed. Never expose unrestricted object-store keys. Establish takedown/correction ownership before launch.
+
+## M8 implementation and remaining assurance
+
+Native PDF/OCR runs in a separate non-root/no-capability/read-only/network-none container with CPU/PID/memory/tmpfs limits, without archive or credential mounts. Its bounded Unix API accepts bytes and fixed operations, never commands/paths/URLs. Production PDF processing refuses local fallback. This is a tested container boundary, not proof against every kernel/native exploit or a substitute for M9 corpus verification.
+
+Explicit physical API/worker grants reconcile both table and column ACLs and reject dangerous role memberships/ownership. A fixed-search-path definer helper locks authorization rows without granting worker identity mutation; PUBLIC execution is denied. Worker cannot publish, alter staff credentials/roles or rewrite audit history. Production migration ownership remains separate and is never injected into web/parser containers. Config preflight requires fixed image digests and encrypted PostgreSQL/Redis settings; actual server credentials/grants/TLS must be validated on the chosen host.
+
+API quotas use shared Redis with no error bypass. Exact trusted proxy IP configuration is separate from the gateway; forwarded spoofing does not change an untrusted peer's identity. Protected metrics are not a public endpoint. Request logs exclude raw URLs/queries, bodies, cookies and credentials; use generated IDs to correlate incidents. AES-GCM backup authentication rejects tampering, but actual offsite storage/key custody/rotation/production-size restore and reviewed deletion policy remain gates. [M8 evidence](milestones/M8.md).

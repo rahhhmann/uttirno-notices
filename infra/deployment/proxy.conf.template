@@ -1,0 +1,42 @@
+# Integrator template, not a configured/live TLS deployment. Substitute actual approved hosts.
+# Mount real certificate/key; do not pass issuer/client/database secrets to this proxy.
+events { worker_connections 512; }
+http {
+  server_tokens off;
+  log_format redacted '$request_id $request_method $status $request_time';
+  access_log /dev/stdout redacted;
+  error_log /dev/stderr warn;
+  limit_req_zone $binary_remote_addr zone=public_jobs:10m rate=2r/s;
+  upstream jobs_api { server api:4000; }
+  upstream jobs_web { server api:3000; }
+  upstream staff_web { server api:3001; }
+  proxy_set_header Host $host;
+  proxy_set_header X-Forwarded-For $remote_addr;
+  proxy_set_header X-Forwarded-Proto https;
+  # Preserve the real browser Origin; never replace it with an approved origin.
+  proxy_set_header Origin $http_origin;
+  proxy_read_timeout 40s;
+  client_max_body_size 2m;
+  ssl_protocols TLSv1.2 TLSv1.3;
+  ssl_certificate /run/tls/fullchain.pem;
+  ssl_certificate_key /run/tls/privkey.pem;
+  add_header Strict-Transport-Security 'max-age=31536000' always;
+  server {
+    listen 443 ssl;
+    server_name ${JOBS_HOST};
+    location /internal/ { return 404; }
+    location /health/ { return 404; }
+    location /v1/admin { return 404; }
+    location /v1/ { limit_req zone=public_jobs burst=10 nodelay; proxy_pass http://jobs_api; }
+    location / { proxy_pass http://jobs_web; }
+  }
+  server {
+    listen 443 ssl;
+    server_name ${STAFF_HOST};
+    location /internal/ { return 404; }
+    location /health/ { return 404; }
+    location /v1/admin/ { proxy_pass http://jobs_api; }
+    location /v1/ { return 404; }
+    location / { proxy_pass http://staff_web; }
+  }
+}

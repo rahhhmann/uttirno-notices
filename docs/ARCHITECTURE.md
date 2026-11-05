@@ -49,3 +49,7 @@ Local, staging and production use separate DB/Redis/buckets/secrets/source permi
 ## M6 staff and host integration
 
 The staff console uses typed API clients through a configured same-origin server gateway; only staff cookies are forwarded. Source signing remains external. Current source/retention/session/roles and generation/evidence gates protect all views/actions. Retained originals render as literal text or bounded PNG pages; active remote HTML/PDF never executes in the console. [ADR0010](decisions/0010-m6-admin-and-handoff.md) and [lead handoff](ADMIN_HANDOFF.md) document configurable identity/routing/assets and production prerequisites. The public portal/consumer learning integration remains M7 or separately authorized scope.
+
+## M8 runtime boundary
+
+The [M8 decision](decisions/0012-m8-operations.md) adds separate app/native-parser images, a network-disabled credential-free parser over Unix sockets, explicit owner-managed physical DB grants, shared Redis API quotas, protected aggregate metrics/redacted request correlation and bounded encrypted restore/container/load rehearsals. Only the database package owns operational SQL/migrations/grants. Portal/admin still use the API, with no persistence/acquisition clients. Actual TLS/host/SSO/alert ownership, previous-release-compatible rollback and production-size targets remain external acceptance. No source or consumer product integration is enabled by deployment definitions.

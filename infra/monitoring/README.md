@@ -1,5 +1,7 @@
-# monitoring
+# Monitoring
 
-Future dashboard/alert definitions for freshness, coverage, access, failures, queue age and cost. M8.
+API /internal/metrics requires a separate OPERATIONS_TOKEN bearer token; wrong/missing tokens return 404. Do not route it publicly. Metrics use bounded route/method/status labels and DB aggregate counts, queue age, unresolved failures, pauses, critical events, expiring policies, expired artifact candidates and 24-hour request/byte totals. HTTP logs contain only request ID, route template, method, status and duration; no bodies/query/cookies/credentials/raw document text. Production API instances share fail-closed Redis quotas. Acquisition already uses shared-DB host windows, leases and signed request/byte budgets.
 
-Status: planned boundary; implementation pending. See [root plan](../../docs/TASKS.md).
+[rules.json](rules.json) has **development** thresholds, not measured production SLOs. Export MONITOR_API_ORIGIN, OPERATIONS_TOKEN and a real ALERT_OWNER, then npm run ops:monitor. Missing signals alert instead of returning success. Active signals produce structured operator output and exit 2. There is no automatic external notification: route this output through the actual authorized on-call system and exercise delivery/recovery with its owner before live activation. Never invent an alert receiver or send permission/incident messages automatically.
+
+Selected traces are request-ID correlation, not an OpenTelemetry/distributed tracing deployment. Freshness/coverage semantics remain in existing run/admin evidence; aggregate counts are not extraction-accuracy or nationwide-coverage claims. Retention candidates are review signals; no destructive purge is invented while storage/takedown/legal-hold policy is unresolved. [Operations runbook](../../docs/OPERATIONS.md), [M8 evidence](../../docs/milestones/M8.md).

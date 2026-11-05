@@ -53,11 +53,11 @@ export async function requireRole(client: PoolClient, actor: string, roles: stri
     );
     if (!active.rowCount) throw new Error('SESSION_EXPIRED');
   }
-  const result = await client.query(
-    'SELECT 1 FROM admin_roles r JOIN admin_identities i ON i.id=r.actor_id WHERE i.id=$1 AND NOT i.disabled AND r.role=ANY($2::text[]) LIMIT 1 FOR SHARE OF i,r',
-    [actor, roles],
-  );
-  if (!result.rowCount) throw new Error('ACTOR_NOT_AUTHORIZED');
+  const result = await client.query('SELECT lock_actor_role($1,$2::text[]) AS authorized', [
+    actor,
+    roles,
+  ]);
+  if (!result.rows[0]?.authorized) throw new Error('ACTOR_NOT_AUTHORIZED');
 }
 export async function audit(
   client: PoolClient,

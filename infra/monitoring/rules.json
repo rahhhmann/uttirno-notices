@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "description": "Development thresholds only; production owner/channel and agreed targets remain external acceptance.",
+  "thresholds": {
+    "uttirno_dependency_failures": 1,
+    "uttirno_dead_stages": 1,
+    "uttirno_oldest_queue_seconds": 300,
+    "uttirno_pending_critical_events": 1,
+    "uttirno_source_policy_expiring": 1,
+    "uttirno_expired_artifact_candidates": 1
+  }
+}

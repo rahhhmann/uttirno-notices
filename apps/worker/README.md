@@ -21,4 +21,4 @@ discover checkpoints bounded source inventory and creates document dependencies.
 
 Failure/drift never implies cancellation or publication. Revoked/config-stale work is blocked, stale lease owners cannot write, and operator reruns record a reason. Publication/suppression outbox events remain pending for future consumers. SIGINT/SIGTERM stop dispatch and close worker/queue/DB.
 
-[M4 tests and limits](../../docs/milestones/M4.md). M5 authentication/API, production S3/OS/DB grants, purge and full failover/restore drills remain later gates.
+[M4 tests and limits](../../docs/milestones/M4.md). M8 adds a production parser-socket requirement and explicit owner-operated physical DB grants; the worker cannot publish or change staff bindings. Acquisition remains an explicit deployment profile requiring legitimate source approval. [M8 evidence and remaining live gates](../../docs/milestones/M8.md) cover isolation, restore and operational limits. Browser-rendered acquisition needs a separately provisioned and tested hardened browser runtime; the app image does not include Chromium.

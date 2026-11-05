@@ -5,10 +5,7 @@
     "allowJs": true,
     "checkJs": false,
     "jsx": "react-jsx",
-    "lib": [
-      "ES2022",
-      "DOM"
-    ]
+    "lib": ["ES2022", "DOM"]
   },
   "include": [
     "apps/**/*.test.ts",
@@ -20,11 +17,8 @@
     "scripts/bootstrap-identity.ts",
     "tests/integration/**/*.ts",
     "vitest*.ts",
-    "tests/e2e/**/*.ts"
+    "tests/e2e/**/*.ts",
+    "tests/deployment/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "**/dist/**",
-    "**/.next/**"
-  ]
+  "exclude": ["node_modules", "**/dist/**", "**/.next/**"]
 }

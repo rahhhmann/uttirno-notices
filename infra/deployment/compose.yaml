@@ -1,0 +1,129 @@
+name: uttirno-staging
+x-runtime: &runtime
+  image: ${RELEASE_IMAGE:?Set immutable app image digest}
+  user: '1000:1000'
+  init: true
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: ['no-new-privileges:true']
+  pids_limit: 100
+  mem_limit: 768m
+  cpus: 1
+  tmpfs: ['/tmp:rw,noexec,nosuid,size=128m,uid=1000,gid=1000']
+  restart: unless-stopped
+  stop_grace_period: 45s
+  logging: { driver: json-file, options: { max-size: '10m', max-file: '3' } }
+services:
+  parser:
+    <<: *runtime
+    image: ${PARSER_IMAGE:?Set immutable parser image digest}
+    network_mode: none
+    mem_limit: 512m
+    pids_limit: 32
+    command: ['node', 'apps/agent/dist/documents/parser-service.js']
+    volumes: ['parser_socket:/run/parser']
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('http').get({socketPath:'/run/parser/native.sock',path:'/health'},r=>process.exit(r.statusCode===200?0:1)).on('error',()=>process.exit(1))",
+        ]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+  api:
+    <<: *runtime
+    env_file: ['${API_ENV_FILE:?Set protected API environment file}']
+    environment:
+      {
+        HOST: '0.0.0.0',
+        PORT: '4000',
+        PARSER_SOCKET: '/run/parser/native.sock',
+        PRIVATE_ARCHIVE_ROOT: '/archive',
+      }
+    command: ['node', 'apps/api/dist/main.js']
+    ports: ['127.0.0.1:18400:4000', '127.0.0.1:18300:3000', '127.0.0.1:18301:3001']
+    volumes:
+      [
+        'parser_socket:/run/parser:ro',
+        '${ARCHIVE_ROOT:?Set existing private archive root}:/archive:ro',
+        '${API_CONFIG_ROOT:?Set private API trust directory}:/private:ro',
+      ]
+    depends_on: { parser: { condition: service_healthy } }
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "fetch('http://127.0.0.1:4000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 8s
+      retries: 10
+  portal:
+    <<: *runtime
+    network_mode: service:api
+    env_file: ['${PORTAL_ENV_FILE:?Set public portal configuration file}']
+    environment: { PORTAL_API_ORIGIN: 'http://127.0.0.1:4000' }
+    command:
+      [
+        'node',
+        'node_modules/next/dist/bin/next',
+        'start',
+        'apps/portal',
+        '--hostname',
+        '0.0.0.0',
+        '--port',
+        '3000',
+      ]
+    depends_on: { api: { condition: service_healthy } }
+  admin:
+    <<: *runtime
+    network_mode: service:api
+    env_file: ['${ADMIN_ENV_FILE:?Set staff console configuration file}']
+    environment: { ADMIN_API_ORIGIN: 'http://127.0.0.1:4000' }
+    command:
+      [
+        'node',
+        'node_modules/next/dist/bin/next',
+        'start',
+        'apps/admin',
+        '--hostname',
+        '0.0.0.0',
+        '--port',
+        '3001',
+      ]
+    depends_on: { api: { condition: service_healthy } }
+  worker:
+    <<: *runtime
+    profiles: [acquisition]
+    env_file: ['${WORKER_ENV_FILE:?Set protected worker environment file}']
+    environment: { PARSER_SOCKET: '/run/parser/native.sock' }
+    command:
+      [
+        'node',
+        'apps/worker/dist/main.js',
+        'run',
+        '/private/trust.json',
+        '/archive',
+        '/private/plans.json',
+        '${WORKER_ACTOR_ID:?Set provisioned operator identity}',
+      ]
+    volumes:
+      [
+        'parser_socket:/run/parser:ro',
+        '${ARCHIVE_ROOT}:/archive',
+        '${WORKER_CONFIG_ROOT:?Set private reviewed config directory}:/private:ro',
+      ]
+    depends_on: { parser: { condition: service_healthy } }
+  migrate:
+    <<: *runtime
+    profiles: [maintenance]
+    restart: 'no'
+    env_file: ['${MIGRATION_ENV_FILE:?Set protected migration-owner environment file}']
+    command: ['node', 'packages/database/dist/maintenance.js', 'migrate']
+volumes:
+  parser_socket:

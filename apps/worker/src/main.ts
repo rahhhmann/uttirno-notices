@@ -13,7 +13,9 @@ async function main() {
   if (command !== 'run' || !keysFile || !archiveRoot || !plansFile || !actorId)
     throw new Error('WORKER_ARGUMENTS_REQUIRED');
   const env = loadServerEnvironment(),
-    database = createDatabase(env.DATABASE_URL);
+    database = createDatabase(env.DATABASE_URL, process.env.DATABASE_SCHEMA ?? 'uttirno');
+  if (env.NODE_ENV === 'production' && !process.env.PARSER_SOCKET)
+    throw new Error('NATIVE_ISOLATION_REQUIRED');
   const options = { pool: database.pool, keys: () => trustKeys(keysFile) };
   let runtime: ReturnType<typeof createRuntime> | undefined;
   try {

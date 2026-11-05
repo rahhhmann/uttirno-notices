@@ -14,6 +14,9 @@
     "research/prototype"
   ],
   "scripts": {
+    "test:deployment": "tsx tests/deployment/rehearsal.ts",
+    "ops:preflight": "node scripts/release-preflight.mjs",
+    "ops:monitor": "node scripts/monitor.mjs",
     "local:upgrade-api": "npm run build:packages && node scripts/upgrade-local-api.mjs",
     "identity:bootstrap": "npm run build:packages && tsx scripts/bootstrap-identity.ts",
     "db:migrate": "npm run build:packages && tsx scripts/migrate-database.ts",

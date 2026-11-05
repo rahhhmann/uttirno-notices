@@ -33,3 +33,26 @@ jobs:
       - run: npm run smoke:foundation
       - if: always()
         run: docker compose --env-file .env -f infra/local/compose.yaml down
+  deployment-rehearsal:
+    needs: foundation
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    env:
+      NEXT_TELEMETRY_DISABLED: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - run: npm run build:packages
+      - run: npm run local:init
+      - run: npm run local:up
+      - name: Build immutable app and isolated native-parser images
+        run: |
+          docker build --target parser -t uttirno-m8-parser:local --build-arg REVISION=${{ github.sha }} -f infra/deployment/Dockerfile .
+          docker build --target runtime -t uttirno-m8:local --build-arg REVISION=${{ github.sha }} -f infra/deployment/Dockerfile .
+      - run: npm run test:deployment
+      - if: always()
+        run: docker compose --env-file .env -f infra/local/compose.yaml down

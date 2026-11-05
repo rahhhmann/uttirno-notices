@@ -5,6 +5,7 @@ import path from 'node:path';
 import { load } from 'cheerio';
 import type { DocumentText, TextPage } from '@uttirno/contracts';
 import { sealText, sha256, validateText } from './archive.js';
+import { parserCall } from './parser-client.js';
 
 export type Tool = 'pdfinfo' | 'pdftotext' | 'pdftoppm' | 'tesseract';
 export type Runner = (tool: Tool, args: string[], input?: Buffer) => Promise<Buffer>;
@@ -166,6 +167,35 @@ export function parseTsv(tsv: string, pageNumber: number): TextPage {
   return page;
 }
 export async function extractPdf(
+  bytes: Buffer,
+  context: { sourceId: string; configFingerprint: string },
+  options: { run?: Runner; forceOcr?: boolean } = {},
+): Promise<DocumentText> {
+  if (process.env.PARSER_SOCKET && !options.run) {
+    const result = validateText(
+      JSON.parse(
+        (
+          await parserCall('extract', {
+            pdf: bytes.toString('base64'),
+            context,
+            forceOcr: options.forceOcr ?? false,
+          })
+        ).toString(),
+      ),
+    );
+    if (
+      result.artifactSha256 !== sha256(bytes) ||
+      result.sourceId !== context.sourceId ||
+      result.configFingerprint !== context.configFingerprint
+    )
+      throw new Error('PARSER_LINEAGE_MISMATCH');
+    return result;
+  }
+  if (process.env.NODE_ENV === 'production' && !options.run)
+    throw new Error('NATIVE_ISOLATION_REQUIRED');
+  return extractPdfLocal(bytes, context, options);
+}
+export async function extractPdfLocal(
   bytes: Buffer,
   context: { sourceId: string; configFingerprint: string },
   options: { run?: Runner; forceOcr?: boolean } = {},

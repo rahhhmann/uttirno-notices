@@ -1,25 +1,23 @@
 # Current state
 
-Updated: 2026-11-05, after authorized M7 development acceptance.
+Updated: 2026-11-05, after authorized M8 independent development verification.
 
-## Completed
+## Implementation
 
-M0-M6 are complete; historical implementation/results are recorded in the milestone reports. Latest prior committed implementation is M6 f61bbc65994073ec94f2384f8a69071f0003937d. M7 local acceptance is recorded below; remote CI is separate evidence and must be checked for the exact pushed implementation commit.
+M0-M6 are complete. M7-T01/T02 passed development acceptance; implementation commit 1f9ac631027172663193077f793ae1d3db1c228e was pushed and its [Linux CI passed](https://github.com/rahhhmann/uttirno-notices/actions/runs/42011353683). [M7 evidence](milestones/M7.md).
 
-M7-T01 and M7-T02 are complete: responsive Bangla/English public shell, /jobs URL search/filter/cursor states, full reviewed detail/evidence/original/application destination/freshness/events, explicit unknown/conflicting/closed/revoked states, shared font/skip-navigation and configurable host home/brand/optional reviewed preparation mappings. Anonymous dynamic API reads forward no credentials and are no-store. [M7 acceptance](milestones/M7.md), [ADR0011](decisions/0011-m7-public-portal.md), [portal integration](../apps/portal/README.md).
+M8 independent implementation includes hardened app/parser images and Compose, credential-free network-disabled native parsing, explicit schema 0004 and physical role grants, shared fail-closed Redis quotas, protected aggregate metrics/redacted request correlation, incident monitoring, encrypted isolated restore and measured synthetic HTTP load. [M8 evidence and exact acceptance limits](milestones/M8.md), [ADR0012](decisions/0012-m8-operations.md), [deployment runbook](../infra/deployment/README.md).
 
-132 unit cases (21 files), four prototype regressions, 43 integration cases (10 files) and 12 built public/admin browser cases (two files) passed: **191 total**. Lint/boundaries/strict application/test types, all package/app builds and built API/portal/admin HTTP smoke passed. One non-blocking lint style suggestion remains. Heavy checks ran sequentially. Selected light/dark axe, keyboard/mobile/Unicode and inspected mobile screenshot are bounded evidence, not full accessibility certification.
+Local lint/boundaries/strict types, all builds, 137 unit + four prototype + 48 integration + 12 built browser cases (**201 total**), HTTP smoke and separate actual container/native isolation rehearsal passed. Remote CI must be checked for the exact pushed commit. Services are stopped after verification with volumes retained.
 
-## Remaining and approval boundary
+## Acceptance and authorization boundary
 
-**M7-T03 remains unchecked.** There is no legitimately approved real-source record for its real source -> reviewed portal journey (Q01/Q03), and selected development accessibility checks do not establish full required acceptance. All independent authorized M7 work is complete. **STOP before M8**; do not start M8/M9 or activate sources to make this gate pass without explicit authorization and legitimate evidence.
+**M7-T03 and M8-T01/T02/T03 remain unchecked.** M7 requires a legitimately approved real-source record and full required accessibility acceptance. M8 still needs actual staging host/domain/TLS/proxy/live provider, a retained schema-compatible previous release, actual alert owner/channel delivery, agreed production traffic/SLO/RPO/RTO and offsite key/backup/retention/takedown decisions (Q05/Q06/Q08/Q09/Q10/Q11). Controlled fixtures do not establish production readiness. M7's schema 0003 image cannot be rolled back directly against strict schema 0004 readiness. Group recreation proves restart recovery only.
 
-Actual Uttirno repository/router/assets/approved preparation URLs and canonical hosting remain Q08. No main-site integration or deployment occurred. Host settings and optional empty preparation mapping are implemented; pages remain noindex with no JobPosting, sitemap or guessed canonical. Host indexing/SEO lifecycle remains unverified. Consumer identity/entitlements/saved jobs/CV/notifications remain outside scope.
+Implementation is authorized through M8; **STOP before M9**. No recruiting source or live hosting/identity/notification service is activated. [Tasks](TASKS.md), [open questions](OPEN_QUESTIONS.md), [release gates](RELEASE.md).
 
-## Sources and local data
+## Sources, host integration and local data
 
-Real sources remain unsigned disabled candidates with unresolved collection/display/retention evidence. No real staff account, live provider, source activation, applicant processing or model provider was introduced. Tests use guarded temporary synthetic schemas/queues/keys/accounts; separate synthetic HTTP fixtures cover display edge cases, never real-source acceptance. No recruiting-site calls occurred in ordinary tests.
+Real sources remain unsigned disabled candidates with unresolved collection/display/retention evidence. No real staff account, applicant processing or model provider was introduced. Development records/accounts/keys are clearly synthetic and temporary; ordinary checks make no recruiting-site calls. Actual Uttirno repository/router/assets/canonical host remain Q08; public noindex and absent JobPosting remain deliberate. Consumer identity/entitlements/saved jobs/CV/notifications remain outside scope.
 
-PostgreSQL remains canonical. No M7 migration or seed; schema stays 0003. Private originals remain protected by existing gates. Root .env is ignored and was not changed. Dedicated services use 55432/56379/54566 with retained volumes; native PostgreSQL 5432 is untouched. Services were stopped after acceptance with local:down, retaining volumes. The pre-existing requested CHAT_HANDOFF.txt is preserved and contains historical M6 handoff context; this status is current.
-
-M8 deployment/live provider/physical DB grants/native isolation/quotas/operations/restore and M9 legitimate source/gold-set/release acceptance remain outstanding. No production-readiness claim. [Open questions](OPEN_QUESTIONS.md), [release gates](RELEASE.md).
+PostgreSQL is canonical. Schema 0004 migration is explicit and creates no accounts, approvals or seeds. Root .env remains private/ignored. Dedicated services use 55432/56379/54566 with retained volumes; native PostgreSQL 5432 remains untouched. The existing UI preview task and historical CHAT_HANDOFF.txt are preserved separately from implementation.

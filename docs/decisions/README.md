@@ -15,5 +15,6 @@ Planning decisions accepted for this scaffold; revisit with an ADR when evidence
 
 - [0010: M6 admin console and host handoff](0010-m6-admin-and-handoff.md)
 - [0011: M7 public portal and host boundary](0011-m7-public-portal.md)
+- [0012: M8 isolation, deployment and operations](0012-m8-operations.md)
 
 Next ADR numbers are sequential. Record context, decision, consequences, status and superseded references. Never change a settled decision silently.

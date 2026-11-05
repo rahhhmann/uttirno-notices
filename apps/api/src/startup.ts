@@ -5,6 +5,8 @@ import { createDatabase, schemaReady, type DatabaseOptions } from '@uttirno/data
 import { TaxonomySchema } from '@uttirno/contracts';
 import { checkDependencies } from '@uttirno/infrastructure';
 import { createApp } from './app.js';
+import { Redis } from 'ioredis';
+import { isIP } from 'node:net';
 async function json(file: string) {
   const handle = await open(file, 'r');
   try {
@@ -28,8 +30,31 @@ export async function buildApplication(
   input: Record<string, unknown> = process.env,
 ) {
   const env = parseApiEnvironment(input),
-    database = createDatabase(server.DATABASE_URL);
+    database = createDatabase(
+      server.DATABASE_URL,
+      typeof input.DATABASE_SCHEMA === 'string' ? input.DATABASE_SCHEMA : 'uttirno',
+    );
+  const quota = new Redis(server.REDIS_URL, {
+    lazyConnect: true,
+    connectTimeout: 3000,
+    maxRetriesPerRequest: 0,
+    retryStrategy: () => null,
+  });
+  quota.on('error', () => {});
   try {
+    await quota.connect();
+    const proxies =
+      typeof input.HTTP_TRUSTED_PROXIES === 'string' && input.HTTP_TRUSTED_PROXIES
+        ? input.HTTP_TRUSTED_PROXIES.split(',')
+        : [];
+    if (proxies.some((value) => !isIP(value))) throw new Error('INVALID_TRUSTED_PROXY');
+    if (
+      env.NODE_ENV === 'production' &&
+      (typeof input.OPERATIONS_TOKEN !== 'string' ||
+        input.OPERATIONS_TOKEN.length < 32 ||
+        !process.env.PARSER_SOCKET)
+    )
+      throw new Error('OPERATIONS_OR_PARSER_CONFIG_REQUIRED');
     const taxonomy = TaxonomySchema.parse(
       await json(
         fileURLToPath(new URL('../../../config/taxonomy/search.v1.json', import.meta.url)),
@@ -56,11 +81,28 @@ export async function buildApplication(
         health.database = health.database && (await schemaReady(database.pool));
         return health;
       },
-      { env, database: options, taxonomy, ...(typeof input.PRIVATE_ARCHIVE_ROOT==='string'&&input.PRIVATE_ARCHIVE_ROOT?{archiveRoot:input.PRIVATE_ARCHIVE_ROOT}:{}) },
+      {
+        env,
+        database: options,
+        taxonomy,
+        rateLimitRedis: quota,
+        trustedProxies: proxies,
+        operations: {
+          token: typeof input.OPERATIONS_TOKEN === 'string' ? input.OPERATIONS_TOKEN : undefined,
+          log: (entry) => console.log(JSON.stringify(entry)),
+        },
+        ...(typeof input.PRIVATE_ARCHIVE_ROOT === 'string' && input.PRIVATE_ARCHIVE_ROOT
+          ? { archiveRoot: input.PRIVATE_ARCHIVE_ROOT }
+          : {}),
+      },
     );
-    app.addHook('onClose', () => database.close());
+    app.addHook('onClose', async () => {
+      quota.disconnect();
+      await database.close();
+    });
     return app;
   } catch (error) {
+    quota.disconnect();
     await database.close();
     throw error;
   }

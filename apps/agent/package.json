@@ -24,6 +24,7 @@
     "start": "node dist/main.js"
   },
   "dependencies": {
+    "zod": "4.6.7",
     "@uttirno/contracts": "0.1.0",
     "@uttirno/domain": "0.1.0",
     "@uttirno/llm": "0.1.0",

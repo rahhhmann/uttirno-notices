@@ -11,7 +11,7 @@
   --error: #a52222;
   --warning: #775000;
   --focus: #24598b;
-  font-family: 'Noto Sans Bengali', 'Tiro Bangla', system-ui, sans-serif;
+  font-family: var(--uttirno-font);
   background: var(--paper);
   color: var(--ink);
   font-size: 16px;

@@ -16,3 +16,5 @@ Proceed with independent planned work; do not invent answers.
 | Q10 | Public result-notice privacy and takedown owner                     | Before result display                                | Notice-level metadata/link only; no candidate record extraction                                                                                    |
 
 These are future stage dependencies, not reasons to stop creating the structure. Permission/access evidence must be supplied or established legitimately before the dependent stage runs.
+
+M7 checkpoint (2026-11-05): T01/T02 development acceptance passed. T03 stays unchecked until Q01/Q03 provide a legitimately approved real record and its required journey. Q08 still blocks final host assets/routing/canonical/indexing and real preparation destinations; the public shell is configurable, preparation defaults empty, and noindex remains. Synthetic tests do not resolve these dependencies.

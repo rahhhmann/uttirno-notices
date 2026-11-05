@@ -26,7 +26,7 @@ npm run local:down stops containers without deleting volumes. No down -v unless 
 
 ## Application and document tools
 
-Build shared packages, then npm run dev:api, dev:portal or dev:admin. API implements public/admin routes and the staff console has M6 workflows; the public portal remains a foundation until M7. Portal/admin never import DB/server environment/agent modules.
+Build shared packages, then npm run dev:api, dev:portal or dev:admin. API implements public/admin routes and the staff console has M6 workflows; the M7 public portal provides jobs/search/detail. Portal/admin never import DB/server environment/agent modules.
 
 [Agent CLI](../apps/agent/README.md) provides source preview/discovery and one-document extraction. Sources remain disabled until legitimate ownership/collection/robots/retention approval. Capture/text files go to the operator-selected private archive root, conventionally data/artifacts (ignored), not db.json. M4 stores immutable metadata/text/revisions in PostgreSQL. No public file serving; production S3 deployment and purge remain later gates.
 
@@ -36,7 +36,7 @@ Server startup loads root .env with injected environment taking precedence. Erro
 
 CI performs clean npm ci, native/browser setup, check/build, real isolated services, integrations and HTTP smoke, then shuts services down. Remote CI status is independent evidence checked per commit. Browser accessibility, authenticated E2E, production storage/OS controls, restore and gold-set accuracy remain release gates.
 
-M6 is authorized. Stop before M7 until the user's explicit authorization, even after model/session changes.
+M7 was explicitly authorized on 2026-11-05. Complete dependency-ready work and document the real-source acceptance blocker; stop before M8.
 
 ## M4 schema and worker
 
@@ -58,4 +58,8 @@ The owner-operated npm run identity:bootstrap -- <private-json-path> explicitly 
 
 ## M6 staff console
 
-Build the admin app before npm run test:admin; isolated services/native tools/Chromium must be available. CI now runs this real browser suite after integration tests. Export ADMIN_API_ORIGIN into the Next server (default http://127.0.0.1:4000); optional ADMIN_HOME_URL/ADMIN_BRAND_NAME customize the host identity. The Next application does not auto-load the root API .env. Configure API ADMIN_ORIGIN/OIDC callback for the intended external browser URL. Set PRIVATE_ARCHIVE_ROOT in API runtime to the worker archive root for retained original views/downloads; mount it read-only in deployment. Never point it at an arbitrary shared user folder. No credentials or source activation are seeded. [Admin runbook](../apps/admin/README.md), [lead handoff](ADMIN_HANDOFF.md). M6 is authorized; stop before M7.
+Build the admin app before npm run test:admin; isolated services/native tools/Chromium must be available. CI now runs this real browser suite after integration tests. Export ADMIN_API_ORIGIN into the Next server (default http://127.0.0.1:4000); optional ADMIN_HOME_URL/ADMIN_BRAND_NAME customize the host identity. The Next application does not auto-load the root API .env. Configure API ADMIN_ORIGIN/OIDC callback for the intended external browser URL. Set PRIVATE_ARCHIVE_ROOT in API runtime to the worker archive root for retained original views/downloads; mount it read-only in deployment. Never point it at an arbitrary shared user folder. No credentials or source activation are seeded. [Admin runbook](../apps/admin/README.md), [lead handoff](ADMIN_HANDOFF.md). M7 is authorized; stop before M8.
+
+## M7 public portal
+
+Export PORTAL_API_ORIGIN, PORTAL_HOME_URL and PORTAL_BRAND_NAME into the Next process. Optional PORTAL_PREPARATION_LINKS contains reviewed category/label/url JSON entries under the same approved home origin; default is empty. Build both portal and admin before npm run test:admin (now both browser suites). Dynamic pages and API fetches are no-store; pages remain noindex until host routing/canonical and indexing lifecycle acceptance. See [portal](../apps/portal/README.md).

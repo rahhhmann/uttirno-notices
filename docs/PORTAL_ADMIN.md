@@ -27,3 +27,7 @@ Design tokens/components are shared; feature-specific business behavior stays in
 ## M6 implemented staff boundary
 
 Source/review/duplicate/event/operations/audit screens are implemented through typed API clients. Retained PDFs render as bounded PNG pages; HTML/text is literal and full originals download as attachments. External signing and all API permission/evidence/revision gates remain mandatory. [M6 report](milestones/M6.md) records executed results/limits; [host handoff](ADMIN_HANDOFF.md) defines the lead integration contract. Public portal features remain M7.
+
+## M7 public implementation boundary
+
+Public /jobs and position details use existing approved-only API contracts. URL filters/cursors/locale, mobile layouts, system dark preference, shared font/skip navigation, all fact states, permitted original links, scoped evidence and event history are implemented. Dynamic no-store reads never forward staff/consumer credentials. Optional reviewed preparation mappings are empty by default. Actual host assets/routing/indexing are unconfirmed: noindex remains, with no JobPosting/sitemap or guessed canonical. [M7 report](milestones/M7.md) separates executed development checks from the still-unmet real-source/full acceptance gate.

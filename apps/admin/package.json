@@ -14,6 +14,7 @@
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "@uttirno/api-client": "0.1.0",
-    "@uttirno/contracts": "0.1.0"
+    "@uttirno/contracts": "0.1.0",
+    "@uttirno/ui": "0.1.0"
   }
 }

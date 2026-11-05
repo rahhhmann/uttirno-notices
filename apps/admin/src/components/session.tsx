@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AdminApiClient } from '@uttirno/api-client';
 import type { Role } from '@uttirno/contracts';
+import { SkipLink } from '@uttirno/ui';
 import { errorText } from './common';
 type Session = Awaited<ReturnType<AdminApiClient['session']>>;
 const Context = createContext<{ client: AdminApiClient; session: Session } | null>(null);
@@ -114,9 +115,7 @@ export function SessionProvider({
   ];
   return (
     <>
-      <a className="skip" href="#content">
-        Skip to content
-      </a>
+      <SkipLink>Skip to content</SkipLink>
       <header className="topbar">
         <a href={home} className="brand">
           {brand}
@@ -189,15 +188,15 @@ export function SessionProvider({
                 account.
               </p>
               {authConfigured ? (
-                  <a className="button primary" href="/v1/admin/auth/login">
-                    Continue with SSO
-                  </a>
-                ) : (
-                  <p role="status">
-                    Staff SSO is not configured. An administrator must connect the approved identity
-                    provider.
-                  </p>
-                )}
+                <a className="button primary" href="/v1/admin/auth/login">
+                  Continue with SSO
+                </a>
+              ) : (
+                <p role="status">
+                  Staff SSO is not configured. An administrator must connect the approved identity
+                  provider.
+                </p>
+              )}
               <p className="muted">
                 Live SSO requires your configured provider and an explicit staff role. No default
                 account exists.

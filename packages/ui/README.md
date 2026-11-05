@@ -1,3 +1,3 @@
-# Shared UI foundation
+﻿# Shared UI
 
-FoundationNotice is a reusable accessible section/title/description primitive used by both web app shells. It owns no domain facts or transport/persistence logic. Full design tokens/components and accessibility acceptance arrive with M6/M7.
+SkipLink and font/touch/radius CSS tokens have real portal/admin consumers. FoundationNotice remains the original foundation primitive. No domain, transport, persistence or source policy logic belongs here. Import @uttirno/ui/tokens.css from app layouts; typography uses --uttirno-font. Each app owns its feature styles and theme behavior.

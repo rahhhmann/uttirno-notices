@@ -1,6 +1,6 @@
 # Dependency-ordered implementation plan
 
-State: M0-M6 are complete. M6 was explicitly authorized on 2026-11-05 and passed acceptance verification. STOP before M7; separate explicit user authorization is required. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
+State: M0-M6 are complete. M7 was explicitly authorized on 2026-11-05: M7-T01/T02 passed development acceptance; M7-T03 remains blocked on an approved real-source record and full required acceptance. STOP before M8; separate explicit authorization is required. Each later checkbox requires implementation, tests and recorded acceptance evidence, not simply existing folders. Sequential milestone order below; tasks within a milestone may proceed independently only when their listed dependencies permit. No delegated agents unless explicitly authorized.
 
 ## M0 — Specification and scaffold
 
@@ -49,8 +49,8 @@ State: M0-M6 are complete. M6 was explicitly authorized on 2026-11-05 and passed
 
 ## M7 — Public portal
 
-- [ ] M7-T01: Shared tokens/components, responsive Bangla/English portal shell, jobs/search/filter states. Depends M5-T03. Acceptance: live API fixtures, keyboard/mobile and Unicode checks. R19/R26.
-- [ ] M7-T02: Complete job details, source/evidence links, official apply destination, freshness and event history. Depends T01. Acceptance: unknown/conflicting/closed/revoked scenarios; only approved facts visible. R11/R17/R19.
+- [x] M7-T01: Shared tokens/components, responsive Bangla/English portal shell, jobs/search/filter states. Depends M5-T03. Acceptance: live API fixtures, keyboard/mobile and Unicode checks. R19/R26.
+- [x] M7-T02: Complete job details, source/evidence links, official apply destination, freshness and event history. Depends T01. Acceptance: unknown/conflicting/closed/revoked scenarios; only approved facts visible. R11/R17/R19.
 - [ ] M7-T03: Browser E2E and accessibility audit with one approved real source record. Depends T02 + M6. Acceptance: candidate and admin journeys, no internal/draft data leaks. R19/R26.
 
 ## M8 — Deployment and operations
@@ -93,3 +93,7 @@ M5-T01 (R19/R20), M5-T02 (R18/R23/R26) and M5-T03 (typed clients/DB-backed contr
 ## M6 completion evidence
 
 M6-T01 (R02/R06/R18), M6-T02 (R13/R15/R17) and M6-T03 (R18/R22/R24/R26) completed. [M6 acceptance](milestones/M6.md) records implementation, actual API/DB/native/browser checks, 185 passing cases, setup/handoff decisions and observed limits. STOP before M7; it requires separate explicit authorization.
+
+## M7 completion evidence and blocker
+
+M7-T01 (R19/R20/R26) and M7-T02 (R11/R17/R19/R28) completed. [M7 report](milestones/M7.md) records code, 132 unit + 4 prototype + 43 integration + 12 browser cases (191 total), all builds and HTTP smoke. M7-T03 remains unchecked: no legitimately approved real-source record is available (Q01/Q03), and selected accessibility checks are not full acceptance. Host assets/router/canonical/indexing remain Q08; noindex and no JobPosting remain deliberate. [ADR0011](decisions/0011-m7-public-portal.md). All independent authorized M7 work is complete; STOP before M8. Do not activate sources or start M9 to fabricate this gate.

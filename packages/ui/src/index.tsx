@@ -1,3 +1,11 @@
+import type { ReactNode } from 'react';
+export function SkipLink({ children }: { children: ReactNode }) {
+  return (
+    <a className="skip" href="#content">
+      {children}
+    </a>
+  );
+}
 export function FoundationNotice({ title, description }: { title: string; description: string }) {
   return (
     <section aria-labelledby="foundation-title">

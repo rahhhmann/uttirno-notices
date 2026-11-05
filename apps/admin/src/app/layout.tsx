@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import './styles.css';
+import '@uttirno/ui/tokens.css';
 import { SessionProvider } from '../components/session';
 import { publicSettings } from '../lib/settings';
 export const dynamic = 'force-dynamic';

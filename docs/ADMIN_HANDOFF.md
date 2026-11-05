@@ -10,7 +10,7 @@ M6 delivers a separately runnable staff console and API-mediated review pipeline
 | API_PUBLIC_ORIGIN / AUTH_REDIRECT_URI | API public identity callback; register the fixed /v1/admin/auth/callback with the actual provider. For same-origin staff proxy deployment, make that callback resolve through the staff origin.       |
 | Staff identity                        | Generic OIDC is implemented; provision exact issuer/subject roles explicitly. A consumer session/email/domain alone grants no staff role. No shared-password or broad domain-cookie shortcut.         |
 | PRIVATE_ARCHIVE_ROOT                  | API's read-only mount of the worker's existing private archive root (bytes subdirectory). No arbitrary file/URL selector is exposed. Retention, hashes and current permissions are checked for reads. |
-| Public jobs and preparation           | Remain M7. Choose /jobs versus subdomain from actual hosting access. Add reviewed preparation mappings/URLs and SEO lifecycle; do not guess destinations or qualifications.                           |
+| Public jobs and preparation           | M7 provides /jobs and detail through the existing API, configurable public branding/home and optional reviewed preparation mappings. Actual host routing, assets and indexing remain unconfirmed; see [portal](../apps/portal/README.md). |
 
 ## Lead acceptance before live use
 

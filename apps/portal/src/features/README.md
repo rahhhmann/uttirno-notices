@@ -1,5 +1,3 @@
-# features
+﻿# Portal features
 
-Future jobs/search/job-detail feature modules with co-located tests. Consume published API contracts.
-
-Status: planned boundary; implementation pending. See [root plan](../../../../docs/TASKS.md).
+Public presentation labels, fact/unknown/freshness formatting and safe external source links. Original text stays literal. No independent eligibility inference, acquisition or publication decisions. See [portal](../../README.md).

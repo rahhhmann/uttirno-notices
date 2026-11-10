@@ -1,0 +1,116 @@
+{
+  "config": {
+    "schemaVersion": 1,
+    "version": 1,
+    "authority": "Bangladesh Bank",
+    "state": "active",
+    "collection": "permitted_public",
+    "display": "link_only",
+    "policyEvidence": [
+      {
+        "url": "https://www.bb.org.bd/en/index.php/mediaroom/noticeboard",
+        "note": "Delegated operator ADR0013 public-access assessment for Bangladesh Bank own public recruitment notices on its authority notice board. Seven-day private GET/PDF/text review; excludes unrelated monetary notices, other employers and rejected e-Recruitment endpoint. No external consent claim."
+      }
+    ],
+    "reviewedBy": "local-operator-delegated-by-user-2026-11-10",
+    "reviewedAt": "2026-11-10T05:50:10.434Z",
+    "expiresAt": "2026-11-17T05:50:10.435Z",
+    "robots": {
+      "missingReviewed": true,
+      "maxAgeSeconds": 3600
+    },
+    "limits": {
+      "intervalMs": 4000,
+      "maxRequests": 20,
+      "maxPages": 1,
+      "maxBytes": 10485760,
+      "maxTotalBytes": 41943040,
+      "retries": 0,
+      "timeoutMs": 30000
+    },
+    "id": "bangladesh-bank-notices",
+    "sourceClass": "government_authority",
+    "ownershipEvidence": [
+      {
+        "url": "https://www.bb.org.bd/en/index.php",
+        "note": "Observed Bangladesh Bank official identity; homepage links this notice board and its e-Recruitment platform."
+      },
+      {
+        "url": "https://www.bb.org.bd/en/index.php/mediaroom/noticeboard",
+        "note": "Observed own Director and Chief Legal Affairs Officer recruiting notices and exact attached PDF/TOR links."
+      }
+    ],
+    "origins": [
+      {
+        "origin": "https://www.bb.org.bd",
+        "paths": [
+          {
+            "prefix": "/en/index.php/mediaroom/noticeboard",
+            "queryKeys": []
+          },
+          {
+            "prefix": "/mediaroom/notice/notice_339.pdf",
+            "queryKeys": []
+          },
+          {
+            "prefix": "/mediaroom/notice/tor_clao.pdf",
+            "queryKeys": []
+          },
+          {
+            "prefix": "/mediaroom/notice/notice_338.pdf",
+            "queryKeys": []
+          }
+        ]
+      }
+    ],
+    "seeds": [
+      "https://www.bb.org.bd/en/index.php/mediaroom/noticeboard"
+    ],
+    "adapter": {
+      "kind": "html",
+      "items": "tr:has(a[pdf-link=\"https://www.bb.org.bd/mediaroom/notice/notice_339.pdf\"]), tr:has(a[pdf-link=\"https://www.bb.org.bd/mediaroom/notice/notice_338.pdf\"])",
+      "title": "td:nth-child(3)",
+      "attachments": "a[pdf-link], a.itemlink[href$=\".pdf\"]",
+      "attachmentAttributes": [
+        "pdf-link",
+        "href"
+      ],
+      "fields": [],
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "publicAccessReview": {
+      "basis": "operator_public_access_assessment",
+      "terms": "no_restriction_observed",
+      "checkedBy": "local-operator-delegated-by-user-2026-11-10",
+      "checkedAt": "2026-11-10T05:50:10.434Z",
+      "evidence": [
+        {
+          "url": "https://www.bb.org.bd/en/index.php/mediaroom/noticeboard",
+          "note": "Delegated operator ADR0013 public-access assessment for Bangladesh Bank own public recruitment notices on its authority notice board. Seven-day private GET/PDF/text review; excludes unrelated monetary notices, other employers and rejected e-Recruitment endpoint. No external consent claim."
+        }
+      ]
+    },
+    "retention": {
+      "permitted": true,
+      "maxDays": 7,
+      "expiresAt": "2026-11-17T05:50:10.435Z",
+      "evidence": {
+        "url": "https://www.bb.org.bd/en/index.php/mediaroom/noticeboard",
+        "note": "Delegated operator ADR0013 public-access assessment for Bangladesh Bank own public recruitment notices on its authority notice board. Seven-day private GET/PDF/text review; excludes unrelated monetary notices, other employers and rejected e-Recruitment endpoint. No external consent claim."
+      }
+    },
+    "documentExtraction": {
+      "forceOcr": false,
+      "jobNoticeOnly": true
+    },
+    "adapterSamples": [
+      {
+        "sha256": "7e9d4e39057602e99fab9b5a114af4594896e6919b1ec269b2c331afa1ab0324",
+        "expectedCandidates": 2,
+        "checkedBy": "observed-browser-DOM-offline-adapter-check",
+        "checkedAt": "2026-11-10T05:50:10.434Z"
+      }
+    ]
+  }
+}

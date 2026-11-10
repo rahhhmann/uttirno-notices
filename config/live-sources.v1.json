@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "bpsc-authority",
+      "config": "config/sources/bpsc-authority.public-local.json",
+      "scope": "Observed non-cadre authority page and three documents"
+    },
+    {
+      "id": "bpsc-noncadre",
+      "config": "config/sources/bpsc-noncadre.public-local.json",
+      "scope": "Observed non-cadre application listing and two circular PDFs; no application actions"
+    },
+    {
+      "id": "bcc-recruitment",
+      "config": "config/sources/bcc-recruitment.public-local.json",
+      "scope": "BCC own notice 153 and its PDF; other portal employers excluded"
+    },
+    {
+      "id": "bangladesh-bank-notices",
+      "config": "config/sources/bangladesh-bank-notices.public-local.json",
+      "scope": "Two own recruitment notices and TOR on the authority notice board; e-Recruitment endpoint excluded after rejection"
+    },
+    {
+      "id": "buet-recruitment",
+      "config": "config/sources/buet-recruitment.public-local.json",
+      "scope": "Two observed current registrar recruitment announcements; representative public university only"
+    }
+  ]
+}

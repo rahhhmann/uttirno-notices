@@ -32,10 +32,22 @@ const mapping = z.strictObject({
 });
 const htmlAdapter = z.strictObject({
   kind: z.literal('html'),
+  embeddedHtml: z
+    .strictObject({
+      selector,
+      attribute: z.string().regex(/^[a-z][a-z0-9-]{0,99}$/),
+      encoding: z.literal('base64'),
+    })
+    .optional(),
   items: selector,
   title: selector,
   detailLink: selector.optional(),
   attachments: selector.optional(),
+  attachmentAttributes: z
+    .array(z.string().regex(/^[a-z][a-z0-9-]{0,99}$/))
+    .min(1)
+    .max(5)
+    .optional(),
   siblings: selector.optional(),
   next: selector.optional(),
   fields: z.array(mapping).max(30).default([]),
@@ -65,6 +77,7 @@ const originRule = z.strictObject({
     .array(
       z.strictObject({
         prefix: z.string().startsWith('/').max(300),
+        exact: z.boolean().optional(),
         queryKeys: z.array(z.string().max(100)).max(30).default([]),
       }),
     )
@@ -120,6 +133,15 @@ export const SourceConfigSchema = z
       )
       .optional(),
     policyEvidence: z.array(proof).max(20),
+    publicAccessReview: z
+      .strictObject({
+        basis: z.literal('operator_public_access_assessment'),
+        terms: z.enum(['no_restriction_observed', 'restricted', 'unavailable']),
+        checkedBy: text,
+        checkedAt: z.iso.datetime(),
+        evidence: z.array(proof).min(1).max(20),
+      })
+      .optional(),
     adapterSamples: z
       .array(
         z.strictObject({
@@ -157,6 +179,12 @@ export const SourceConfigSchema = z
   .superRefine((c, ctx) => {
     const fail = (message: string) => ctx.addIssue({ code: 'custom', message });
     if (Date.parse(c.expiresAt) <= Date.parse(c.reviewedAt)) fail('Invalid review expiry');
+    if (c.publicAccessReview) {
+      if (Date.parse(c.publicAccessReview.checkedAt) > Date.parse(c.reviewedAt))
+        fail('Public access assessment is later than source review');
+      if (c.state === 'active' && c.publicAccessReview.terms !== 'no_restriction_observed')
+        fail('Public access restrictions are unresolved');
+    }
     const seen = new Set<string>();
     for (const rule of c.origins) {
       let u: URL;
@@ -294,7 +322,8 @@ export function assertSourceUrl(config: SourceConfig, input: string, robotsOnly 
     throw new SourcePolicyError('UNSAFE_PATH');
   const matched = rule.paths.some(
     (p) =>
-      (decoded === p.prefix || (p.prefix.endsWith('/') && decoded.startsWith(p.prefix))) &&
+      (decoded === p.prefix ||
+        (!p.exact && p.prefix.endsWith('/') && decoded.startsWith(p.prefix))) &&
       [...u.searchParams.keys()].every((k) => p.queryKeys.includes(k)),
   );
   if (!matched) throw new SourcePolicyError('PATH_NOT_APPROVED');

@@ -1,0 +1,118 @@
+{
+  "config": {
+    "schemaVersion": 1,
+    "version": 3,
+    "authority": "Bangladesh Public Service Commission",
+    "state": "active",
+    "collection": "permitted_public",
+    "display": "link_only",
+    "policyEvidence": [
+      {
+        "url": "https://bpsc.gov.bd/pages/static-pages/6ad5e44f3c97e6c4ab675017",
+        "note": "Operator public-access assessment under user instruction and ADR0013: inspected official public listing/homepage; no collection restriction observed in bounded review. This is not an authority permission grant. Local GET-only notice/text review, seven days, no public PDF hosting."
+      }
+    ],
+    "reviewedBy": "local-operator-delegated-by-user-2026-11-10",
+    "reviewedAt": "2026-11-10T05:23:06.652Z",
+    "expiresAt": "2026-11-17T05:20:06.195Z",
+    "robots": {
+      "missingReviewed": true,
+      "maxAgeSeconds": 3600
+    },
+    "limits": {
+      "intervalMs": 4000,
+      "maxRequests": 20,
+      "maxPages": 1,
+      "maxBytes": 10485760,
+      "maxTotalBytes": 41943040,
+      "retries": 0,
+      "timeoutMs": 30000
+    },
+    "id": "bpsc-authority",
+    "sourceClass": "government_authority",
+    "ownershipEvidence": [
+      {
+        "url": "https://bpsc.gov.bd/pages/static-pages/6ad5e44f3c97e6c4ab675017",
+        "note": "Observed authority identity and public circular links; not collection/display approval."
+      }
+    ],
+    "origins": [
+      {
+        "origin": "https://bpsc.gov.bd",
+        "paths": [
+          {
+            "prefix": "/pages/static-pages/6ad5e44f3c97e6c4ab675017",
+            "queryKeys": []
+          }
+        ]
+      },
+      {
+        "origin": "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com",
+        "paths": [
+          {
+            "prefix": "/n/axvjbnqprylg/b/V2Ministry/o/office-bpsc/2026/9/045c4d33-82cd-48fb-963b-e304d06fb464.pdf",
+            "queryKeys": []
+          },
+          {
+            "prefix": "/n/axvjbnqprylg/b/V2Ministry/o/office-bpsc/2026/9/a274b033-05fd-4b5a-8ec8-32b792d6cc09.pdf",
+            "queryKeys": []
+          },
+          {
+            "prefix": "/n/axvjbnqprylg/b/V2Ministry/o/office-bpsc/2026/9/8b80196e-5911-425b-8972-95b2cec453c0.pdf",
+            "queryKeys": []
+          }
+        ]
+      }
+    ],
+    "seeds": [
+      "https://bpsc.gov.bd/pages/static-pages/6ad5e44f3c97e6c4ab675017"
+    ],
+    "adapter": {
+      "kind": "html",
+      "embeddedHtml": {
+        "selector": "rt-renderer[encoded-content]",
+        "attribute": "encoded-content",
+        "encoding": "base64"
+      },
+      "items": "a[href$=\".pdf\"]",
+      "title": "$self",
+      "attachments": "$self",
+      "fields": [],
+      "minItems": 3,
+      "maxItems": 3
+    },
+    "publicAccessReview": {
+      "basis": "operator_public_access_assessment",
+      "terms": "no_restriction_observed",
+      "checkedBy": "local-operator-delegated-by-user-2026-11-10",
+      "checkedAt": "2026-11-10T05:20:06.194Z",
+      "evidence": [
+        {
+          "url": "https://bpsc.gov.bd/pages/static-pages/6ad5e44f3c97e6c4ab675017",
+          "note": "Operator public-access assessment under user instruction and ADR0013: inspected official public listing/homepage; no collection restriction observed in bounded review. This is not an authority permission grant. Local GET-only notice/text review, seven days, no public PDF hosting."
+        }
+      ]
+    },
+    "retention": {
+      "permitted": true,
+      "maxDays": 7,
+      "expiresAt": "2026-11-17T05:20:06.195Z",
+      "evidence": {
+        "url": "https://bpsc.gov.bd/pages/static-pages/6ad5e44f3c97e6c4ab675017",
+        "note": "Operator public-access assessment under user instruction and ADR0013: inspected official public listing/homepage; no collection restriction observed in bounded review. This is not an authority permission grant. Local GET-only notice/text review, seven days, no public PDF hosting."
+      }
+    },
+    "documentExtraction": {
+      "forceOcr": false,
+      "jobNoticeOnly": true
+    },
+    "adapterSamples": [
+      {
+        "sha256": "25e10fdaa3fb426399075d7afb66d1a409a97c924eccdd2cbb47be66a28402d3",
+        "expectedCandidates": 3,
+        "checkedBy": "offline-parser-current-broker-capture",
+        "checkedAt": "2026-11-10T05:23:06.652Z"
+      }
+    ]
+  }
+}

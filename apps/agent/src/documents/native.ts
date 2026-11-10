@@ -76,7 +76,7 @@ export async function engineVersions(
       }
     }
   }
-  return `poppler-bbox-v1/${poppler.trim()}+tesseract-tsv-v1/${tesseract.trim()}/ben+eng/psm3/scale2400/models:${models.join(',') || 'SYNTHETIC-runner'}`;
+  return `poppler-bbox-v2/${poppler.trim()}+tesseract-tsv-v1/${tesseract.trim()}/ben+eng/psm3/scale2400/models:${models.join(',') || 'SYNTHETIC-runner'}`;
 }
 function appendWord(
   page: TextPage,
@@ -233,7 +233,17 @@ export async function extractPdfLocal(
       if (
         options.forceOcr ||
         page.text.trim().length < 20 ||
-        page.flags.includes('replacement_characters')
+        page.flags.includes('replacement_characters') ||
+        page.words.some(
+          ({ box: [x, y, w, h] }) =>
+            ![x, y, w, h].every(Number.isFinite) ||
+            x < 0 ||
+            y < 0 ||
+            w < 0 ||
+            h < 0 ||
+            x + w > page.width + 1 ||
+            y + h > page.height + 1,
+        )
       ) {
         const png = await run('pdftoppm', [
           '-f',

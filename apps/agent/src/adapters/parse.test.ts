@@ -4,6 +4,93 @@ import { syntheticSource } from '../../../../tests/helpers/source.js';
 import { SourceConfigSchema, AdapterSchema } from '@uttirno/source-config';
 import { parsePage } from './parse.js';
 import { validateProposal, proposeHtml } from '../onboarding/propose.js';
+it('R03/R05 configured attachment attributes support mixed links and retain quarantine', () => {
+  const c = syntheticSource().config;
+  const adapter = AdapterSchema.parse({
+    kind: 'html',
+    items: '.job',
+    title: 'h2',
+    attachments: 'a',
+    attachmentAttributes: ['pdf-link', 'href'],
+  });
+  const result = parsePage(
+    c,
+    'https://notices.example/list',
+    '<article class="job"><h2>SYNTHETIC</h2><a pdf-link="/a.pdf">PDF</a><a href="/b.pdf">TOR</a><a pdf-link="http://127.0.0.1/private" href="/ignored.pdf">Unapproved primary</a></article>',
+    adapter,
+  );
+  expect(result.items[0]?.attachments).toEqual([
+    'https://notices.example/a.pdf',
+    'https://notices.example/b.pdf',
+  ]);
+  expect(result.quarantined).toHaveLength(1);
+});
+it('R05 additional real BCC and Bangladesh Bank attachment fixtures match exact documented inventories', async () => {
+  for (const name of ['bcc-recruitment', 'bangladesh-bank-notices']) {
+    const config = SourceConfigSchema.parse(
+      JSON.parse(await readFile(`config/sources/${name}.public-local.json`, 'utf8')).config,
+    );
+    const metadata = JSON.parse(
+      await readFile(`tests/fixtures/real/${name}.metadata.json`, 'utf8'),
+    );
+    const parsed = parsePage(
+      config,
+      metadata.sourceUrl,
+      await readFile(metadata.fixturePath, 'utf8'),
+    );
+    expect(parsed.items.flatMap((i) => i.attachments)).toEqual(metadata.expectedAttachments);
+    expect(parsed.errors).toEqual([]);
+    expect(parsed.quarantined).toEqual([]);
+  }
+  const config = SourceConfigSchema.parse(
+    JSON.parse(await readFile('config/sources/buet-recruitment.public-local.json', 'utf8')).config,
+  );
+  const meta = JSON.parse(
+    await readFile('tests/fixtures/real/buet-recruitment.metadata.json', 'utf8'),
+  );
+  const fragments = (await readFile(meta.fixturePath, 'utf8')).trim().split(/\r?\n/);
+  const attachments = fragments.flatMap((html, index) =>
+    parsePage(config, meta.sourceUrls[index], html).items.flatMap((i) => i.attachments),
+  );
+  expect(attachments).toEqual(meta.expectedAttachments);
+});
+it('R05 bounded embedded base64 HTML is inert data and preserves URL gates', () => {
+  const config = syntheticSource().config;
+  const seed = 'https://notices.example/list';
+  const adapter = AdapterSchema.parse({
+    kind: 'html',
+    embeddedHtml: { selector: 'notice-data', attribute: 'payload', encoding: 'base64' },
+    items: 'a.pdf',
+    title: '$self',
+    attachments: '$self',
+  });
+  const encoded = Buffer.from(
+    '<script>throw 1</script><a class="pdf" href="/a.pdf">SYNTHETIC notice</a><a class="pdf" href="http://127.0.0.1/secret.pdf">Unapproved</a>',
+  ).toString('base64');
+  const html = `<notice-data payload="${encoded}"></notice-data>`;
+  const result = parsePage(config, seed, html, adapter);
+  expect(result.items[0]?.attachments).toEqual(['https://notices.example/a.pdf']);
+  expect(result.quarantined).toHaveLength(1);
+  expect(() => parsePage(config, seed, html + html, adapter)).toThrow('EMBEDDED_HTML_CARDINALITY');
+  expect(() =>
+    parsePage(config, seed, '<notice-data payload="invalid!"></notice-data>', adapter),
+  ).toThrow('INVALID_EMBEDDED_HTML');
+});
+it('R05 current real encoded notice fragment reproduces its three documented links offline', async () => {
+  const config = SourceConfigSchema.parse(
+    JSON.parse(await readFile('config/sources/bpsc-authority.public-local.json', 'utf8')).config,
+  );
+  const html = await readFile('tests/fixtures/real/bpsc-authority.encoded.fragment.html', 'utf8');
+  const seed = config.seeds[0];
+  if (!seed) throw new Error('EXPECTED_REAL_FIXTURE_SEED');
+  const result = parsePage(config, seed, html);
+  const metadata = JSON.parse(
+    await readFile('tests/fixtures/real/bpsc-authority.metadata.json', 'utf8'),
+  );
+  expect(result.items.flatMap((i) => i.attachments)).toEqual(metadata.observedLinks);
+  expect(result.errors).toEqual([]);
+  expect(result.quarantined).toEqual([]);
+});
 it('R05/R27 two layouts and new titles need only configuration', async () => {
   const root = new URL('../../../../tests/fixtures/synthetic/', import.meta.url);
   const card = AdapterSchema.parse({

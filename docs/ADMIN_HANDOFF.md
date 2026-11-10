@@ -1,5 +1,7 @@
 # Staff console integration handoff
 
+For the 2026-11-10 local rehearsal, supplied Google-client setup and complete pipeline checklist, start with [pipeline handover](PIPELINE_HANDOFF.md).
+
 M6 delivers a separately runnable staff console and API-mediated review pipeline. The Uttirno lead can synchronize approved branding/navigation/hosting without moving database or acquisition code into the UI. [Research verdict](research/uttirno-integration-review-2026-11-05.md), [ADR0010](decisions/0010-m6-admin-and-handoff.md).
 
 | Setting / interface                   | Owner and contract                                                                                                                                                                                    |

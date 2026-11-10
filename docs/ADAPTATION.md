@@ -8,6 +8,8 @@ HTML mapping uses scoped CSS selectors, allowed attributes, required/cardinality
 The authoritative runtime schema is in the source-config package. Defaults are applied before canonicalization/signing. Active sources require recorded adapter sample hashes/counts/reviewer, current policy evidence and a signature from a separately provisioned trusted Ed25519 public key. No production private key is stored here.
 
 ## Workflow
+Current public-source basis: [ADR0013](decisions/0013-public-official-access.md) allows recorded public-access assessment without a mandatory permission letter. Use `publicAccessReview` to identify the operator decision and observed restrictions honestly. Signed scope/expiry/robots/retention checks still apply. Public availability alone never auto-activates an arbitrary source.
+
 1. Register an unsigned candidate with observed official provenance. Domain suffix is never certification.
 2. Record collection/display/robots assessment independently. Unknown or blocked stays disabled.
 3. Capture minimal permitted listing/detail/attachment samples and inventory expected candidates/documents.

@@ -1,5 +1,7 @@
 # Extraction, evidence and hallucination control
 
+2026-11-10 real-source correction: text-layer words outside page geometry trigger bounded OCR for that page before strict provenance validation. Coordinates are not clipped or silently accepted. OCR/layout flags remain and engine fingerprint is `poppler-bbox-v2`; new text versions preserve the changed extraction provenance. This fixed an observed landscape BPSC PDF page-6 footer whose font bounds extended beyond the page. It does not establish semantic field accuracy.
+
 ## Pipeline
 Acquire permitted bytes -> detect/validate file -> text layer -> OCR if needed -> preserve text/page map -> split by circular and position -> deterministic field extraction -> optional constrained LLM extraction -> evidence and semantic verification -> draft review.
 

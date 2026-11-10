@@ -1,5 +1,7 @@
 # Development setup
 
+2026-11-10: M9/local handover work is now authorized, superseding the historical stop-before-M9 notes below. See [pipeline handover](PIPELINE_HANDOFF.md) for the runnable local review demo, supplied Google-client setup and remaining real-source gates.
+
 Use Node 24.19.0 (supported >=24.19.0 <25) and npm 11.17.0. Exact JS dependency versions/integrities are in the root lockfile. [M1 stack decision](decisions/0005-m1-foundation.md), [M3 engine decision](decisions/0007-m3-document-extraction.md).
 
 ## Install and verify

@@ -2,6 +2,8 @@
 
 All rows are required for first production release unless explicitly classified as later scope. Task completion must cite these IDs.
 
+R02/R08/R28 follow [ADR0013](decisions/0013-public-official-access.md): a documented operator public-access assessment can authorize bounded official public-source collection and private retention without claiming external consent. Written permission remains necessary where applicable published restrictions require it; publication/republication and human factual review remain separate.
+
 | ID | Requirement | Acceptance evidence |
 |---|---|---|
 | R01 | Official-only eligibility | Reject Bdjobs, aggregator, suffix-only trust and unverified destinations before acquisition |

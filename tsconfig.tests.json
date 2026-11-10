@@ -18,7 +18,8 @@
     "tests/integration/**/*.ts",
     "vitest*.ts",
     "tests/e2e/**/*.ts",
-    "tests/deployment/**/*.ts"
+    "tests/deployment/**/*.ts",
+    "tests/local/**/*.ts"
   ],
   "exclude": ["node_modules", "**/dist/**", "**/.next/**"]
 }

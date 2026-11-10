@@ -6,6 +6,7 @@ import { SourceClient } from './fetch/client.js';
 import { discover } from './discovery/crawl.js';
 import { ArtifactArchive } from './documents/archive.js';
 import { acquireJobDocument } from './documents/pipeline.js';
+import { collectForReview, writePrivateReview } from './discovery/review.js';
 async function readJson(file: string | undefined): Promise<unknown> {
   return JSON.parse((await readBounded(file)).toString('utf8'));
 }
@@ -29,6 +30,42 @@ async function readBounded(file: string | undefined): Promise<Buffer> {
 }
 async function main() {
   const [command, file, extra, last] = process.argv.slice(2);
+  if (command === 'pipeline') {
+    if (!file || !extra || !last) throw new Error('PIPELINE_REQUIRES_SOURCE_KEYS_ARCHIVE');
+    const load = async () => SignedSourceSchema.parse(await readJson(file));
+    const keys = async (): Promise<TrustKeys> => {
+      const input = await readJson(extra);
+      if (
+        !input ||
+        typeof input !== 'object' ||
+        Array.isArray(input) ||
+        Object.values(input).some((v) => typeof v !== 'string')
+      )
+        throw new Error('INVALID_TRUST_KEYS');
+      return input as TrustKeys;
+    };
+    const client = new SourceClient({
+      load,
+      keys,
+      userAgent: 'UttirnoNoticeBot/0.9 (+https://kaizenext.com; contact@kaizenext.com)',
+    });
+    const archive = new ArtifactArchive({ root: last, load, keys });
+    let reportPath = '';
+    const result = await collectForReview(client, archive, async (run) => {
+      reportPath = await writePrivateReview(last, run, archive);
+    });
+    console.log(
+      JSON.stringify({
+        state: result.state,
+        documents: result.documents.length,
+        extracted: result.documents.filter((d) => d.result).length,
+        reportPath,
+        publicationApproved: false,
+      }),
+    );
+    if (result.state === 'incomplete') process.exitCode = 1;
+    return;
+  }
   if (command === 'extract-document') {
     const root = process.argv[6];
     const planFile = process.argv[7];
@@ -130,7 +167,7 @@ async function main() {
     return;
   }
   throw new Error(
-    'USAGE: agent check-config | validate-source FILE | preview SOURCE SNAPSHOT [ADAPTER] | collect SIGNED_SOURCE TRUST_KEYS | extract-document SOURCE TRUST_KEYS URL ARCHIVE_ROOT [PLAN]',
+    'USAGE: agent check-config | validate-source FILE | preview SOURCE SNAPSHOT [ADAPTER] | collect SIGNED_SOURCE TRUST_KEYS | pipeline SOURCE TRUST_KEYS ARCHIVE_ROOT | extract-document SOURCE TRUST_KEYS URL ARCHIVE_ROOT [PLAN]',
   );
 }
 main().catch((error) => {

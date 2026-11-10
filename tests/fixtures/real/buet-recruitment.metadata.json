@@ -1,0 +1,15 @@
+{
+  "sourceUrls": [
+    "https://regoffice.buet.ac.bd/?news=job-opportunity-for-post-of-officers-in-various-dept-of-buet-dead-line-25-11-2026",
+    "https://regoffice.buet.ac.bd/?news=job-opportunity-for-post-of-technical-staffs-in-various-dept-of-buet-dead-line-11-11-2026"
+  ],
+  "capturedAt": "2026-11-10T05:54:18.003Z",
+  "fixturePath": "tests/fixtures/real/buet-recruitment.fragment.html",
+  "kind": "two minimal observed recruitment attachment anchors",
+  "fragmentSha256": "12d91690cc955d8ffba524d755640948d462f52e93948091bd3b7b02fc5d92b9",
+  "expectedAttachments": [
+    "https://regoffice.buet.ac.bd/wp-content/uploads/2026/10/advertisementScan_0001.pdf",
+    "https://regoffice.buet.ac.bd/wp-content/uploads/2026/10/Job-advertisement_Oct-2026.pdf"
+  ],
+  "scope": "two current observed BUET recruiting announcements; not complete archives or all universities"
+}

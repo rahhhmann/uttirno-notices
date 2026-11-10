@@ -7,6 +7,44 @@ import {
   configFingerprint,
 } from './index.js';
 describe('R01/R02 signed official-source gates', () => {
+  it('accepts an accountable public-access assessment without asserting authority permission', () => {
+    const s = syntheticSource({
+      publicAccessReview: {
+        basis: 'operator_public_access_assessment',
+        terms: 'no_restriction_observed',
+        checkedBy: 'SYNTHETIC operator',
+        checkedAt: '2026-01-01T00:00:00.000Z',
+        evidence: [
+          {
+            url: 'https://notices.example/list',
+            note: 'SYNTHETIC public-page assessment, not an external permission grant',
+          },
+        ],
+      },
+    });
+    expect(authorizeSource(s.bundle, s.trust, testNow).publicAccessReview?.basis).toBe(
+      'operator_public_access_assessment',
+    );
+    for (const terms of ['restricted', 'unavailable'])
+      expect(
+        SourceConfigSchema.safeParse({
+          ...s.config,
+          publicAccessReview: { ...s.config.publicAccessReview, terms },
+        }).success,
+      ).toBe(false);
+    expect(
+      SourceConfigSchema.safeParse({
+        ...s.config,
+        publicAccessReview: {
+          ...s.config.publicAccessReview,
+          checkedAt: '2026-01-02T00:00:00.000Z',
+        },
+      }).success,
+    ).toBe(false);
+    expect(() => authorizeSource(s.bundle, s.trust, testNow, 'display')).toThrow(
+      'DISPLAY_NOT_PERMITTED',
+    );
+  });
   it('a source proposal cannot override the global marketplace exclusion', () => {
     const s = syntheticSource();
     for (const origin of ['https://bdjobs.com', 'https://jobs.bdjobs.com'])
@@ -75,6 +113,19 @@ describe('R01/R02 signed official-source gates', () => {
   });
 });
 describe('R03 exact URL scope', () => {
+  it('exact root rules support query-routed notices without opening unrelated paths', () => {
+    const c = syntheticSource().config;
+    c.origins = [
+      {
+        origin: 'https://notices.example',
+        paths: [{ prefix: '/', exact: true, queryKeys: ['news'] }],
+      },
+    ];
+    expect(assertSourceUrl(c, 'https://notices.example/?news=public-notice').pathname).toBe('/');
+    expect(() => assertSourceUrl(c, 'https://notices.example/private/')).toThrow(
+      'PATH_NOT_APPROVED',
+    );
+  });
   it('malformed origin/seed values return validation failure instead of throwing raw input errors', () => {
     const s = syntheticSource();
     expect(

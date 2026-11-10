@@ -4,6 +4,10 @@ M2 provides signed official-source gates, restricted broker/rendering, generic d
 
 ## Commands
 
+Automated bounded private collection: `node apps/agent/dist/main.js pipeline SIGNED_SOURCE EXTERNAL_TRUST_KEYS PRIVATE_ARCHIVE_ROOT`. It discovers the configured slice, automatically attempts all accepted documents with one shared broker budget, captures/extracts PDFs and checkpoints a private `reviews/<run-id>/manifest.json` plus escaped offline `report.html`. Failure/incomplete inventory remains incomplete; successful text extraction remains `needs_review`, without invented field/position mapping or public approval. Reports contain actual source text and must stay outside Git/public hosting.
+
+For official public sources, [ADR0013](../../docs/decisions/0013-public-official-access.md) permits a documented operator assessment instead of a mandatory permission letter. `npm run source:sign-local -- config/sources/bpsc-authority.public-local.json` explicitly creates ignored local keys/source/trust files for the expiring local-only example. No automatic startup activation; read the command's output paths and pass them to `pipeline`. Signing identifies a local operator decision, not government consent or production approval. Windows files inherit local ACLs: keep the generated directory owner-only.
+
 Build with npm run build first.
 
 - node apps/agent/dist/main.js check-config

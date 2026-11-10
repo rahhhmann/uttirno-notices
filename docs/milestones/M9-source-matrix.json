@@ -1,0 +1,444 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-11-10T05:57:05.304Z",
+  "mode": "real_get_private_review",
+  "documents": 11,
+  "processedPages": 56,
+  "uniquePdfHashes": 9,
+  "publicationApproved": false,
+  "factualMappingApproved": false,
+  "coverage": "five configured sample scopes; not whole-site/all-university completeness",
+  "excluded": [
+    {
+      "url": "https://erecruitment.bb.org.bd/",
+      "status": "request_rejected_in_public_research",
+      "reason": "No bypass attempted; authority-board success is separate"
+    }
+  ],
+  "sources": [
+    {
+      "id": "bpsc-authority",
+      "scope": "Observed non-cadre authority page and three documents",
+      "state": "needs_review",
+      "runId": "8173ab39-6cd8-48cf-b642-be71b9e81167",
+      "configFingerprint": "8c20a95940e7811edef7b9709d0d1d710b407a067f50a6237341af250958110f",
+      "discovery": {
+        "complete": true,
+        "pages": 1,
+        "candidates": 3,
+        "attachments": [
+          "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bpsc/2026/9/045c4d33-82cd-48fb-963b-e304d06fb464.pdf",
+          "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bpsc/2026/9/a274b033-05fd-4b5a-8ec8-32b792d6cc09.pdf",
+          "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bpsc/2026/9/8b80196e-5911-425b-8972-95b2cec453c0.pdf"
+        ],
+        "errors": [],
+        "quarantined": []
+      },
+      "documents": [
+        {
+          "url": "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bpsc/2026/9/045c4d33-82cd-48fb-963b-e304d06fb464.pdf",
+          "artifactSha256": "611798ce47c61623adb73dff376ce08b38a0e37b97aa10111099cc4c47de08c6",
+          "textVersion": "e0c065332fee367a95a4155eb8664cde387bea573763f30659708f153e97488f",
+          "pages": 8,
+          "ocrPages": [],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 2,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 3,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 4,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 5,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 6,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 7,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 8,
+              "flags": ["layout_review"]
+            }
+          ]
+        },
+        {
+          "url": "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bpsc/2026/9/a274b033-05fd-4b5a-8ec8-32b792d6cc09.pdf",
+          "artifactSha256": "a387a9dbc1447da2c094fa83d417d1fbaeeda03a643343ca36ab779965f14c08",
+          "textVersion": "9108aeb8eb4c7e37d342ca3676d398287cc2254b197edafe0325c777cb6c97cc",
+          "pages": 10,
+          "ocrPages": [6],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 2,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 3,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 4,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 5,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 6,
+              "flags": ["ocr_review", "layout_review", "low_confidence"]
+            },
+            {
+              "page": 7,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 8,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 9,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 10,
+              "flags": ["layout_review"]
+            }
+          ]
+        },
+        {
+          "url": "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bpsc/2026/9/8b80196e-5911-425b-8972-95b2cec453c0.pdf",
+          "artifactSha256": "eccc1ed777e5a107158914af0352f6d6455bcc25d717106926e4c4a3adcf5de5",
+          "textVersion": "52e91b1c05b383f52e0dce9293f67d6b0df27ec27e537f77528d468f3215fcad",
+          "pages": 11,
+          "ocrPages": [],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 2,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 3,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 4,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 5,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 6,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 7,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 8,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 9,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 10,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 11,
+              "flags": ["layout_review"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bpsc-noncadre",
+      "scope": "Observed non-cadre application listing and two circular PDFs; no application actions",
+      "state": "needs_review",
+      "runId": "50ca9e1a-5068-419b-aceb-50377941ef1e",
+      "configFingerprint": "9f93e8e18cf81c75b56fae539bb4400591ba69666413251a601f484794162874",
+      "discovery": {
+        "complete": true,
+        "pages": 1,
+        "candidates": 2,
+        "attachments": [
+          "https://bpsc.teletalk.com.bd/ncad/doc/ad_202607.pdf",
+          "https://bpsc.teletalk.com.bd/ncad/doc/ad_202608.pdf"
+        ],
+        "errors": [],
+        "quarantined": []
+      },
+      "documents": [
+        {
+          "url": "https://bpsc.teletalk.com.bd/ncad/doc/ad_202607.pdf",
+          "artifactSha256": "611798ce47c61623adb73dff376ce08b38a0e37b97aa10111099cc4c47de08c6",
+          "textVersion": "938f82848431e9d9b33f73f7a02c1d70e3d5b90c31c592789616c43ac9fe481d",
+          "pages": 8,
+          "ocrPages": [],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 2,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 3,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 4,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 5,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 6,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 7,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 8,
+              "flags": ["layout_review"]
+            }
+          ]
+        },
+        {
+          "url": "https://bpsc.teletalk.com.bd/ncad/doc/ad_202608.pdf",
+          "artifactSha256": "a387a9dbc1447da2c094fa83d417d1fbaeeda03a643343ca36ab779965f14c08",
+          "textVersion": "9a0bffc1a54bc2d403d483c90bc24fa2535aa3bb9a309691646179e64666b04b",
+          "pages": 10,
+          "ocrPages": [6],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 2,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 3,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 4,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 5,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 6,
+              "flags": ["ocr_review", "layout_review", "low_confidence"]
+            },
+            {
+              "page": 7,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 8,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 9,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 10,
+              "flags": ["layout_review"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bcc-recruitment",
+      "scope": "BCC own notice 153 and its PDF; other portal employers excluded",
+      "state": "needs_review",
+      "runId": "adfc1fe9-fcd3-414d-9ce5-e651328bc257",
+      "configFingerprint": "cdeb77ea4f36da9db3eba16721c1da89264e6c6edea55c2d3e887f8233e183be",
+      "discovery": {
+        "complete": true,
+        "pages": 1,
+        "candidates": 1,
+        "attachments": [
+          "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bcc/2026/9/c02b181e-bbc8-427f-a7ef-86f39ec7b0f6.pdf"
+        ],
+        "errors": [],
+        "quarantined": []
+      },
+      "documents": [
+        {
+          "url": "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bcc/2026/9/c02b181e-bbc8-427f-a7ef-86f39ec7b0f6.pdf",
+          "artifactSha256": "6d5dad73bb866b61fa3f7f3f621844bb30744e1d144c30eb94385048c109f2eb",
+          "textVersion": "76aa388ea6c64302f0befe4498735e4291377ca022b67e7976dbb106224743e4",
+          "pages": 1,
+          "ocrPages": [1],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["ocr_review", "layout_review", "low_confidence"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bangladesh-bank-notices",
+      "scope": "Two own recruitment notices and TOR on the authority notice board; e-Recruitment endpoint excluded after rejection",
+      "state": "needs_review",
+      "runId": "7716c636-c991-461a-8ae8-500bb7392171",
+      "configFingerprint": "5fc76c0de29ac595f8f30c0628ada1e9b7d0dedd8ebc93ab35df42137c36157f",
+      "discovery": {
+        "complete": true,
+        "pages": 1,
+        "candidates": 2,
+        "attachments": [
+          "https://www.bb.org.bd/mediaroom/notice/notice_339.pdf",
+          "https://www.bb.org.bd/mediaroom/notice/tor_clao.pdf",
+          "https://www.bb.org.bd/mediaroom/notice/notice_338.pdf"
+        ],
+        "errors": [],
+        "quarantined": []
+      },
+      "documents": [
+        {
+          "url": "https://www.bb.org.bd/mediaroom/notice/notice_339.pdf",
+          "artifactSha256": "e43e5e0faf2308d8eb53924c4d083cac5670b34c263bb153b9c9370da23ab666",
+          "textVersion": "f5d7548416c7648bb345021bf648cd5bfc8d689bb4916b626d5a55dfb9e54752",
+          "pages": 1,
+          "ocrPages": [],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["layout_review"]
+            }
+          ]
+        },
+        {
+          "url": "https://www.bb.org.bd/mediaroom/notice/tor_clao.pdf",
+          "artifactSha256": "653e6d8b6b3f1116039c743939eb1a6ef91a0170f80a4e81ff73bf3a0ff86ca9",
+          "textVersion": "a49e640a7457d842b4a8b43d6f41c81a51926a51d69112dfc7a0286733185310",
+          "pages": 2,
+          "ocrPages": [],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["layout_review"]
+            },
+            {
+              "page": 2,
+              "flags": ["layout_review"]
+            }
+          ]
+        },
+        {
+          "url": "https://www.bb.org.bd/mediaroom/notice/notice_338.pdf",
+          "artifactSha256": "1995722d68edd3e050df38b2375af36dca987461b39b64bac8ed15593f620f6d",
+          "textVersion": "262332a315289a91d5b63985d27d09a821857874be7362b72bd7288a302ff9c6",
+          "pages": 1,
+          "ocrPages": [],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["layout_review"]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "buet-recruitment",
+      "scope": "Two observed current registrar recruitment announcements; representative public university only",
+      "state": "needs_review",
+      "runId": "0a2c57f6-4e8b-4d24-8176-e8aa22b92a2b",
+      "configFingerprint": "2421231d1d7f79de495fe67b44589fe90d2f22034e090b600c74b7cc71d89fb4",
+      "discovery": {
+        "complete": true,
+        "pages": 2,
+        "candidates": 2,
+        "attachments": [
+          "https://regoffice.buet.ac.bd/wp-content/uploads/2026/10/advertisementScan_0001.pdf",
+          "https://regoffice.buet.ac.bd/wp-content/uploads/2026/10/Job-advertisement_Oct-2026.pdf"
+        ],
+        "errors": [],
+        "quarantined": []
+      },
+      "documents": [
+        {
+          "url": "https://regoffice.buet.ac.bd/wp-content/uploads/2026/10/advertisementScan_0001.pdf",
+          "artifactSha256": "f3df6074f9aa4bbccf5304d40661c190f97dfe72d2c8486f63707de96a3fb029",
+          "textVersion": "e978fa7f56770833cbfe7c46526a377cef6251228f55aa81e0cf513afb579c6e",
+          "pages": 2,
+          "ocrPages": [1, 2],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["ocr_review", "layout_review", "low_confidence"]
+            },
+            {
+              "page": 2,
+              "flags": ["ocr_review", "layout_review", "low_confidence"]
+            }
+          ]
+        },
+        {
+          "url": "https://regoffice.buet.ac.bd/wp-content/uploads/2026/10/Job-advertisement_Oct-2026.pdf",
+          "artifactSha256": "f8435165e21d26954c635de35428aae38a6689fef67edbfda958901e91c88b20",
+          "textVersion": "0fe38ddaf15a1762e3c5639e67fc9282ea32cb29a051154a209f13edd71e6cbd",
+          "pages": 2,
+          "ocrPages": [1, 2],
+          "flaggedPages": [
+            {
+              "page": 1,
+              "flags": ["ocr_review", "layout_review", "low_confidence"]
+            },
+            {
+              "page": 2,
+              "flags": ["ocr_review", "layout_review", "low_confidence"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

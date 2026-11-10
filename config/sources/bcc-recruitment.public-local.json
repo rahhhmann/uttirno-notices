@@ -1,0 +1,111 @@
+{
+  "config": {
+    "schemaVersion": 1,
+    "version": 1,
+    "authority": "Bangladesh Computer Council",
+    "state": "active",
+    "collection": "permitted_public",
+    "display": "link_only",
+    "policyEvidence": [
+      {
+        "url": "https://erecruitment.bcc.gov.bd/exam/Home/newsDetails?id=153",
+        "note": "Delegated operator public-access assessment under ADR0013. Public BCC-owned recruitment notice 153 observed on the government-operated BCC portal, with this exact linked PDF. Seven-day private GET/text review only; no account, applicant data, other hosted employers or external consent claim."
+      }
+    ],
+    "reviewedBy": "local-operator-delegated-by-user-2026-11-10",
+    "reviewedAt": "2026-11-10T05:48:26.799Z",
+    "expiresAt": "2026-11-17T05:48:26.800Z",
+    "robots": {
+      "missingReviewed": true,
+      "maxAgeSeconds": 3600
+    },
+    "limits": {
+      "intervalMs": 4000,
+      "maxRequests": 20,
+      "maxPages": 1,
+      "maxBytes": 10485760,
+      "maxTotalBytes": 41943040,
+      "retries": 0,
+      "timeoutMs": 30000
+    },
+    "id": "bcc-recruitment",
+    "sourceClass": "government_authority",
+    "ownershipEvidence": [
+      {
+        "url": "https://nda.bcc.gov.bd/page/service-detail.jsp?name=e-recruitment",
+        "note": "Official BCC service description identifies its government recruitment portal; current portal identifies government BCC ownership and notice 153 as BCC recruitment."
+      },
+      {
+        "url": "https://erecruitment.bcc.gov.bd/exam/Home/newsDetails?id=153",
+        "note": "Observed BCC own recruiting notice and exact attachment; excludes the portal other-employer entries."
+      }
+    ],
+    "origins": [
+      {
+        "origin": "https://erecruitment.bcc.gov.bd",
+        "paths": [
+          {
+            "prefix": "/exam/Home/newsDetails",
+            "queryKeys": [
+              "id"
+            ]
+          }
+        ]
+      },
+      {
+        "origin": "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com",
+        "paths": [
+          {
+            "prefix": "/n/axvjbnqprylg/b/V2Ministry/o/office-bcc/2026/9/c02b181e-bbc8-427f-a7ef-86f39ec7b0f6.pdf",
+            "queryKeys": []
+          }
+        ]
+      }
+    ],
+    "seeds": [
+      "https://erecruitment.bcc.gov.bd/exam/Home/newsDetails?id=153"
+    ],
+    "adapter": {
+      "kind": "html",
+      "items": "a[href=\"https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bcc/2026/9/c02b181e-bbc8-427f-a7ef-86f39ec7b0f6.pdf\"]",
+      "title": "$self",
+      "attachments": "$self",
+      "fields": [],
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "publicAccessReview": {
+      "basis": "operator_public_access_assessment",
+      "terms": "no_restriction_observed",
+      "checkedBy": "local-operator-delegated-by-user-2026-11-10",
+      "checkedAt": "2026-11-10T05:48:26.799Z",
+      "evidence": [
+        {
+          "url": "https://erecruitment.bcc.gov.bd/exam/Home/newsDetails?id=153",
+          "note": "Delegated operator public-access assessment under ADR0013. Public BCC-owned recruitment notice 153 observed on the government-operated BCC portal, with this exact linked PDF. Seven-day private GET/text review only; no account, applicant data, other hosted employers or external consent claim."
+        }
+      ]
+    },
+    "retention": {
+      "permitted": true,
+      "maxDays": 7,
+      "expiresAt": "2026-11-17T05:48:26.800Z",
+      "evidence": {
+        "url": "https://erecruitment.bcc.gov.bd/exam/Home/newsDetails?id=153",
+        "note": "Delegated operator public-access assessment under ADR0013. Public BCC-owned recruitment notice 153 observed on the government-operated BCC portal, with this exact linked PDF. Seven-day private GET/text review only; no account, applicant data, other hosted employers or external consent claim."
+      }
+    },
+    "documentExtraction": {
+      "forceOcr": false,
+      "jobNoticeOnly": true
+    },
+    "adapterSamples": [
+      {
+        "sha256": "6a7a61bafc46344a68fd330706e15caf052acbdba02c5d49f4f8ddbff5557f4a",
+        "expectedCandidates": 1,
+        "checkedBy": "observed-browser-DOM-offline-adapter-check",
+        "checkedAt": "2026-11-10T05:48:26.799Z"
+      }
+    ]
+  }
+}

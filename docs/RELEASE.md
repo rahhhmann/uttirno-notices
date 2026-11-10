@@ -2,6 +2,8 @@
 
 Production-grade is a verified operating state, not a template label.
 
+Source access may use the documented operator public-access basis in [ADR0013](decisions/0013-public-official-access.md); do not demand a permission letter for every public official source or claim public availability establishes unrestricted republication. Source-specific restrictions, retention, runtime checks and independent factual approval remain release gates.
+
 All must pass before first release:
 - R01-R29 linked to implementation and executed checks.
 - Enabled sources have official provenance, current collection/display policy and real config samples.

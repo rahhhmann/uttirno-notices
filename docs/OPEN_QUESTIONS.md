@@ -2,6 +2,8 @@
 
 Proceed with independent planned work; do not invent answers.
 
+2026-11-10 policy update: [ADR0013](decisions/0013-public-official-access.md) supersedes a universal external written-permission prerequisite. Q01 can be resolved for bounded official public-source collection through a recorded operator public-access assessment that respects restrictions and robots; it is not an authority consent claim. A seven-day private local BPSC assessment is now configured/signed explicitly. Public factual review, raw-document republication, retention enforcement and per-additional-source assessments remain distinct gates.
+
 | ID  | Need                                                                | When blocking                                        | Default / next action                                                                                                                              |
 | --- | ------------------------------------------------------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Q01 | Current per-source collection/display rights and robots evidence    | Before enabling each real source                     | Disabled; researcher documents policy                                                                                                              |

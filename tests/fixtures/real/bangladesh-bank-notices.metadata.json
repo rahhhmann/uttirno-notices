@@ -1,0 +1,14 @@
+{
+  "sourceUrl": "https://www.bb.org.bd/en/index.php/mediaroom/noticeboard",
+  "capturedAt": "2026-11-10T05:50:10.434Z",
+  "fixturePath": "tests/fixtures/real/bangladesh-bank-recruitment.fragment.html",
+  "kind": "minimal observed own-recruitment rows; not entire notice board",
+  "expectedItems": 2,
+  "fragmentSha256": "7e9d4e39057602e99fab9b5a114af4594896e6919b1ec269b2c331afa1ab0324",
+  "expectedAttachments": [
+    "https://www.bb.org.bd/mediaroom/notice/notice_339.pdf",
+    "https://www.bb.org.bd/mediaroom/notice/tor_clao.pdf",
+    "https://www.bb.org.bd/mediaroom/notice/notice_338.pdf"
+  ],
+  "collectionBasis": "operator_public_access_assessment; no external permission claim"
+}

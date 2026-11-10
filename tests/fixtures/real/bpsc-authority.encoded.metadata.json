@@ -1,0 +1,10 @@
+{
+  "sourceUrl": "https://bpsc.gov.bd/pages/static-pages/6ad5e44f3c97e6c4ab675017",
+  "capturedAt": "2026-11-10T05:23:06.652Z",
+  "transport": "restricted SourceClient; real public site",
+  "kind": "minimal inert encoded notice-link fragment",
+  "expectedItems": 3,
+  "fragmentSha256": "25e10fdaa3fb426399075d7afb66d1a409a97c924eccdd2cbb47be66a28402d3",
+  "collectionBasis": "operator_public_access_assessment under ADR0013",
+  "scope": "internal adapter fixture; not public PDF republication consent"
+}

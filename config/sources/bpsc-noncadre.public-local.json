@@ -1,0 +1,104 @@
+{
+  "config": {
+    "schemaVersion": 1,
+    "version": 2,
+    "authority": "Bangladesh Public Service Commission",
+    "state": "active",
+    "collection": "permitted_public",
+    "display": "link_only",
+    "policyEvidence": [
+      {
+        "url": "https://bpsc.teletalk.com.bd/ncad/apply.php",
+        "note": "Delegated local operator public-access assessment (ADR0013); official BPSC homepage designates this public registration platform. GET-only recruitment listings/documents, seven-day private review, no application/login/candidate records or external permission claim."
+      }
+    ],
+    "reviewedBy": "local-operator-delegated-by-user-2026-11-10",
+    "reviewedAt": "2026-11-10T05:47:15.368Z",
+    "expiresAt": "2026-11-17T05:47:15.383Z",
+    "robots": {
+      "missingReviewed": true,
+      "maxAgeSeconds": 3600
+    },
+    "limits": {
+      "intervalMs": 4000,
+      "maxRequests": 15,
+      "maxPages": 1,
+      "maxBytes": 10485760,
+      "maxTotalBytes": 31457280,
+      "retries": 0,
+      "timeoutMs": 30000
+    },
+    "id": "bpsc-noncadre",
+    "sourceClass": "designated_application_platform",
+    "ownershipEvidence": [
+      {
+        "url": "https://bpsc.teletalk.com.bd/ncad/apply.php",
+        "note": "Observed authority identity and public circular links; not collection/display approval."
+      },
+      {
+        "url": "https://bpsc.gov.bd/",
+        "note": "Official authority homepage links BPSC Teletalk non-cadre online registration."
+      }
+    ],
+    "origins": [
+      {
+        "origin": "https://bpsc.teletalk.com.bd",
+        "paths": [
+          {
+            "prefix": "/ncad/apply.php",
+            "queryKeys": []
+          },
+          {
+            "prefix": "/ncad/doc/",
+            "queryKeys": []
+          }
+        ]
+      }
+    ],
+    "seeds": [
+      "https://bpsc.teletalk.com.bd/ncad/apply.php"
+    ],
+    "adapter": {
+      "kind": "html",
+      "items": "a.circular",
+      "title": "$self",
+      "attachments": "$self",
+      "fields": [],
+      "minItems": 1,
+      "maxItems": 200
+    },
+    "publicAccessReview": {
+      "basis": "operator_public_access_assessment",
+      "terms": "no_restriction_observed",
+      "checkedBy": "local-operator-delegated-by-user-2026-11-10",
+      "checkedAt": "2026-11-10T05:47:15.368Z",
+      "evidence": [
+        {
+          "url": "https://bpsc.teletalk.com.bd/ncad/apply.php",
+          "note": "Delegated local operator public-access assessment (ADR0013); official BPSC homepage designates this public registration platform. GET-only recruitment listings/documents, seven-day private review, no application/login/candidate records or external permission claim."
+        }
+      ]
+    },
+    "retention": {
+      "permitted": true,
+      "maxDays": 7,
+      "expiresAt": "2026-11-17T05:47:15.383Z",
+      "evidence": {
+        "url": "https://bpsc.teletalk.com.bd/ncad/apply.php",
+        "note": "Delegated local operator public-access assessment (ADR0013); official BPSC homepage designates this public registration platform. GET-only recruitment listings/documents, seven-day private review, no application/login/candidate records or external permission claim."
+      }
+    },
+    "documentExtraction": {
+      "forceOcr": false,
+      "jobNoticeOnly": true
+    },
+    "adapterSamples": [
+      {
+        "sha256": "ae85419058b152804b14c38593eecd890dd225f32ab9b7969ca8ccb738f8e881",
+        "expectedCandidates": 2,
+        "checkedBy": "observed-offline-fixture-and-current-public-browser-inventory",
+        "checkedAt": "2026-11-10T05:47:15.368Z"
+      }
+    ]
+  }
+}

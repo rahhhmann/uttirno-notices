@@ -1,0 +1,112 @@
+{
+  "config": {
+    "schemaVersion": 1,
+    "version": 1,
+    "authority": "Bangladesh University of Engineering and Technology",
+    "state": "active",
+    "collection": "permitted_public",
+    "display": "link_only",
+    "policyEvidence": [
+      {
+        "url": "https://regoffice.buet.ac.bd/?page_id=20",
+        "note": "Delegated operator public-access assessment (ADR0013) for two observed official BUET registrar recruitment announcements and exact PDFs. Reviewed published disclaimer: accuracy/availability disclaimer; no collection restriction observed in bounded review. Seven-day private GET/text review only; not external consent or all-university coverage."
+      }
+    ],
+    "reviewedBy": "local-operator-delegated-by-user-2026-11-10",
+    "reviewedAt": "2026-11-10T05:54:18.003Z",
+    "expiresAt": "2026-11-17T05:54:18.018Z",
+    "robots": {
+      "missingReviewed": true,
+      "maxAgeSeconds": 3600
+    },
+    "limits": {
+      "intervalMs": 4000,
+      "maxRequests": 15,
+      "maxPages": 2,
+      "maxBytes": 10485760,
+      "maxTotalBytes": 41943040,
+      "retries": 0,
+      "timeoutMs": 30000
+    },
+    "id": "buet-recruitment",
+    "sourceClass": "public_institution",
+    "ownershipEvidence": [
+      {
+        "url": "https://regoffice.buet.ac.bd/",
+        "note": "Registrar site identifies BUET office/official contacts, links BUET home and hosts its own job-circular archive; observed two own recruiting details."
+      },
+      {
+        "url": "https://www.buet.ac.bd/web/",
+        "note": "Official parent university identity, corroborated by registrar office identity/contact and university-owned recruitment PDFs."
+      }
+    ],
+    "origins": [
+      {
+        "origin": "https://regoffice.buet.ac.bd",
+        "paths": [
+          {
+            "prefix": "/",
+            "exact": true,
+            "queryKeys": [
+              "news"
+            ]
+          },
+          {
+            "prefix": "/wp-content/uploads/2026/10/advertisementScan_0001.pdf",
+            "queryKeys": []
+          },
+          {
+            "prefix": "/wp-content/uploads/2026/10/Job-advertisement_Oct-2026.pdf",
+            "queryKeys": []
+          }
+        ]
+      }
+    ],
+    "seeds": [
+      "https://regoffice.buet.ac.bd/?news=job-opportunity-for-post-of-officers-in-various-dept-of-buet-dead-line-25-11-2026",
+      "https://regoffice.buet.ac.bd/?news=job-opportunity-for-post-of-technical-staffs-in-various-dept-of-buet-dead-line-11-11-2026"
+    ],
+    "adapter": {
+      "kind": "html",
+      "items": "a[href=\"https://regoffice.buet.ac.bd/wp-content/uploads/2026/10/advertisementScan_0001.pdf\"], a[href=\"https://regoffice.buet.ac.bd/wp-content/uploads/2026/10/Job-advertisement_Oct-2026.pdf\"]",
+      "title": "$self",
+      "attachments": "$self",
+      "fields": [],
+      "minItems": 1,
+      "maxItems": 1
+    },
+    "publicAccessReview": {
+      "basis": "operator_public_access_assessment",
+      "terms": "no_restriction_observed",
+      "checkedBy": "local-operator-delegated-by-user-2026-11-10",
+      "checkedAt": "2026-11-10T05:54:18.003Z",
+      "evidence": [
+        {
+          "url": "https://regoffice.buet.ac.bd/?page_id=20",
+          "note": "Delegated operator public-access assessment (ADR0013) for two observed official BUET registrar recruitment announcements and exact PDFs. Reviewed published disclaimer: accuracy/availability disclaimer; no collection restriction observed in bounded review. Seven-day private GET/text review only; not external consent or all-university coverage."
+        }
+      ]
+    },
+    "retention": {
+      "permitted": true,
+      "maxDays": 7,
+      "expiresAt": "2026-11-17T05:54:18.018Z",
+      "evidence": {
+        "url": "https://regoffice.buet.ac.bd/?news=job-opportunity-for-post-of-officers-in-various-dept-of-buet-dead-line-25-11-2026",
+        "note": "Delegated operator public-access assessment (ADR0013) for two observed official BUET registrar recruitment announcements and exact PDFs. Reviewed published disclaimer: accuracy/availability disclaimer; no collection restriction observed in bounded review. Seven-day private GET/text review only; not external consent or all-university coverage."
+      }
+    },
+    "documentExtraction": {
+      "forceOcr": false,
+      "jobNoticeOnly": true
+    },
+    "adapterSamples": [
+      {
+        "sha256": "12d91690cc955d8ffba524d755640948d462f52e93948091bd3b7b02fc5d92b9",
+        "expectedCandidates": 2,
+        "checkedBy": "two-observed-browser-DOM-anchors-combined-fixture",
+        "checkedAt": "2026-11-10T05:54:18.003Z"
+      }
+    ]
+  }
+}

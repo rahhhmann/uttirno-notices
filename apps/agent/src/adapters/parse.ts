@@ -108,7 +108,23 @@ export function parsePage(
     return result;
   }
   try {
-    const $ = load(body);
+    let html = body;
+    if (adapter.embeddedHtml) {
+      const container = load(body)(adapter.embeddedHtml.selector);
+      if (container.length !== 1) throw new SourcePolicyError('EMBEDDED_HTML_CARDINALITY');
+      const encoded = container.attr(adapter.embeddedHtml.attribute);
+      if (
+        !encoded ||
+        encoded.length > 1398104 ||
+        !/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(encoded)
+      )
+        throw new SourcePolicyError('INVALID_EMBEDDED_HTML');
+      const decoded = Buffer.from(encoded, 'base64');
+      if (decoded.length > 1048576 || decoded.toString('base64') !== encoded)
+        throw new SourcePolicyError('EMBEDDED_HTML_LIMIT');
+      html = new TextDecoder('utf-8', { fatal: true }).decode(decoded);
+    }
+    const $ = load(html);
     $('script,style,noscript,template').remove();
     const items = $(adapter.items);
     if (items.length < adapter.minItems || items.length > adapter.maxItems)
@@ -125,13 +141,19 @@ export function parsePage(
         result.errors.push(`MISSING_TITLE:${index}`);
         continue;
       }
-      const links = (selector: string | undefined) =>
+      const links = (selector: string | undefined, attributes = ['href', 'src']) =>
         selector
           ? [
               ...new Set(
                 selected(scope, selector)
                   .toArray()
-                  .map((n) => safeLink($(n).attr('href') ?? $(n).attr('src')))
+                  .map((n) =>
+                    safeLink(
+                      attributes
+                        .map((attribute) => $(n).attr(attribute))
+                        .find((v) => v !== undefined),
+                    ),
+                  )
                   .filter((v): v is string => v !== null),
               ),
             ]
@@ -161,7 +183,7 @@ export function parsePage(
       result.items.push({
         title,
         detailUrl: detailLinks.length === 1 ? (detailLinks[0] ?? null) : null,
-        attachments: links(adapter.attachments),
+        attachments: links(adapter.attachments, adapter.attachmentAttributes),
         siblings: links(adapter.siblings),
         fields,
         locator: `${adapter.items}[${index}]`,

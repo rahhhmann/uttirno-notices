@@ -1,0 +1,13 @@
+{
+  "sourceUrl": "https://erecruitment.bcc.gov.bd/exam/Home/newsDetails?id=153",
+  "capturedAt": "2026-11-10T05:48:26.799Z",
+  "kind": "minimal public attachment anchor observed through browser DOM",
+  "expectedItems": 1,
+  "fragmentSha256": "6a7a61bafc46344a68fd330706e15caf052acbdba02c5d49f4f8ddbff5557f4a",
+  "collectionBasis": "operator_public_access_assessment; no external consent claim",
+  "scope": "BCC own notice 153 only; no other portal employers",
+  "fixturePath": "tests/fixtures/real/bcc-notice153.fragment.html",
+  "expectedAttachments": [
+    "https://objectstorage.ap-dcc-gazipur-1.oraclecloud15.com/n/axvjbnqprylg/b/V2Ministry/o/office-bcc/2026/9/c02b181e-bbc8-427f-a7ef-86f39ec7b0f6.pdf"
+  ]
+}

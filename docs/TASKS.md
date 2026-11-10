@@ -1,5 +1,9 @@
 # Dependency-ordered implementation plan
 
+2026-11-10 authorization update: the user requested M9 real-case testing, local setup and full pipeline handover. This supersedes historical stop-before-M9 instructions below. Acceptance checkboxes remain evidence-based: M7-T03 and M8 live gates are unresolved. [Local and lead handover](PIPELINE_HANDOFF.md); current checks/results are recorded in [M9](milestones/M9.md).
+
+Subsequent explicit policy change: [ADR0013](decisions/0013-public-official-access.md) permits accountable public-access assessment without requiring an external permission letter for every official public source. BPSC local collection is explicitly configured under that basis. Automated discovery/archive/extraction produces private review reports; actual positions/fields and public journey still need review, so M9-T01 remains unchecked.
+
 State: M0-M6 are complete; M7-T01/T02 passed development acceptance. M8 was explicitly authorized on 2026-11-05; independent operations implementation and controlled rehearsals are recorded in the M8 report. M7-T03 and all M8 checkboxes remain unchecked pending legitimate real-source/live operational acceptance. STOP before M9. Each checkbox requires recorded acceptance evidence. Tasks may proceed independently only where dependencies permit. No delegated agents unless explicitly authorized.
 
 ## M0 — Specification and scaffold
@@ -101,3 +105,11 @@ M7-T01 (R19/R20/R26) and M7-T02 (R11/R17/R19/R28) completed. [M7 report](milesto
 ## M8 implementation and acceptance blockers
 
 [M8 report](milestones/M8.md) and [ADR0012](decisions/0012-m8-operations.md) record container/native isolation, physical DB grants, shared quotas, protected metrics/incident rehearsal, encrypted isolated restore and synthetic load measurements. T01-T03 remain unchecked: actual staging/TLS/live provider, compatible prior-release rollback, owner alert delivery and agreed production load/restore/retention criteria are unavailable (Q05/Q06/Q08/Q09/Q10/Q11). Complete independent checks and stop before M9; local fixtures cannot replace these requirements.
+
+## M9 authorized handover progress
+
+Latest source-sweep development evidence: real configured collection/extraction passed for the BPSC authority/application pair, BCC own notice, Bangladesh Bank main-board recruitment/TOR and two representative BUET notices: 11 source-linked PDFs/56 pages/nine unique hashes. Added independent versioned configs/fixtures, safe mixed attachment-attribute/exact-root support, and an explicit sequential local runner with review matrix. [Evidence](milestones/M9-source-matrix.json), [scope and remaining acceptance](milestones/M9.md). R01/R02/R03/R04/R05/R07/R08/R09/R23 development progress; no M9 checkbox is marked done merely from download/text success. Bank e-Recruitment, additional unnamed institutions, real field mapping/independent approval/public journey and release gates remain unresolved.
+
+Revised public-access policy and actual automation: [ADR0013](decisions/0013-public-official-access.md), signed opt-in local BPSC config, generic embedded-HTML adaptation, invalid-bbox OCR fallback and a real broker run extracted three PDFs/29 pages to private user-review output (R02/R03/R04/R05/R07/R08/R09/R13/R23 development evidence). No public facts were published. Actual field/position mapping, human verification, admin/public journey, gold-set metrics and M8 live gates remain open. Historical no-real-source statements below describe the earlier phase.
+
+The 2026-11-10 request supersedes the earlier stop boundary. [M9 report](milestones/M9.md) records local setup/review handover (R17/R18/R19/R23/R24/R29 development evidence), secure Google web-client import, actual provider discovery, 202 passing automated cases and the new local command's browser approval/portal smoke. M9-T01-T04 remain unchecked: Q01/Q03 source rights and actual notice inventories, Q04 layout accuracy, Q07 independent labels, Q08 host integration and the M8 live gates are unresolved. No real recruiting source was activated or fetched and no production completion is claimed.

@@ -3,6 +3,9 @@
 ## Read before implementing
 Read [project](docs/PROJECT.md), [architecture](docs/ARCHITECTURE.md), [requirements](docs/REQUIREMENTS.md), [decisions](docs/decisions/README.md), [status](docs/STATUS.md), then the relevant task in [tasks](docs/TASKS.md). Read the component README and task-specific specifications before editing.
 
+## Remaining work and handoff
+Before choosing work, read [agent handoff](docs/Remaining/AGENT_HANDOFF.md) for the open work packages, blocking owner questions and which claims are verified versus unverified. [Developer handoff](docs/Remaining/UTTIRNO_DEVELOPER_HANDOFF.md) is the human-readable status summary. If these files conflict with docs/STATUS.md, docs/TASKS.md or the code, the code and those docs win; update the handoff files.
+
 ## Current authorization and state
 The user authorized M9 real-case pipeline verification and local/lead handover on 2026-11-10, superseding the previous stop-before-M9 boundary. Complete dependency-ready work and document legitimate external blockers. M7-T03 still requires an approved real-source record; synthetic fixtures cannot complete it. Live hosting/identity/alert owners, source permissions, independent reviewers and agreed load targets cannot be invented to mark milestones complete. Current implementation status is recorded in docs/STATUS.md.
 
